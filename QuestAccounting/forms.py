@@ -1,0 +1,50 @@
+from django.contrib.auth.forms import UserCreationForm
+from django import forms
+from django.contrib.auth.models import User, Group
+from QuestAccounting import models
+from django.core.mail import send_mail
+from .models import AccountRequest, UserCreation
+
+
+
+
+class UserCreationRequest(models.ModelForm):
+    class Meta:
+        model = AccountRequest
+        fields = ['first_name', 'last_name', 'date_of_birth', 'email']
+
+    def save(self, *args, **kwargs):
+        # Send email notification to admin when a new request is submitted
+        if self.instance.pk is None:
+            send_mail(
+                'New user creation request',
+              f'A new user creation request has been submitted:\n\nEmail: {self.instance.email}\nFirst name: {self.instance.first_name}\nLast name: {self.instance.last_name}\n\nDate of birth: {self.instance.date_of_birth}\nIf this user is approved, please create the user account and send them the login info with a temporary password.',
+
+                'noreply@QuestAccounting.com',
+                ['AppDomainQuestA@gmail.com'],
+                fail_silently=False,
+            )
+        return super().save(*args, **kwargs)
+    
+class UserCreation(UserCreationForm):
+    first_name = forms.CharField(max_length=30, required=True)
+    last_name = forms.CharField(max_length=30, required=True)
+    date_of_birth = forms.DateField(required=True)
+    
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name','date_of_birth', 'email', 'password1', 'password2']
+
+    def save(self, *args, **kwargs):
+        # Send email notification to user when account is created
+        if self.instance.pk is None:
+            send_mail(
+                'Account Request Approved',
+              f'Here are your login credentials:\n\nEmail: {self.instance.email}\nFirst name: {self.instance.first_name}\nLast name: {self.instance.last_name}\nUsername: {self.instance.username}\nPassword: {self.instance.last_name}%123!\n\nLogin and change your password as soon as you can and welcome to Quest Accounting!',
+
+                'noreply@QuestAccounting.com',
+                [self.instance.email],
+                fail_silently=False,
+            )
+        return super().save(*args, **kwargs)
