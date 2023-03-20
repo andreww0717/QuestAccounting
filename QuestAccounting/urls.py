@@ -25,6 +25,7 @@ urlpatterns = [
     #regular based urls
     path('regular/', views.regular, name = "regular"),
     path('account/', views.account, name = "account"),
+    path('user_view/', views.user_view, name = "user_view"),
 
     
     
