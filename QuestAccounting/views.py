@@ -109,3 +109,5 @@ def user_creation(request):
     context = {'form': form}
     return render(request, 'QuestAccounting/user_creation.html', context)
 
+def user_view(request):
+    return render(request, 'QuestAccounting/user_view.html')
