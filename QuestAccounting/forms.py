@@ -39,9 +39,10 @@ class UserCreation(UserCreationForm):
     def save(self, *args, **kwargs):
         # Send email notification to user when account is created
         if self.instance.pk is None:
+            password = self.cleaned_data.get('password1')
             send_mail(
                 'Account Request Approved',
-              f'Here are your login credentials:\n\nEmail: {self.instance.email}\nFirst name: {self.instance.first_name}\nLast name: {self.instance.last_name}\nUsername: {self.instance.username}\nPassword: {self.instance.last_name}%123!\n\nLogin and change your password as soon as you can and welcome to Quest Accounting!',
+              f'Here are your login credentials:\n\nEmail: {self.instance.email}\nFirst name: {self.instance.first_name}\nLast name: {self.instance.last_name}\nUsername: {self.instance.username}\nPassword: {password}\n\nLogin and change your password as soon as you can and welcome to Quest Accounting!',
 
                 'noreply@QuestAccounting.com',
                 [self.instance.email],
