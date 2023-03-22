@@ -5,7 +5,7 @@ from QuestAccounting import models
 from django.core.mail import send_mail
 from .models import AccountRequest, UserCreation
 
-
+userList = User.objects.values_list('username', flat = True)
 
 
 class UserCreationRequest(models.ModelForm):
@@ -49,3 +49,16 @@ class UserCreation(UserCreationForm):
                 fail_silently=False,
             )
         return super().save(*args, **kwargs)
+    
+class EditUser(forms.ModelForm):
+    username = forms.CharField(max_length=30, required=True)
+    first_name = forms.CharField(max_length=30, required=True)
+    last_name = forms.CharField(max_length=30, required=True)
+    email = forms.EmailField(required = True)
+    is_active = forms.BooleanField(required = False)
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email', 'is_active']
+    
+

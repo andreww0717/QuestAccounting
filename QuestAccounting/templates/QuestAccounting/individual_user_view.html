@@ -1,0 +1,83 @@
+{% extends 'QuestAccounting/navbar_admin.html' %}
+
+{% block content %}
+<div = class='form-center'>
+    <form action="{% url 'user_view' %}" method="get">
+        <button type="submit">Back to User List</button>
+    </form>
+    <div class='title'>
+        <h1>User Detail</h1>
+    </div>
+    <div class='info'>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+    </div>
+    <div class='info'>
+        <p><strong>First Name:</strong> {{ user.first_name }}</p>
+    </div>
+    <div class='info'>
+        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+    </div>
+    <div class='info'>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+    </div>
+    <div class='info'>
+        {% if user.is_active %}
+            <p><strong>Status: </strong>Active</p>
+        {% else %}
+            <p><strong>Status: </strong>Inactive</p>
+        {% endif %}
+    </div>
+<form action="{% url 'edit_user' user.id %}" method="get">
+    <button type="submit">Edit Account Information</button>
+</form>
+     
+
+    </div>
+</div>
+
+<style>
+
+.form-center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    align-items: center;
+    background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+    border-radius: 25px;
+    padding: 50px;
+    border: 3px solid #FFFFFF;
+  }
+
+  .title{
+    color: #FFFFFF;
+    margin-bottom: 35px;
+  }
+
+  .info{
+    color: #FFFFFF;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  button[type="submit"]{
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 3px solid #000000;
+    display:block;
+    margin:0 auto;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px #888888;
+  }
+
+</style>
+
+{% endblock %}

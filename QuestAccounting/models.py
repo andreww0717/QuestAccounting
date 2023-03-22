@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, migrations
 from django.contrib.auth.models import User, AbstractUser
 from django.db.models.signals import post_save
 from django.forms import ModelForm
@@ -12,8 +12,6 @@ class AccountRequest(models.Model):
     last_name = models.CharField(max_length=30)
     date_of_birth = models.DateField()
     email = models.EmailField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField(default=False)
 
 
 class UserCreation(models.Model):
@@ -25,13 +23,13 @@ class UserCreation(models.Model):
     username = models.CharField(max_length=30)
     password1 = models.CharField(max_length=30)
     password2 = models.CharField(max_length=30)
-    created_at = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField(default=False)
+    
 
     USERNAME_FIELD = 'username'
 
     def set_password(self, password):
         self.password = make_password(password)
+
 
 
 

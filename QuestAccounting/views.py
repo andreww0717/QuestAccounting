@@ -1,16 +1,15 @@
 
 import logging
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserCreationRequest, UserCreation
+from .forms import UserCreationRequest, UserCreation, userList, EditUser
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 from django.conf import settings
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, User
 from django.shortcuts import render
-from .forms import UserCreation
 from django.urls import reverse
 
 def home(request):
@@ -40,6 +39,7 @@ def login_view(request):
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def admin(request):
+    
     return render(request, 'QuestAccounting/admin.html')
     pass
 
@@ -109,5 +109,32 @@ def user_creation(request):
     context = {'form': form}
     return render(request, 'QuestAccounting/user_creation.html', context)
 
+@user_passes_test(lambda u: u.is_superuser or u.groups.filter(name='Manager').exists() and not u.groups.filter(name='Regular').exists())
 def user_view(request):
-    return render(request, 'QuestAccounting/user_view.html')
+    userList = User.objects.all()
+    context = {'userList': userList,}
+    return render(request, 'QuestAccounting/user_view.html', context)
+
+@user_passes_test(lambda u: u.is_superuser or u.groups.filter(name='Manager').exists() and not u.groups.filter(name='Regular').exists())
+def individual_user_view(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    context = {'user': user,}
+    return render(request, 'QuestAccounting/individual_user_view.html', context)
+
+@user_passes_test(lambda u: u.is_superuser)
+def edit_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+
+    print(request.method)
+
+    if request.method == 'POST':
+        print('hello')
+        form = EditUser(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return render(request, 'QuestAccounting/edit_user.html', {'user': user, 'form': form, 'success_message': 'User information has been updated.'})
+        else:
+            return render(request, 'QuestAccounting/edit_user.html', {'user': user, 'form': form})
+    else:
+        form = EditUser(instance=user)
+        return render(request, 'QuestAccounting/edit_user.html', {'user': user, 'form': form})
