@@ -2,9 +2,16 @@
 
 {% block content %}
 <div class='form-center'>
-    <form action="{% url 'detailed_user' user.id %}" method="get">
-        <button type="submit">Back to User List</button>
-    </form>
+    {% if previous_page == 'http://127.0.0.1:8000/account/' %}
+        <form action="{% url 'account' %}" method="get">
+            <button type="submit">Back to Account Info</button>
+        </form>
+    {% else %}
+        <form action="{% url 'detailed_user' user.id %}" method="get">
+            <button type="submit">Back to User Info</button>
+        </form>
+    {% endif %}
+    
     <form method="post" action="{% url 'edit_user' user.id %}">
         {% csrf_token %}
     

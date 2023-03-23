@@ -125,16 +125,23 @@ def individual_user_view(request, user_id):
 def edit_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
 
-    print(request.method)
+    
 
     if request.method == 'POST':
-        print('hello')
+        
         form = EditUser(request.POST, instance=user)
+        
         if form.is_valid():
             form.save()
-            return render(request, 'QuestAccounting/edit_user.html', {'user': user, 'form': form, 'success_message': 'User information has been updated.'})
+            previous_page = request.META.get('HTTP_REFERER')
+            context = {'previous_page': previous_page, 'user': user, 'form': form}
+            return render(request, 'QuestAccounting/edit_user.html', context)
         else:
-            return render(request, 'QuestAccounting/edit_user.html', {'user': user, 'form': form})
+            previous_page = request.META.get('HTTP_REFERER')
+            context = {'previous_page': previous_page, 'user': user, 'form': form}
+            return render(request, 'QuestAccounting/edit_user.html', context)
     else:
         form = EditUser(instance=user)
-        return render(request, 'QuestAccounting/edit_user.html', {'user': user, 'form': form})
+        previous_page = request.META.get('HTTP_REFERER')
+        context = {'previous_page': previous_page, 'user': user, 'form': form}
+        return render(request, 'QuestAccounting/edit_user.html', context)
