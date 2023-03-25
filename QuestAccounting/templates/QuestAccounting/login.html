@@ -14,7 +14,8 @@
       {{ form.password }}
     </div>
       <button type="submit" class="btn btn-primary">Login</button>
-      <a href="{% url 'register' %}"><button type="button" class="transparent-button">Request Access</button></a>
+      <a href="{% url 'password_reset' %}"><button type="button" class="password-button">Forgot Password</button></a>
+      <a href="{% url 'register' %}"><button type="button" class="request-button">Request Access</button></a>
   </form>
 </div>
 
@@ -95,6 +96,7 @@
     text-decoration: underline;
     color: #FFFFFF;
   }
+
   img {
       display: block;
       margin: 0 auto;

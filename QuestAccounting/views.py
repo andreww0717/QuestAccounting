@@ -1,10 +1,13 @@
 
-import logging
+from base64 import urlsafe_b64encode
+from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserCreationRequest, UserCreation, userList, EditUser
+
+from QuestAccounting.models import UserProfile
+from .forms import UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import send_mail
 from django.conf import settings
@@ -39,26 +42,56 @@ def login_view(request):
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
 def admin(request):
+    context = {
+        'is_superuser': request.user.is_superuser,
+        'groups': request.user.groups.values_list('name', flat=True),  
+    }
     
-    return render(request, 'QuestAccounting/admin.html')
+    return render(request, 'QuestAccounting/admin.html', context)
     pass
 
 @login_required
 @user_passes_test(lambda u: not u.is_superuser and u.groups.filter(name='Manager').exists())
 def manager(request):
-    return render(request, 'QuestAccounting/manager.html')
+    context = {
+        'is_superuser': request.user.is_superuser,
+        'groups': request.user.groups.values_list('name', flat=True),  
+    }
+    return render(request, 'QuestAccounting/manager.html', context)
     pass
 
 @login_required
 @user_passes_test(lambda u: not u.is_superuser and u.groups.filter(name='Regular').exists())
 def regular(request):
-    return render(request, 'QuestAccounting/regular.html')
+    context = {
+        'is_superuser': request.user.is_superuser,
+        'groups': request.user.groups.values_list('name', flat=True),  
+    }
+    return render(request, 'QuestAccounting/regular.html', context)
     pass
 
 # Logout View
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+# Password Reset View
+def custom_password_reset(request):
+    if request.method == 'POST':
+        form = PasswordReset(request.POST)
+        if form.is_valid():
+            form.save(
+                request=request,
+                email_template_name='registration/password_reset_email.html',
+                subject_template_name='QuestAccounting/txt/passwordresetsubject.txt',
+            )
+            return render(request, 'QuestAccounting/Password Reset/password_reset_done.html')
+    else:
+        form = PasswordReset()
+    return render(request, 'QuestAccounting/Password Reset/password_reset_form.html', {'form': form})
+
+# def custom_password_reset_done(request):
+
 
 # User Creation Request View
 def signup(request):
@@ -79,7 +112,11 @@ def signup(request):
 
 # Account Settings View
 def account(request):
-    return render(request, 'QuestAccounting/account.html')
+    context = {
+        'is_superuser': request.user.is_superuser,
+        'groups': request.user.groups.values_list('name', flat=True),  
+    }
+    return render(request, 'QuestAccounting/account.html', context)
 
 #Admin's User Creation View
 @login_required
@@ -101,47 +138,78 @@ def user_creation(request):
 
             return render(request, 'QuestAccounting/user_created.html')
         else:
-            context = {'form': form}
+            context = {'form': form, 
+                       'is_superuser': request.user.is_superuser,
+                       'groups': request.user.groups.values_list('name', flat=True),
+                    }
             return render(request, 'QuestAccounting/user_creation.html', context)
     else:
         form = UserCreation(initial={})
 
-    context = {'form': form}
+    context = {'form': form, 
+                'is_superuser': request.user.is_superuser,
+                'groups': request.user.groups.values_list('name', flat=True),
+                    }
     return render(request, 'QuestAccounting/user_creation.html', context)
 
 @user_passes_test(lambda u: u.is_superuser or u.groups.filter(name='Manager').exists() and not u.groups.filter(name='Regular').exists())
 def user_view(request):
     userList = User.objects.all()
-    context = {'userList': userList,}
+    context = {'userList': userList,
+               'is_superuser': request.user.is_superuser,
+               'groups': request.user.groups.values_list('name', flat=True),
+               }
     return render(request, 'QuestAccounting/user_view.html', context)
 
 @user_passes_test(lambda u: u.is_superuser or u.groups.filter(name='Manager').exists() and not u.groups.filter(name='Regular').exists())
 def individual_user_view(request, user_id):
     user = get_object_or_404(User, id=user_id)
-    context = {'user': user,}
+    context = {'user': user,
+               'is_superuser': request.user.is_superuser,
+               'groups': request.user.groups.values_list('name', flat=True),
+               }
     return render(request, 'QuestAccounting/individual_user_view.html', context)
 
-@user_passes_test(lambda u: u.is_superuser)
 def edit_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
-
     
 
     if request.method == 'POST':
-        
         form = EditUser(request.POST, instance=user)
-        
+        previous_page = request.session.get('previous_page', None)
         if form.is_valid():
             form.save()
-            previous_page = request.META.get('HTTP_REFERER')
-            context = {'previous_page': previous_page, 'user': user, 'form': form}
-            return render(request, 'QuestAccounting/edit_user.html', context)
+            
+            context = {'previous_page': previous_page, 'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True),}
+            print(previous_page)
+            if previous_page == 'http://127.0.0.1:8000/account/':
+                return render(request, 'QuestAccounting/account.html', context)
+            else: 
+                return render(request, 'QuestAccounting/individual_user_view.html', context)
         else:
-            previous_page = request.META.get('HTTP_REFERER')
-            context = {'previous_page': previous_page, 'user': user, 'form': form}
+            
+            context = {'previous_page': previous_page, 'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True),}
+
             return render(request, 'QuestAccounting/edit_user.html', context)
     else:
         form = EditUser(instance=user)
         previous_page = request.META.get('HTTP_REFERER')
-        context = {'previous_page': previous_page, 'user': user, 'form': form}
+        request.session['previous_page'] = previous_page
+        print(previous_page)
+        form.fields['previous_page'] = forms.CharField(widget=forms.HiddenInput(), initial=previous_page)
+        context = {'previous_page': previous_page, 'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True),}
+
         return render(request, 'QuestAccounting/edit_user.html', context)
+    
+def edit_profile_picture(request):
+    user = request.user
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            return redirect('account')
+    else:
+        form = UserProfileForm(instance=user_profile)
+    
+    return render(request, 'QuestAccounting/edit_profile_picture.html', {'user': user, 'form': form, 'is_superuser': request.user.is_superuser})

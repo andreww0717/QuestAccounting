@@ -1,8 +1,32 @@
-{% extends 'QuestAccounting/navbar_admin.html' %}
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
 
 {% block content %}
-<div class='title'>
-    <h1>Admin</h1>
+
+<div class='img'>
+    {% if user.userprofile.profile_pic %}
+        <img src="{{ user.userprofile.profile_pic.url }}" alt="{{ user.username }}'s profile picture">
+    {% else %}
+        <img src="{{ '../media/profile_pics/profilepicture.png' }}" alt="default profile picture">
+    {% endif %}
 </div>
+
+<h1>admin</h1>
+
+<style>
+
+    img {
+        display: block;
+        margin: 0 auto;
+        height: 125px;
+        border-radius: 50%;
+        border: 3px solid #000000;
+        margin-bottom: 35px;
+        position: absolute;
+        top: 90;
+        right: 10;
+    }
+
+</style>
 
 {% endblock %}

@@ -1,9 +1,12 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django import forms
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from QuestAccounting import models
 from django.core.mail import send_mail
-from .models import AccountRequest, UserCreation
+from .models import AccountRequest, UserProfile
+
+
+
 
 userList = User.objects.values_list('username', flat = True)
 
@@ -51,14 +54,29 @@ class UserCreation(UserCreationForm):
         return super().save(*args, **kwargs)
     
 class EditUser(forms.ModelForm):
-    username = forms.CharField(max_length=30, required=True)
-    first_name = forms.CharField(max_length=30, required=True)
-    last_name = forms.CharField(max_length=30, required=True)
+    username = forms.CharField(max_length=30, required = True)
+    first_name = forms.CharField(max_length=30, required = True)
+    last_name = forms.CharField(max_length=30, required = True)
     email = forms.EmailField(required = True)
     is_active = forms.BooleanField(required = False)
+    previous_page = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'is_active']
-    
 
+class PasswordReset(PasswordResetForm):
+    email = forms.EmailField(required = True)
+
+    class Meta:
+        model = User
+        fields = ['email']
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['profile_pic']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['profile_pic'].widget.attrs.update({'class': 'form-control-file'})

@@ -4,8 +4,6 @@ from django.db.models.signals import post_save
 from django.forms import ModelForm
 from django.contrib.auth.hashers import make_password
 
-# Create your models here.
-
 class AccountRequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     first_name = models.CharField(max_length=30)
@@ -30,8 +28,6 @@ class UserCreation(models.Model):
     def set_password(self, password):
         self.password = make_password(password)
 
-
-
-
-
-    
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_pic = models.ImageField(upload_to='profile_pics', default = 'profile_pics/wp4013910.jpg')

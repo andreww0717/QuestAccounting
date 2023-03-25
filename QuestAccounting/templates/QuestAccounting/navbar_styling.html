@@ -1,0 +1,51 @@
+{% extends 'QuestAccounting/navbar.html' %}
+
+{% block navbar_brand %}
+{% if is_superuser %}
+
+    <a class="navbar-brand" href="{% url 'admin' %}">Administrator</a>
+
+{% elif 'Manager' in groups %}
+
+    <a class="navbar-brand" href="{% url 'manager' %}">Manager</a>
+
+{% else %}
+
+    <a class="navbar-brand" href="{% url 'regular' %}">Regular</a>
+
+{% endif %}
+{% endblock %}
+
+{% block nav_items %}
+
+{% if is_superuser %}
+
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'user_creation' %}">User Creation</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'user_view' %}">User View</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'account' %}">Account</a>
+    </li>
+
+{% elif 'Manager' in groups %}
+
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'user_view' %}">User View</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'account' %}">Account</a>
+    </li>
+
+{% else %}
+    
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'account' %}">Account</a>
+    </li>
+
+{% endif %}
+
+
+{% endblock %}
