@@ -1,17 +1,18 @@
 {% extends 'QuestAccounting/navbar.html' %}
 
+{% load static %}
 {% block navbar_brand %}
 {% if is_superuser %}
 
-    <a class="navbar-brand" href="{% url 'admin' %}">Administrator</a>
+    <a class="navbar-brand" href="{% url 'admin' %}">Admin Homepage</a>
 
 {% elif 'Manager' in groups %}
 
-    <a class="navbar-brand" href="{% url 'manager' %}">Manager</a>
+    <a class="navbar-brand" href="{% url 'manager' %}">Manager Homepage</a>
 
 {% else %}
 
-    <a class="navbar-brand" href="{% url 'regular' %}">Regular</a>
+    <a class="navbar-brand" href="{% url 'regular' %}">Homepage</a>
 
 {% endif %}
 {% endblock %}

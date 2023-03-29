@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 from QuestAccounting import models
 from django.core.mail import send_mail
-from .models import AccountRequest, UserProfile
+from .models import AccountRequest, UserProfile, AccountModel
 
 
 
@@ -80,3 +80,8 @@ class UserProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['profile_pic'].widget.attrs.update({'class': 'form-control-file'})
+
+class AccountForm(forms.ModelForm):
+    class Meta:
+        model = AccountModel
+        fields = ['account_name', 'account_number','account_description','normal_side','account_category','account_subcategory','initial_balance','debit','credit','balance','user_id','order','statement','comment']

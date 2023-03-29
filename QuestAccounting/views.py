@@ -6,11 +6,9 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
 
-from QuestAccounting.models import UserProfile
-from .forms import UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset
+from QuestAccounting.models import AccountModel, UserProfile
+from .forms import UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset, AccountForm
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.core.mail import send_mail
-from django.conf import settings
 from django.contrib.auth.models import Group, User
 from django.shortcuts import render
 from django.urls import reverse
@@ -213,3 +211,50 @@ def edit_profile_picture(request):
         form = UserProfileForm(instance=user_profile)
     
     return render(request, 'QuestAccounting/edit_profile_picture.html', {'user': user, 'form': form, 'is_superuser': request.user.is_superuser})
+
+def account_homepage(request):
+    user = request.user
+    context = {'is_superuser': request.user.is_superuser, 'user': user}
+    return render(request, 'QuestAccounting/chartofaccounts/account_homepage.html', context)
+
+def view_accounts(request):
+    user = request.user
+    account_info = AccountModel.objects.all()
+    form = AccountForm()
+    context = {'form': form, 'is_superuser': request.user.is_superuser, 'user': user, 'account_info': account_info}
+    return render(request, 'QuestAccounting/chartofaccounts/view_accounts.html', context)
+
+def edit_accounts(request):
+    user = request.user
+    form = AccountForm(request.POST)
+    context = {'form': form, 'is_superuser': request.user.is_superuser, 'user': user}
+    return render(request, 'QuestAccounting/chartofaccounts/edit_accounts.html', context)
+
+def add_accounts(request):
+    user = request.user
+    form = AccountForm(request.POST)
+    
+    print(request.method)
+    if request.method == 'POST':
+        form = AccountForm(request.POST)
+
+        if form.is_valid():
+            account = form.save(commit=False)
+            account.activated = True  # Set activated as True
+            account.save()
+            context = {'is_superuser': request.user.is_superuser, 'user': user}
+            return render(request, 'QuestAccounting/chartofaccounts/account_homepage.html', context)
+        else:
+            print(form.errors)
+            context = {'form': form, 'is_superuser': request.user.is_superuser, 'user': user}
+            return render(request, 'QuestAccounting/chartofaccounts/add_accounts.html', context)
+    else:
+        context = {'form': form, 'is_superuser': request.user.is_superuser, 'user': user}
+        return render(request, 'QuestAccounting/chartofaccounts/add_accounts.html', context)
+
+
+def deactivate_accounts(request):
+    user = request.user
+    form = AccountForm(request.POST)
+    context = {'form': form, 'is_superuser': request.user.is_superuser, 'user': user}
+    return render(request, 'QuestAccounting/chartofaccounts/deactivate_accounts.html', context)

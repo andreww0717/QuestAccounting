@@ -38,6 +38,16 @@ urlpatterns = [
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
     path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+
+
+    # account based urls
+    path('account_homepage/', views.account_homepage, name = "account_homepage"),
+    path('account_homepage/view', views.view_accounts, name = "view_accounts"),
+    path('account_homepage/edit', views.edit_accounts, name = "edit_accounts"),
+    path('account_homepage/add', views.add_accounts, name = "add_accounts"),
+    path('account_homepage/deactivate', views.deactivate_accounts, name = "deactivate_accounts"),
+
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 

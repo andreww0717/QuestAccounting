@@ -31,3 +31,21 @@ class UserCreation(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_pic = models.ImageField(upload_to='profile_pics', default = 'profile_pics/wp4013910.jpg')
+
+class AccountModel(models.Model):
+    account_name = models.CharField(max_length=30, unique=True)
+    account_number = models.CharField(max_length=10, unique=True)
+    account_description = models.CharField(max_length=150)
+    normal_side = models.CharField(max_length=6)
+    account_category = models.CharField(max_length=20)
+    account_subcategory = models.CharField(max_length=20)
+    initial_balance = models.DecimalField(max_digits=20, decimal_places=2)
+    debit = models.DecimalField(max_digits=20, decimal_places=2)
+    credit = models.DecimalField(max_digits=20, decimal_places=2)
+    balance = models.DecimalField(max_digits=20, decimal_places=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+    user_id = models.ForeignKey(User, on_delete=models.PROTECT)
+    order = models.CharField(max_length=2)
+    statement = models.CharField(max_length=2)
+    comment = models.TextField(blank=True)
+    activated = models.BooleanField()

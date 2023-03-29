@@ -4,17 +4,14 @@
 {% block content %}
 
 
-    {% if user.userprofile.profile_pic %}
-        <img src="{{ user.userprofile.profile_pic.url }}" class="profile-picture" alt="{{ user.username }}'s profile picture">
-    {% else %}
-        <img src="{{ '../media/profile_pics/profilepicture.png' }}" class="profile-picture" alt="default profile picture">
-    {% endif %}
 
-<button type = "button" onclick = "location.href = '{% url 'account_homepage' %}'">
     <div class="form-center">
-        <h1>Chart of Accounts</h1>
+        <h1>Accounts</h1>
+        {% for account in account_info %}
+      <li>{{ account.account_name }} - {{ account.account_number }}</li>
+    {% endfor %}
     </div>
-</button>
+
 
 <style>
 

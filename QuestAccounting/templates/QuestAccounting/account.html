@@ -10,13 +10,11 @@
     <div class='title'>
         <h1>Account Info</h1>
     </div>
-    <div class='img'>
+    <div>
         {% if user.userprofile.profile_pic %}
-            <img src="{{ user.userprofile.profile_pic.url }}" alt="{{ user.username }}'s profile picture">
+            <img src="{{ user.userprofile.profile_pic.url }}" class="profile-picture" alt="{{ user.username }}'s profile picture">
         {% else %}
-        <img src="{{ '../media/profile_pics/profilepicture.png' }}" alt="default profile picture">
-
-
+        <img src="{{ '../media/profile_pics/profilepicture.png' }}" class="profile-picture" alt="default profile picture">
         {% endif %}
     </div>
     <div class='info'>
@@ -111,7 +109,7 @@
             box-shadow: 2px 2px 2px #888888;
           }
 
-          img {
+          .profile-picture {
             display: block;
             margin: 0 auto;
             max-width: 100%;
