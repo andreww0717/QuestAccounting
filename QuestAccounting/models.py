@@ -49,3 +49,4 @@ class AccountModel(models.Model):
     statement = models.CharField(max_length=2)
     comment = models.TextField(blank=True)
     activated = models.BooleanField()
+

@@ -224,11 +224,28 @@ def view_accounts(request):
     context = {'form': form, 'is_superuser': request.user.is_superuser, 'user': user, 'account_info': account_info}
     return render(request, 'QuestAccounting/chartofaccounts/view_accounts.html', context)
 
-def edit_accounts(request):
+def edit_accounts(request, account_name):
     user = request.user
-    form = AccountForm(request.POST)
-    context = {'form': form, 'is_superuser': request.user.is_superuser, 'user': user}
-    return render(request, 'QuestAccounting/chartofaccounts/edit_accounts.html', context)
+    account_info = AccountModel.objects.all()
+    account = get_object_or_404(AccountModel, account_name=account_name)
+    print(account_name)
+    print(request.method)
+    
+    if request.method == 'POST':
+        print(request.method)
+        form = AccountForm(request.POST, instance=account)
+        context = {'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info}
+        if form.is_valid():
+            print(form.errors)
+            form.save()
+            return render(request, 'QuestAccounting/chartofaccounts/view_accounts.html', context)
+    else:
+        
+        form = AccountForm(instance=account)
+        context = {'user': user, 'form': form, 'account': account, 'is_superuser': request.user.is_superuser}
+        return render(request, 'QuestAccounting/chartofaccounts/edit_accounts.html', context)
+    
+    
 
 def add_accounts(request):
     user = request.user
@@ -240,7 +257,7 @@ def add_accounts(request):
 
         if form.is_valid():
             account = form.save(commit=False)
-            account.activated = True  # Set activated as True
+            account.activated = True
             account.save()
             context = {'is_superuser': request.user.is_superuser, 'user': user}
             return render(request, 'QuestAccounting/chartofaccounts/account_homepage.html', context)

@@ -8,11 +8,11 @@
     </div>
 </button>
 
-<button type = "button" onclick = "location.href = '{% url 'edit_accounts' %}'">
+{% comment %} <button type = "button" onclick = "location.href = '{% url 'edit_accounts' account.account_name %}'">
     <div class="form-center2">
         <h1>Edit Accounts</h1>
     </div>
-</button>
+</button> {% endcomment %}
 
 <button type = "button" onclick = "location.href = '{% url 'add_accounts' %}'">
     <div class="form-center3">
