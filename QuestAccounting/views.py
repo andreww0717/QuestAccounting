@@ -223,22 +223,23 @@ def view_accounts(request):
 def edit_accounts(request, account_name):
     user = request.user
     account_info = AccountModel.objects.all()
+    previous_page = request.session.get('previous_page', None)
     account = get_object_or_404(AccountModel, account_name=account_name)
-    print(account_name)
-    print(request.method)
     
     if request.method == 'POST':
         print(request.method)
         form = AccountForm(request.POST, instance=account)
-        context = {'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True), 'account': account, 'account_info': account_info}
+        context = {'previous_page': previous_page, 'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True), 'account': account, 'account_info': account_info}
         if form.is_valid():
             print(form.errors)
             form.save()
             return render(request, 'QuestAccounting/chartofaccounts/view_accounts.html', context)
     else:
-        
         form = AccountForm(instance=account)
-        context = {'user': user, 'form': form, 'account': account, 'groups': request.user.groups.values_list('name', flat=True), 'is_superuser': request.user.is_superuser}
+        referer = request.META.get('HTTP_REFERER')
+        previous_page = referer.split('/')[3]
+        request.session['previous_page'] = previous_page
+        context = {'previous_page': previous_page, 'user': user, 'form': form, 'account': account, 'groups': request.user.groups.values_list('name', flat=True), 'is_superuser': request.user.is_superuser}
         return render(request, 'QuestAccounting/chartofaccounts/edit_accounts.html', context)
     
     
@@ -276,7 +277,7 @@ def deactivate_accounts(request, account_name):
     if request.method == 'POST':
         print(request.method)
         form = AccountForm(request.POST, instance=account)
-        context = {'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info}
+        context = {'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info, 'groups': request.user.groups.values_list('name', flat=True)}
         print(form.errors)
         if form.is_valid():
             form.save()
@@ -287,9 +288,22 @@ def deactivate_accounts(request, account_name):
     context = {'user': user, 'form': form, 'account': account, 'is_superuser': request.user.is_superuser}
     return render(request, 'QuestAccounting/chartofaccounts/deactivate_accounts.html', context)
 
+def view_account_list(request):
+    user = request.user
+    account_info = AccountModel.objects.all()
+    context = {'user': user, 'is_superuser': request.user.is_superuser, 'account_info': account_info, 'groups': request.user.groups.values_list('name', flat=True)}
+    return render(request, "QuestAccounting/chartofaccounts/view_account_list.html", context)
+
+def select_account_view(request, account_name):
+    user = request.user
+    account_info = AccountModel.objects.all()
+    account = get_object_or_404(AccountModel, account_name=account_name)
+    context = {'user': user, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info, 'groups': request.user.groups.values_list('name', flat=True)}
+    return render(request, "QuestAccounting/chartofaccounts/select_account_view.html", context)
+
 def general_ledger(request, account_name):
     user = request.user
     account_info = AccountModel.objects.all()
     account = get_object_or_404(AccountModel, account_name=account_name)
-    context = {'user': user, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info}
+    context = {'user': user, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info, 'groups': request.user.groups.values_list('name', flat=True)}
     return render(request, "QuestAccounting/general_ledger.html", context)

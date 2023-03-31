@@ -5,9 +5,15 @@
 {% block content %}
 <div class='form-center'>
         <div class = top>
-          <div class = back-button>
-            <button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">Back</button>
-          </div>
+          {% if previous_page == 'view_account_list'%}
+            <div class = back-button>
+              <button type = "button" onclick = "location.href = '{% url 'select_account_view' account.account_name%}'">Back</button>
+            </div>
+          {% else %}
+            <div class = back-button>
+              <button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">Back</button>
+            </div>
+          {% endif %}
               <div class='title'>
                   <h2>Edit Account</h2>
               </div>
@@ -192,7 +198,6 @@
     float: left;
 
   }
-
 
   .top {
     display: flex;

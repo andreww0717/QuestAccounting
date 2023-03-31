@@ -10,11 +10,16 @@
         <img src="{{ '../media/profile_pics/profilepicture.png' }}" class="profile-picture" alt="default profile picture">
     {% endif %}
 
-<button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">
-    <div class="form-center">
-        <h1>View Accounts</h1>
-    </div>
-</button>
+    <button type = "button" onclick = "location.href = '{% url 'view_account_list' %}'">
+        <div class="form-center">
+            <h1>View Account List</h1>
+        </div>
+    </button>
+    <button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">
+        <div class="form-center2">
+            <h1>View Accounts</h1>
+        </div>
+    </button>
 
 <style>
 
