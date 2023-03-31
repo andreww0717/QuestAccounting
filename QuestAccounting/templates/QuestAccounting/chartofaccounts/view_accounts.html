@@ -7,12 +7,25 @@
 
   <div class="form-center">
     <div class = top>
+      <div class = back-button>
+        {% if 'Manager' in groups %}
+        <button type = "button" class = buttons onclick = "location.href = '{% url 'manager' %}'">Back</button>
+        {% elif 'Regular' in groups %}
+        <button type = "button" class = buttons onclick = "location.href = '{% url 'regular' %}'">Back</button>
+        {% else %}
+        <button type = "button" class = buttons onclick = "location.href = '{% url 'admin' %}'">Back</button>
+        {% endif %}
+      </div>
       <div class = title>
         <h1>Accounts</h1>
       </div>
-      <div class = back-button>
-        <button type = "button" onclick = "location.href = '{% url 'add_accounts' %}'">Add Account</button>
+      {% if 'Manager' in groups or 'Regular' in groups %}
+    
+      {% else %}
+      <div class = add-button>
+        <button type = "button" class = buttons onclick = "location.href = '{% url 'add_accounts' %}'">Add Account</button>
       </div>
+      {% endif %}
     </div>
       <table>
         <thead>
@@ -39,12 +52,20 @@
           {% for account in account_info %}
             <tr>
             <td class = first>
-              <button type = "button" class = account-name onclick = "location.href = '{% url 'edit_accounts' account.account_name %}'">
-                <div class="form-center2">
+              <div class = first-td>
+                <button type = "button" class = buttons onclick = "location.href = '{% url 'general_ledger' account.account_name %}'">
                     {{ account.account_name }}
-                </div>
-            </button>
-          </td>
+              </div>
+              </button>
+              {% if 'Manager' in groups or 'Regular' in groups %}
+    
+              {% else %}
+                <button type="button" class= edit-button onclick="location.href='{% url 'edit_accounts' account.account_name %}'">
+                  Edit
+                </button>
+              {% endif %}
+              
+            </td>
             <td>{{ account.account_number }}</td>
             <td>{{ account.account_description }}</td>
             <td>{{ account.normal_side }}</td>
@@ -60,9 +81,23 @@
             <td>{{ account.created_at }}</td>
             <td>{{ account.user_id }}</td>
               {%if account.activated %}
-                <td>Active</td>
+                <td>
+                  {% if 'Manager' in groups or 'Regular' in groups %}
+                  Active
+                  {% else %}
+                    <button type = "button" class = buttons onclick = "location.href = '{% url 'deactivate_accounts' account.account_name %}'">
+                            Active
+                      </button>
+                  {% endif %}
+                </td>
               {%else%}
-                <td>Inactive</td>
+                  {% if 'Manager' in groups or 'Regular' in groups %}
+                    Inactive
+                  {% else %}
+                    <button type = "button" class = buttons onclick = "location.href = '{% url 'deactivate_accounts' account.account_name %}'">
+                      Inactive
+                    </button>
+                  {% endif %}
               {% endif %}
           {% endfor %}
   </div>
@@ -84,7 +119,7 @@
         border: 3px solid #ffffff;
         color: #ffffff;
       }
-    
+  
     table {
       margin-top: 15px;
       border-collapse: collapse;
@@ -103,21 +138,32 @@
       padding: 5px;
 
     }
-
+    
     .first {
       border-right: 2px solid black;
     }
 
-    .account-name {
-      color: #ffffff;
-      font-size: 18px;
-      font-weight: bold;
-      background-color: transparent;
-      border: 3px solid white;
-      border-radius: 10px;
+    .first-td {
+      border-right: 2px solid black;
+      display: flex;
+      align-items: center;
+      
     }
 
-    button[type="button"] {
+    .edit-button {
+      background-color: #ffffff;
+      color: #000000;
+      border-radius: 5px;
+      border: 1px solid #000000;
+      display: block;
+      margin:0 auto;
+      font-size: 12px;
+      font-weight: bold;
+      box-shadow: 2px 2px 2px #888888;
+      margin-top: 10px;
+    }
+
+    .buttons {
       background-color: #ffffff;
       color: #000000;
       border-radius: 5px;
@@ -132,22 +178,39 @@
       box-shadow: 2px 2px 2px #888888;
       float: right;
     }
+    
+    {% if 'Manager' in groups or 'Regular' in groups %}
+      .top {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        text-align: left;
+        width: 100%;
+        margin-bottom: 15px;
+        float: left;
+      }
 
-    .top {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      width: 100%;
-      margin-bottom: 15px;
-    }
+      .title {
+        margin-left: 36%;
+      }
+    {% else %}
+      .top {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        margin-bottom: 15px;
+        float: left;
+      }
 
-    .title {
-      margin-left: 43%;
-    }
+      .title {
+        margin-left: 36%;
+      }
+    {% endif %}
 
-    .back-button {  
-      margin-left:auto;
+    .add-button {  
+      margin-left: auto;
     }
 
 </style>

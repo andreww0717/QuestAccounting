@@ -41,11 +41,11 @@ urlpatterns = [
 
 
     # account based urls
-    path('account_homepage/', views.account_homepage, name = "account_homepage"),
-    path('account_homepage/view', views.view_accounts, name = "view_accounts"),
-    path('account_homepage/edit-<str:account_name>/', views.edit_accounts, name = "edit_accounts"),
-    path('account_homepage/add', views.add_accounts, name = "add_accounts"),
-    path('account_homepage/deactivate', views.deactivate_accounts, name = "deactivate_accounts"),
+    path('view_accounts/', views.view_accounts, name = "view_accounts"),
+    path('edit-<str:account_name>/', views.edit_accounts, name = "edit_accounts"),
+    path('add_account/', views.add_accounts, name = "add_accounts"),
+    path('deactivate-<str:account_name>/', views.deactivate_accounts, name = "deactivate_accounts"),
+    path('view_accounts/general_ledger-<str:account_name>/', views.general_ledger, name = "general_ledger"),
 
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

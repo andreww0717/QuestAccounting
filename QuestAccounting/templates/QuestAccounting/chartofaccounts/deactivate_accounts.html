@@ -1,50 +1,152 @@
 {% extends 'QuestAccounting/navbar_styling.html' %}
 
+{% load static %}
 
 {% block content %}
-
-
-    {% if user.userprofile.profile_pic %}
-        <img src="{{ user.userprofile.profile_pic.url }}" class="profile-picture" alt="{{ user.username }}'s profile picture">
-    {% else %}
-        <img src="{{ '../media/profile_pics/profilepicture.png' }}" class="profile-picture" alt="default profile picture">
-    {% endif %}
-
-<button type = "button" onclick = "location.href = '{% url 'account_homepage' %}'">
-    <div class="form-center">
-        <h1>Accounts</h1>
-    </div>
-</button>
+<div class='form-center'>
+        <div class = top>
+          <div class = back-button>
+            <button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">Back</button>
+          </div>
+              <div class='title'>
+                  <h2>Edit Account</h2>
+              </div>
+        </div>
+    <form method="post" action="{% url 'deactivate_accounts' account.account_name %}">
+        {% csrf_token %}
+        <div style="display:none">
+            {{ form.account_name }}
+            {{ form.account_number }}
+            {{ form.account_description }}
+            {{ form.normal_side }}
+            {{ form.account_category }}
+            {{ form.account_subcategory }}
+            {{ form.initial_balance }}
+            {{ form.debit }}
+            {{ form.credit }}
+            {{ form.balance }}
+            {{ form.user_id }}
+            {{ form.order }}
+            {{ form.statement }}
+            {{ form.comment }}
+          </div> 
+        <div class="form-account">
+            <label for="{{ form.account_name.id_for_label }}">Account Name:</label>
+            {{ account.account_name }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.account_number.id_for_label }}">Account Number:</label>
+            {{ account.account_number }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.activated.id_for_label }}">Active:</label>
+              {%if account.activated and account.balance > 0 %}
+                    Active<br>This account cannot be deactivated until the balance is lower than zero.   
+              {%else%}
+                        {{ form.activated }}
+              {% endif %}
+            
+          </div>
+            {%if account.activated and account.balance > 0 %}
+            {%else%}
+              <button type="submit" >Save Account Information</button>
+            {% endif %}
+        
+    </form>
+</div>
 
 <style>
 
-    .form-center {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        display: flex;
-        justify-content: center;
-        transform: translate(-50%, -50%);
-        flex-direction: column;
-        align-items: center;
-        background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
-        border-radius: 25px;
-        padding: 25px;
-        border: 3px solid #ffffff;
-        color: #ffffff;
-      }
+  .form-center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    align-items: center;
+    background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+    border-radius: 25px;
+    padding: 50px;
+    border: 3px solid #FFFFFF;
+    width: 500px;
+    overflow: auto;
+  }
 
-    .profile-picture {
-        display: block;
-        margin: 0 auto;
-        height: 125px;
-        border-radius: 50%;
-        border: 3px solid #000000;
-        margin-bottom: 35px;
-        position: absolute;
-        top: 90;
-        right: 10;
-    }
+  .form-group {
+    margin-bottom: 20px;
+    text-align: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: #FFFFFF;
+    font-size: 18px;
+  }
+
+  .form-account {
+    margin-bottom: 20px;
+    text-align: center;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 98.1%;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: #FFFFFF;
+    font-size: 18px;
+  }
+
+  label {
+    font-weight: bold;
+    color: #FFFFFF;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  button[type="submit"] {
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 3px solid #000000;
+    display:block;
+    margin:0 auto;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px #888888;
+  }
+ 
+  button[type="button"] {
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 3px solid #000000;
+    display: block;
+    margin:0 auto;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px #888888;
+    float: left;
+
+  }
+
+  .top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .back-button {  
+    margin-right: 25px;
+  }
+  
 
 </style>
 

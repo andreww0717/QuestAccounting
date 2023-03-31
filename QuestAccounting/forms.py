@@ -84,4 +84,4 @@ class UserProfileForm(forms.ModelForm):
 class AccountForm(forms.ModelForm):
     class Meta:
         model = AccountModel
-        fields = ['account_name', 'account_number','account_description','normal_side','account_category','account_subcategory','initial_balance','debit','credit','balance','user_id','order','statement','comment']
+        fields = ['account_name', 'account_number','account_description','normal_side','account_category','account_subcategory','initial_balance','debit','credit','balance','user_id','order','statement','comment', 'activated']

@@ -9,7 +9,7 @@
             <button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">Back</button>
           </div>
               <div class='title'>
-                  <h2>Add Account</h2>
+                  <h2>Edit Account</h2>
               </div>
         </div>
     <form method="post" action="{% url 'edit_accounts' account.account_name %}">
@@ -69,7 +69,10 @@
           <div class="form-comment">
             <label for="{{ form.comment.id_for_label }}">Comment:</label>
             {{ form.comment }}
-          </div> 
+          </div>
+          <div style="display:none">
+                        {{ form.activated }}
+          </div>
         <button type="submit" >Save Account Information</button>
     </form>
 </div>

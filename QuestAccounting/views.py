@@ -210,18 +210,14 @@ def edit_profile_picture(request):
     else:
         form = UserProfileForm(instance=user_profile)
     
-    return render(request, 'QuestAccounting/edit_profile_picture.html', {'user': user, 'form': form, 'is_superuser': request.user.is_superuser})
-
-def account_homepage(request):
-    user = request.user
-    context = {'is_superuser': request.user.is_superuser, 'user': user}
-    return render(request, 'QuestAccounting/chartofaccounts/account_homepage.html', context)
+    context = {'user': user, 'form': form, 'groups': request.user.groups.values_list('name', flat=True), 'is_superuser': request.user.is_superuser}
+    return render(request, 'QuestAccounting/edit_profile_picture.html', context)
 
 def view_accounts(request):
     user = request.user
     account_info = AccountModel.objects.all()
     form = AccountForm()
-    context = {'form': form, 'is_superuser': request.user.is_superuser, 'user': user, 'account_info': account_info}
+    context = {'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True), 'user': user, 'account_info': account_info}
     return render(request, 'QuestAccounting/chartofaccounts/view_accounts.html', context)
 
 def edit_accounts(request, account_name):
@@ -234,7 +230,7 @@ def edit_accounts(request, account_name):
     if request.method == 'POST':
         print(request.method)
         form = AccountForm(request.POST, instance=account)
-        context = {'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info}
+        context = {'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True), 'account': account, 'account_info': account_info}
         if form.is_valid():
             print(form.errors)
             form.save()
@@ -242,7 +238,7 @@ def edit_accounts(request, account_name):
     else:
         
         form = AccountForm(instance=account)
-        context = {'user': user, 'form': form, 'account': account, 'is_superuser': request.user.is_superuser}
+        context = {'user': user, 'form': form, 'account': account, 'groups': request.user.groups.values_list('name', flat=True), 'is_superuser': request.user.is_superuser}
         return render(request, 'QuestAccounting/chartofaccounts/edit_accounts.html', context)
     
     
@@ -270,8 +266,30 @@ def add_accounts(request):
         return render(request, 'QuestAccounting/chartofaccounts/add_accounts.html', context)
 
 
-def deactivate_accounts(request):
+def deactivate_accounts(request, account_name):
     user = request.user
-    form = AccountForm(request.POST)
-    context = {'form': form, 'is_superuser': request.user.is_superuser, 'user': user}
+    account_info = AccountModel.objects.all()
+    account = get_object_or_404(AccountModel, account_name=account_name)
+    print(account_name)
+    print(request.method)
+    
+    if request.method == 'POST':
+        print(request.method)
+        form = AccountForm(request.POST, instance=account)
+        context = {'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info}
+        print(form.errors)
+        if form.is_valid():
+            form.save()
+            return render(request, 'QuestAccounting/chartofaccounts/view_accounts.html', context)
+    else:
+        
+        form = AccountForm(instance=account)
+    context = {'user': user, 'form': form, 'account': account, 'is_superuser': request.user.is_superuser}
     return render(request, 'QuestAccounting/chartofaccounts/deactivate_accounts.html', context)
+
+def general_ledger(request, account_name):
+    user = request.user
+    account_info = AccountModel.objects.all()
+    account = get_object_or_404(AccountModel, account_name=account_name)
+    context = {'user': user, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info}
+    return render(request, "QuestAccounting/general_ledger.html", context)
