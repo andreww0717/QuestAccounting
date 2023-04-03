@@ -28,7 +28,7 @@
             <p><strong>Status: </strong>Inactive</p>
         {% endif %}
     </div>
-    {% if is_superuser %}
+    {% if 'Admin' in groups %}
     
     <form action="{% url 'edit_user' user.id %}" method="get">
         <button type="submit">Edit Account Information</button>

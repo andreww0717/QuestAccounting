@@ -2,7 +2,7 @@
 
 {% load static %}
 {% block navbar_brand %}
-{% if is_superuser %}
+{% if 'Admin' in groups %}
 
     <a class="navbar-brand" href="{% url 'admin' %}">Admin Homepage</a>
 
@@ -19,7 +19,7 @@
 
 {% block nav_items %}
 
-{% if is_superuser %}
+{% if 'Admin' in groups %}
 
     <li class="nav-item">
         <a class="nav-link" href="{% url 'user_creation' %}">User Creation</a>

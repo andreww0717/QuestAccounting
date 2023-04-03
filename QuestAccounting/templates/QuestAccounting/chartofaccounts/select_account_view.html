@@ -83,7 +83,7 @@
         </div>
     </div>
       
-    {% if is_superuser %}
+    {% if 'Admin' in groups %}
     
     <form action="{% url 'edit_accounts' account.account_name %}" method="get">
         <button type="submit">Edit Account Information</button>

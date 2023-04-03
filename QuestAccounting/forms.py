@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from QuestAccounting import models
 from django.core.mail import send_mail
 from .models import AccountRequest, UserProfile, AccountModel
@@ -85,3 +85,10 @@ class AccountForm(forms.ModelForm):
     class Meta:
         model = AccountModel
         fields = ['account_name', 'account_number','account_description','normal_side','account_category','account_subcategory','initial_balance','debit','credit','balance','user_id','order','statement','comment', 'activated']
+
+class GroupSelection(forms.ModelForm):
+    group = forms.ModelChoiceField(queryset=Group.objects.all())
+    
+    class Meta:
+        model = Group
+        fields = ['group']

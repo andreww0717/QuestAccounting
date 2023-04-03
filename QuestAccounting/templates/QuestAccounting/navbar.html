@@ -25,9 +25,11 @@
             </div>
         </div>
     </nav>
+
+    <button class="help-button" onclick = "location.href = '{% url 'help' %}'"></button>
     
-    <div class='welcome'>
-        <p>Welcome {{ user.username }}<p>
+    <div class='username'>
+        <p>{{ user.username }}<p>
     </div>
 
     <img src="{% static 'images/logo.jpeg' %}" class= "navbar-logo" alt="Logo">
@@ -62,7 +64,23 @@ body{
     color:#ffffff;
 }
 
-.welcome{
+.help-button {
+    background-image: url('{% static "images/help.png" %}');
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 60;
+    left: 100;
+    border-radius: 50px;
+    width: 30px;
+    height: 30px;
+}
+
+   
+
+.username{
     color: #ffffff;
     font-size: 22px;
     align-items: right;

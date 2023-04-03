@@ -3,6 +3,8 @@ from django.contrib.auth.models import User, AbstractUser
 from django.db.models.signals import post_save
 from django.forms import ModelForm
 from django.contrib.auth.hashers import make_password
+from django.core.validators import RegexValidator
+
 
 class AccountRequest(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -34,7 +36,7 @@ class UserProfile(models.Model):
 
 class AccountModel(models.Model):
     account_name = models.CharField(max_length=30, unique=True)
-    account_number = models.CharField(max_length=10, unique=True)
+    account_number = models.CharField(max_length=10, unique=True, validators=[RegexValidator(r'^\d{1,10}$', 'Enter a valid number.')])
     account_description = models.CharField(max_length=150)
     normal_side = models.CharField(max_length=6)
     account_category = models.CharField(max_length=20)

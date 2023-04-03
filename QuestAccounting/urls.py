@@ -18,6 +18,7 @@ urlpatterns = [
     # admin based urls
     path('administrator/', views.admin, name = "admin"),
     path('administrator/user_creation/', views.user_creation, name = "user_creation"),
+    path('administrator/user_creation/<int:user_id>/', views.group_selection, name = "group_selection"),
 
 
     # manager+ based urls
@@ -31,6 +32,7 @@ urlpatterns = [
     path('regular/', views.regular, name = "regular"),
     path('account/', views.account, name = "account"),
     path('account/edit_profile_picture', views.edit_profile_picture, name = "edit_profile_picture"),
+     path('help/', views.help, name = "help"),
     
 
     # password reset urls
