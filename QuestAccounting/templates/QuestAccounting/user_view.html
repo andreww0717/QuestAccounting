@@ -1,8 +1,59 @@
-{% extends 'QuestAccounting/navbar_admin.html' %}
+
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
 
 {% block content %}
-<div class='title'>
-    <h1>View Users</h1>
+<div = class='form-center'>
+    <div class='title'>
+        <h1>View Users</h1>
+    </div>
+    <div class='legend'>
+        <h2><u>Usernames</u></h2>
+    </div>
+    {% for user in userList %}
+    <form action="{% url 'detailed_user' user.id %}" method="get">
+        <button type="submit">{{ user.username }}</button>
+    </form>
+    {% endfor %}
 </div>
+    
+
+
+<style>  
+    
+    .form-center {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        justify-content: center;
+        transform: translate(-50%, -50%);
+        flex-direction: column;
+        align-items: center;
+        background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+        border-radius: 25px;
+        padding: 50px;
+        border: 3px solid #FFFFFF;
+      }
+    .title{
+        color: #FFFFFF;
+        margin-bottom: 50px;
+        
+    }
+    button[type="submit"]{
+        color: #FFFFFF;
+        font-size: 22px;
+        background-color: #1973D1;
+        width: 250px;
+        height 50px;
+        border: 3px solid #FFFFFF;
+        border-radius: 10px;
+    }
+    .legend{
+        color: #FFFFFF;
+        margin-bottom: 15px;
+    }
+
+</style>
 
 {% endblock %}

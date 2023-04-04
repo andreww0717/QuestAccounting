@@ -1,12 +1,10 @@
-
-
-{% extends 'QuestAccounting/navbar_admin.html' %}
+{% extends 'QuestAccounting/navbar_styling.html' %}
 
 {% load static %}
 {% block content %}
 
 <div class="form-center">
-    <img src="{% static 'images/logo.jpeg' %}" alt="Logo">
+    <img src="{% static 'images/logo.jpeg' %}" class="Logo" alt="Logo">
     <h2>Create User</h2>
     <form method="post">
       {% csrf_token %}
@@ -38,14 +36,6 @@
         <label for="{{ form.password2.id_for_label }}">Password Again:</label>
         {{ form.password2 }}
       </div>
-      <label for="dropdown">Select an option:</label>
-<select id="dropdown" name="dropdown">
-    <option value="{{ group.id }}">{{ group.name }}</option>
-    <option value="{{ group.id }}">{{ group.name }}</option>
-    <option value="{{ group.id }}">{{ group.name }}</option>
-  
-</select>
-
       <button type="submit" class="btn btn-primary">Create User</button>
     </form>
 </div>
@@ -127,14 +117,15 @@
       text-decoration: underline;
       color: #FFFFFF;
     }
-    img {
+    
+    .logo{
         display: block;
         margin: 0 auto;
         max-width: 100%;
         height: 125px;
         border-radius: 40%;
         border: 3px solid #FFFFFF;
-      }
+    }
   </style>
   
 {% endblock %}

@@ -1,11 +1,14 @@
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm
 from django import forms
 from django.contrib.auth.models import User, Group
 from QuestAccounting import models
 from django.core.mail import send_mail
-from .models import AccountRequest, UserCreation
+from .models import AccountRequest, UserProfile, AccountModel
 
 
+
+
+userList = User.objects.values_list('username', flat = True)
 
 
 class UserCreationRequest(models.ModelForm):
@@ -48,3 +51,43 @@ class UserCreation(UserCreationForm):
                 fail_silently=False,
             )
         return super().save(*args, **kwargs)
+    
+class EditUser(forms.ModelForm):
+    username = forms.CharField(max_length=30, required = True)
+    first_name = forms.CharField(max_length=30, required = True)
+    last_name = forms.CharField(max_length=30, required = True)
+    email = forms.EmailField(required = True)
+    is_active = forms.BooleanField(required = False)
+    previous_page = forms.CharField(widget=forms.HiddenInput(), required=False)
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email', 'is_active']
+
+class PasswordReset(PasswordResetForm):
+    email = forms.EmailField(required = True)
+
+    class Meta:
+        model = User
+        fields = ['email']
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['profile_pic']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['profile_pic'].widget.attrs.update({'class': 'form-control-file'})
+
+class AccountForm(forms.ModelForm):
+    class Meta:
+        model = AccountModel
+        fields = ['account_name', 'account_number','account_description','normal_side','account_category','account_subcategory','initial_balance','debit','credit','balance','user_id','order','statement','comment', 'activated']
+
+class GroupSelection(forms.ModelForm):
+    group = forms.ModelChoiceField(queryset=Group.objects.all())
+    
+    class Meta:
+        model = Group
+        fields = ['group']
