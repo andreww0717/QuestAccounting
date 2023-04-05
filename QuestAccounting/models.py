@@ -1,7 +1,7 @@
 from django.db import models, migrations
 from django.contrib.auth.models import User, AbstractUser
 from django.db.models.signals import post_save
-from django.forms import ModelForm
+from django.forms import ModelChoiceField, ModelForm
 from django.contrib.auth.hashers import make_password
 from django.core.validators import RegexValidator
 
@@ -52,3 +52,11 @@ class AccountModel(models.Model):
     comment = models.TextField(blank=True)
     activated = models.BooleanField()
 
+    def __str__(self):
+        return self.account_name
+
+class JournalEntriesModel(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    account_name = models.ForeignKey(AccountModel, on_delete=models.CASCADE)
+    debit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    credit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)

@@ -26,6 +26,14 @@ urlpatterns = [
     path('user_view/', views.user_view, name = "user_view"),
     path('user_view/<int:user_id>/', views.individual_user_view, name = "detailed_user"),
     path('user_view/<int:user_id>/edit_user', views.edit_user, name = "edit_user"),
+    path('journals/', views.journal_entries, name = "journal_entries"),
+    path('journals/view', views.view_journal_entries, name = "view_journal_entries"),
+    path('journals/add', views.add_journal_entries, name = "add_journal_entries"),
+    path('journals/pending', views.pending_journal_entries, name = "pending_journal_entries"),
+    path('journals/all', views.all_journal_entries, name = "all_journal_entries"),
+
+
+    
 
 
     # regular+ based urls

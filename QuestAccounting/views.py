@@ -5,9 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
-
-from QuestAccounting.models import AccountModel, UserProfile
-from .forms import GroupSelection, UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset, AccountForm
+from QuestAccounting.models import AccountModel, JournalEntriesModel, UserProfile
+from .forms import GroupSelection, UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset, AccountForm, JournalEntriesForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group, User
 from django.shortcuts import render
@@ -115,6 +114,14 @@ def signup(request):
     context = {'form':form}
     return render(request, 'QuestAccounting/signup.html', context)
 
+
+
+
+
+
+
+
+
 # Account Settings View
 def account(request):
     context = {
@@ -122,6 +129,16 @@ def account(request):
         'groups': request.user.groups.values_list('name', flat=True),  
     }
     return render(request, 'QuestAccounting/account.html', context)
+
+
+
+
+
+
+
+
+
+
 
 #Admin's User Creation View
 @login_required
@@ -188,6 +205,17 @@ def group_selection(request, user_id):
                     }
         return render(request, 'QuestAccounting/group_selection.html', context)
 
+
+
+
+
+
+
+
+
+
+# User Viewing Views
+
 @user_passes_test(lambda u: u.groups.filter(name='Admin').exists() or u.groups.filter(name='Manager').exists() and not u.groups.filter(name='Regular').exists())
 def user_view(request):
     userList = User.objects.all()
@@ -251,6 +279,18 @@ def edit_profile_picture(request):
     context = {'user': user, 'form': form, 'groups': request.user.groups.values_list('name', flat=True), 'is_superuser': request.user.is_superuser}
     return render(request, 'QuestAccounting/edit_profile_picture.html', context)
 
+
+
+
+
+
+
+
+
+
+
+# Account Views
+
 def view_accounts(request):
     user = request.user
     account_info = AccountModel.objects.all()
@@ -265,13 +305,16 @@ def edit_accounts(request, account_name):
     account = get_object_or_404(AccountModel, account_name=account_name)
     
     if request.method == 'POST':
-        print(request.method)
+        print(previous_page)
         form = AccountForm(request.POST, instance=account)
         context = {'previous_page': previous_page, 'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True), 'account': account, 'account_info': account_info}
         if form.is_valid():
             print(form.errors)
             form.save()
-            return render(request, 'QuestAccounting/chartofaccounts/view_accounts.html', context)
+            if previous_page == 'view_account_list':
+                return redirect(select_account_view, account.account_name)
+            else:
+                return redirect(view_accounts)
     else:
         form = AccountForm(instance=account)
         referer = request.META.get('HTTP_REFERER')
@@ -294,8 +337,7 @@ def add_accounts(request):
             account = form.save(commit=False)
             account.activated = True
             account.save()
-            context = {'is_superuser': request.user.is_superuser, 'user': user}
-            return render(request, 'QuestAccounting/chartofaccounts/account_homepage.html', context)
+            return redirect(view_accounts)
         else:
             print(form.errors)
             context = {'form': form, 'is_superuser': request.user.is_superuser, 'user': user}
@@ -339,9 +381,61 @@ def select_account_view(request, account_name):
     context = {'user': user, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info, 'groups': request.user.groups.values_list('name', flat=True)}
     return render(request, "QuestAccounting/chartofaccounts/select_account_view.html", context)
 
+
+
+
+
+
+
+
+
+
 def general_ledger(request, account_name):
     user = request.user
     account_info = AccountModel.objects.all()
     account = get_object_or_404(AccountModel, account_name=account_name)
     context = {'user': user, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info, 'groups': request.user.groups.values_list('name', flat=True)}
     return render(request, "QuestAccounting/general_ledger.html", context)
+
+
+
+
+
+
+
+
+
+# journal Entries Views
+
+def journal_entries(request):
+    user = request.user
+    context = {'user': user, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
+    return render(request, "QuestAccounting/journalentries/journal_entries.html", context)
+
+def view_journal_entries(request):
+    user = request.user
+    journal_entries = JournalEntriesModel.objects.all()
+    context = {'user': user, 'journal_entries': journal_entries, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
+    return render(request, "QuestAccounting/journalentries/view_journal_entries.html", context)
+
+def add_journal_entries(request):
+    user = request.user
+    form = JournalEntriesForm(request.POST)
+    context = {'user': user, 'form': form, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            return redirect(journal_entries)
+
+    
+    return render(request, "QuestAccounting/journalentries/add_journal_entries.html", context)
+
+def pending_journal_entries(request):
+    user = request.user
+    context = {'user': user, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
+    return render(request, "QuestAccounting/journalentries/add_journal_entries.html", context)
+
+def all_journal_entries(request):
+    user = request.user
+    context = {'user': user, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
+    return render(request, "QuestAccounting/journalentries/add_journal_entries.html", context)

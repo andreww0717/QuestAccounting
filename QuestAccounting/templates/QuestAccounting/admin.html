@@ -10,40 +10,24 @@
         <img src="{{ '../media/profile_pics/profilepicture.png' }}" class="profile-picture" alt="default profile picture">
     {% endif %}
 <button type = "button" onclick = "location.href = '{% url 'view_account_list' %}'">
-    <div class="form-center">
+    <div class="form-center" style="position: fixed; top: 40%; left: 50%;">
         <h1>View Account List</h1>
     </div>
 </button>
 <button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">
-    <div class="form-center2">
+    <div class="form-center" style="position: fixed; top: 50%; left: 50%;">
         <h1>View Accounts</h1>
     </div>
 </button>
-
+<button type = "button" onclick = "location.href = '{% url 'journal_entries' %}'">
+    <div class="form-center" style= "position: fixed; top: 60%; left: 50%;">
+        <h1>Journal Entries</h1>
+    </div>
+</button>
 
 <style>
 
     .form-center {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        display: flex;
-        justify-content: center;
-        transform: translate(-50%, -50%);
-        flex-direction: column;
-        align-items: center;
-        background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
-        border-radius: 25px;
-        width: 500px;
-        padding: 25px;
-        border: 3px solid #ffffff;
-        color: #ffffff;
-      }
-
-    .form-center2 {
-        position: fixed;
-        top: 60%;
-        left: 50%;
         display: flex;
         justify-content: center;
         transform: translate(-50%, -50%);

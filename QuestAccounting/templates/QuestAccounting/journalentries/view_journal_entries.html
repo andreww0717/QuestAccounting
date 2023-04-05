@@ -1,0 +1,114 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+
+    <script>
+
+        $(document).ready(function() {
+            jQuery('#journal-entries').DataTable({
+                "order": [[0, "desc"]]
+            });
+        });
+
+    </script>
+</head>
+
+<div class="form-center">
+    Add Journal Entry
+    <table id="journal-entries">
+        <thead>
+          <tr>
+            <th class= "text">Date Created</th>
+            <th class= "text">Account</th>
+            <th class= "numbers">Debit</th>
+            <th class= "numbers">Credit</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for entry in journal_entries %}
+          <tr>
+            <td class= "text" >{{ entry.date }}</td>
+            <td class= "text" >{{ entry.account_name }}</td>
+            <td class= "numbers" >{{ entry.debit }}</td>
+            <td class= "numbers" >{{ entry.credit }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+
+<style>
+
+    .form-center {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        justify-content: center;
+        transform: translate(-50%, -50%);
+        flex-direction: column;
+        align-items: center;
+        background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+        border-radius: 25px;
+        padding: 25px;
+        border: 3px solid #ffffff;
+        color: #ffffff;
+      }
+
+      table {
+        margin-top: 15px;
+        border-collapse: collapse;
+        border: 3px solid black;
+        width: auto;
+        text-align: center;
+      }
+
+      th{
+        border-bottom: 3px solid black;
+      }
+
+      td{
+        border-bottom: 2px solid black;
+        background-color: transparent;
+      }
+      
+      thead{
+        background-color: transparent;
+        color: white;
+      }
+
+      .text{
+        width: 200px;
+      }
+
+      .numbers{
+        width: 100px;
+      }
+
+      .dataTables_filter input[type=search] {
+        background-color: #ffffff;
+      }
+
+      .dataTables_filter label, .dataTables_length label, .dataTables_length select, .dataTables_info{
+        color: #ffffff !important;
+      }
+      
+      .dataTables_wrapper .dataTables_paginate .paginate_button.previous.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.next.disabled {
+        color: #fff !important;
+      }
+
+      
+      .dataTables_wrapper {
+        color: white;
+        background-color: transparent; 
+      }
+
+</style>
+
+{% endblock %}

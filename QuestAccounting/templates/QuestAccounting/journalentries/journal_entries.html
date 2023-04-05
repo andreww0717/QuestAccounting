@@ -1,0 +1,45 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+
+<button type = "button" onclick = "location.href = '{% url 'view_journal_entries' %}'">
+    <div class="form-center" style= "position: fixed; top: 35%; left: 50%;">
+        <h1>View Journal Entries</h1>
+    </div>
+</button>
+<button type = "button" onclick = "location.href = '{% url 'add_journal_entries' %}'">
+    <div class="form-center" style= "position: fixed; top: 45%; left: 50%;">
+        <h1>Add Journal Entries</h1>
+    </div>
+</button>
+<button type = "button" onclick = "location.href = '{% url 'pending_journal_entries' %}'">
+    <div class="form-center" style= "position: fixed; top: 55%; left: 50%;">
+        <h1>Pending Journal Entries</h1>
+    </div>
+</button>
+<button type = "button" onclick = "location.href = '{% url 'all_journal_entries' %}'">
+    <div class="form-center" style= "position: fixed; top: 65%; left: 50%;">
+        <h1>All Journal Entries</h1>
+    </div>
+</button>
+
+<style>
+
+    .form-center {
+        display: flex;
+        justify-content: center;
+        transform: translate(-50%, -50%);
+        flex-direction: column;
+        align-items: center;
+        background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+        border-radius: 25px;
+        width: 500px;
+        padding: 25px;
+        border: 3px solid #ffffff;
+        color: #ffffff;
+      }
+
+</style>
+
+{% endblock %}

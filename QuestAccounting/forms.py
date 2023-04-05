@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from QuestAccounting import models
 from django.core.mail import send_mail
-from .models import AccountRequest, UserProfile, AccountModel
+from .models import AccountRequest, UserProfile, AccountModel, JournalEntriesModel
 
 
 
@@ -92,3 +92,8 @@ class GroupSelection(forms.ModelForm):
     class Meta:
         model = Group
         fields = ['group']
+
+class JournalEntriesForm(forms.ModelForm):
+    class Meta:
+        model = JournalEntriesModel
+        fields = ['account_name', 'debit', 'credit']
