@@ -22,13 +22,16 @@
 {% if 'Admin' in groups %}
 
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'user_creation' %}">User Creation</a>
+        <a class="nav-link" href="{% url 'user_management' %}">User Management</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'user_view' %}">User View</a>
+        <a class="nav-link" href="{% url 'view_accounts' %}">Accounts</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'account' %}">Account</a>
+        <a class="nav-link" href="{% url 'journal_entries' %}">Journal Entries</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'account' %}"> User Account</a>
     </li>
 
 {% elif 'Manager' in groups %}
@@ -37,13 +40,16 @@
         <a class="nav-link" href="{% url 'user_view' %}">User View</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'account' %}">Account</a>
+        <a class="nav-link" href="{% url 'account' %}">User Account</a>
     </li>
 
 {% else %}
     
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'account' %}">Account</a>
+        <a class="nav-link" href="{% url 'user_view' %}">User View</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'account' %}">User Account</a>
     </li>
 
 {% endif %}

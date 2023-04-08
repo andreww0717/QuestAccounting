@@ -20,7 +20,15 @@
 </head>
 
 <div class="form-center">
-    Add Journal Entry
+  <div class = top>
+    <div class = back-button>
+      <button type = "button" class = buttons onclick = "location.href = '{% url 'journal_entries' %}'">Back</button>
+    </div>
+    <div class = title>
+      <h1>Add Journal Entry</h1>
+    </div>
+  </div>
+    
     <table id="journal-entries">
         <thead>
           <tr>
@@ -91,11 +99,42 @@
         width: 100px;
       }
 
+      .buttons {
+        background-color: #ffffff;
+        color: #000000;
+        border-radius: 5px;
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        text-align: center;
+        border: 3px solid #000000;
+        display: block;
+        margin:0 auto;
+        font-size: 18px;
+        font-weight: bold;
+        box-shadow: 2px 2px 2px #888888;
+        float: right;
+      }
+      
+      .top {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      
+      .title{
+        margin-right: 30%;
+      }
+
       .dataTables_filter input[type=search] {
         background-color: #ffffff;
       }
 
-      .dataTables_filter label, .dataTables_length label, .dataTables_length select, .dataTables_info{
+      .dataTables_length select{
+        color: #000000;
+      }
+  
+      .dataTables_filter label, .dataTables_length label, .dataTables_info{
         color: #ffffff !important;
       }
       

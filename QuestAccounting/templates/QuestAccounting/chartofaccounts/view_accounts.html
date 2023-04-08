@@ -3,19 +3,32 @@
 
 {% block content %}
 
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 
+  <script>
+
+      $(document).ready(function() {
+          jQuery('#account-list').DataTable({
+              "order": [[0, "desc"]],
+              lengthMenu: [5, 10, 25, 50]
+          });
+      });
+
+  </script>
+</head>
 
   <div class="form-center">
     <div class = top>
-      <div class = back-button>
         {% if 'Manager' in groups %}
-        <button type = "button" class = buttons onclick = "location.href = '{% url 'manager' %}'">Back</button>
+        <button type = "button" class = back-button onclick = "location.href = '{% url 'manager' %}'">Back</button>
         {% elif 'Regular' in groups %}
-        <button type = "button" class = buttons onclick = "location.href = '{% url 'regular' %}'">Back</button>
+        <button type = "button" class = back-button onclick = "location.href = '{% url 'regular' %}'">Back</button>
         {% else %}
-        <button type = "button" class = buttons onclick = "location.href = '{% url 'admin' %}'">Back</button>
+        <button type = "button" class = back-button onclick = "location.href = '{% url 'admin' %}'">Back</button>
         {% endif %}
-      </div>
       <div class = title>
         <h1>Accounts</h1>
       </div>
@@ -27,7 +40,7 @@
       </div>
       {% endif %}
     </div>
-      <table>
+      <table id="account-list">
         <thead>
           <tr>
             <th class = first>Account Name</th>
@@ -123,20 +136,28 @@
     table {
       margin-top: 15px;
       border-collapse: collapse;
-      border: 2px solid black;
+      border: 3px solid black;
       max-width: 2000px;
       min-width: 70vw;
       width: auto;
     }
 
-    th, td {
+    th {
       text-align: center;
       border-top: 2px solid black;
       border-bottom: 2px solid black;
       color: #ffffff;
       vertical-align: center;
       padding: 5px;
+    }
 
+    td {
+      text-align: center;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+      color: #000000;
+      vertical-align: center;
+      padding: 5px;
     }
     
     .first {
@@ -144,73 +165,87 @@
     }
 
     .first-td {
-      border-right: 2px solid black;
+      
       display: flex;
       align-items: center;
       
     }
 
     .edit-button {
-      background-color: #ffffff;
-      color: #000000;
-      border-radius: 5px;
       border: 1px solid #000000;
-      display: block;
-      margin:0 auto;
       font-size: 12px;
-      font-weight: bold;
-      box-shadow: 2px 2px 2px #888888;
-      margin-top: 10px;
+      margin-top: 15px;
+    }
+    
+    .buttons, .back-button {
+      padding: 10px 20px;
+      text-align: center;
+      font-size: 18px;
     }
 
-    .buttons {
+    .buttons, .back-button, .edit-button {
       background-color: #ffffff;
-      color: #000000;
+      color: #000000; 
       border-radius: 5px;
-      padding: 10px 20px;
       margin-bottom: 20px;
-      text-align: center;
       border: 3px solid #000000;
       display: block;
       margin:0 auto;
-      font-size: 18px;
       font-weight: bold;
       box-shadow: 2px 2px 2px #888888;
-      float: right;
+     
     }
     
     {% if 'Manager' in groups or 'Regular' in groups %}
       .top {
         display: flex;
-        justify-content: left;
-        align-items: center;
-        text-align: left;
+        justify-content: space-between;
         width: 100%;
         margin-bottom: 15px;
-        float: left;
       }
 
-      .title {
-        margin-left: 36%;
+      .title{
+        margin-left: 37%;
+        margin-right: 37%;
       }
     {% else %}
       .top {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
+        justify-content: space-between;
         width: 100%;
         margin-bottom: 15px;
-        float: left;
       }
 
-      .title {
-        margin-left: 36%;
+      .title{
+        margin-left: 37%;
+        margin-right: 37%;
       }
     {% endif %}
 
     .add-button {  
       margin-left: auto;
+    }
+
+    .dataTables_filter input[type=search] {
+      background-color: #ffffff;
+    }
+
+    .dataTables_length select{
+      color: #000000;
+    }
+
+    .dataTables_filter label, .dataTables_length label, .dataTables_info{
+      color: #ffffff !important;
+    }
+    
+    .dataTables_wrapper .dataTables_paginate .paginate_button.previous.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.next.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.next, .dataTables_wrapper .dataTables_paginate .paginate_button {
+      color: #fff !important;
+    }
+
+    
+    .dataTables_wrapper {
+      color: white;
+      background-color: transparent; 
     }
 
 </style>

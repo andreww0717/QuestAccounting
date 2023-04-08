@@ -140,7 +140,25 @@ def account(request):
 
 
 
-#Admin's User Creation View
+# User Management View
+def user_management(request):
+    context = {
+        'is_superuser': request.user.is_superuser,
+        'groups': request.user.groups.values_list('name', flat=True),  
+    }
+    return render(request, 'QuestAccounting/user_management.html', context)
+
+
+
+
+
+
+
+
+
+
+
+# Admin's User Creation View
 @login_required
 @user_passes_test(lambda u: u.groups.filter(name='Admin').exists())
 def user_creation(request):
@@ -405,7 +423,7 @@ def general_ledger(request, account_name):
 
 
 
-# journal Entries Views
+# Journal Entries Views
 
 def journal_entries(request):
     user = request.user
