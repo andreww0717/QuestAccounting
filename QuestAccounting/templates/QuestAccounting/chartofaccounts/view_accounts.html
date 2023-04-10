@@ -13,7 +13,7 @@
       $(document).ready(function() {
           jQuery('#account-list').DataTable({
               "order": [[0, "desc"]],
-              lengthMenu: [5, 10, 25, 50]
+              lengthMenu: [10, 25, 50]
           });
       });
 
@@ -104,6 +104,7 @@
                   {% endif %}
                 </td>
               {%else%}
+                <td>
                   {% if 'Manager' in groups or 'Regular' in groups %}
                     Inactive
                   {% else %}
@@ -111,6 +112,7 @@
                       Inactive
                     </button>
                   {% endif %}
+                </td>
               {% endif %}
           {% endfor %}
   </div>

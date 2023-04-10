@@ -2,13 +2,15 @@
 from base64 import urlsafe_b64encode
 from django import forms
 from django.contrib.auth import authenticate, login, logout
+from django.dispatch import Signal
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
-from QuestAccounting.models import AccountModel, JournalEntriesModel, UserProfile
+from QuestAccounting.models import AccountModel, EventLog, JournalEntriesModel, UserProfile
 from .forms import GroupSelection, UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset, AccountForm, JournalEntriesForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group, User
+from .signals import account_changed
 from django.shortcuts import render
 from django.urls import reverse
 
@@ -321,14 +323,17 @@ def edit_accounts(request, account_name):
     account_info = AccountModel.objects.all()
     previous_page = request.session.get('previous_page', None)
     account = get_object_or_404(AccountModel, account_name=account_name)
-    
     if request.method == 'POST':
+        
         print(previous_page)
         form = AccountForm(request.POST, instance=account)
         context = {'previous_page': previous_page, 'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True), 'account': account, 'account_info': account_info}
         if form.is_valid():
             print(form.errors)
+            print('form is valid')
+            account_changed.send(sender=AccountModel, user=request.user, instance=account, new=False)
             form.save()
+            
             if previous_page == 'view_account_list':
                 return redirect(select_account_view, account.account_name)
             else:
@@ -355,6 +360,7 @@ def add_accounts(request):
             account = form.save(commit=False)
             account.activated = True
             account.save()
+            account_changed.send(sender=AccountModel, user=request.user, instance=account, new=True)
             return redirect(view_accounts)
         else:
             print(form.errors)
@@ -407,13 +413,30 @@ def select_account_view(request, account_name):
 
 
 
-
+# General Ledger View
 def general_ledger(request, account_name):
     user = request.user
     account_info = AccountModel.objects.all()
     account = get_object_or_404(AccountModel, account_name=account_name)
     context = {'user': user, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info, 'groups': request.user.groups.values_list('name', flat=True)}
     return render(request, "QuestAccounting/general_ledger.html", context)
+
+
+
+
+
+
+
+
+
+
+
+# Event Logs View
+def event_logs(request):
+    user = request.user
+    event_logs = EventLog.objects.all()
+    context = {'user': user, 'is_superuser': request.user.is_superuser, 'event_logs': event_logs, 'account': account, 'groups': request.user.groups.values_list('name', flat=True)}
+    return render(request, 'QuestAccounting/event_logs.html', context)
 
 
 
