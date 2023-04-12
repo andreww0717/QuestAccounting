@@ -97,3 +97,8 @@ class JournalEntriesForm(forms.ModelForm):
     class Meta:
         model = JournalEntriesModel
         fields = ['account_name', 'debit', 'credit']
+
+class EmailForm(forms.Form):
+    recipient = forms.ModelChoiceField(queryset=User.objects.all())
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField(widget=forms.Textarea)

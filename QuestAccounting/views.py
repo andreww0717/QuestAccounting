@@ -7,12 +7,14 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404, HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
 from QuestAccounting.models import AccountModel, EventLog, JournalEntriesModel, UserProfile
-from .forms import GroupSelection, UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset, AccountForm, JournalEntriesForm
+from .forms import EmailForm, GroupSelection, UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset, AccountForm, JournalEntriesForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group, User
 from .signals import account_changed
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib import messages
+from django.core.mail import EmailMessage
 
 def home(request):
     return render(request, 'QuestAccounting/dashboard.html')
@@ -479,3 +481,43 @@ def all_journal_entries(request):
     user = request.user
     context = {'user': user, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
     return render(request, "QuestAccounting/journalentries/add_journal_entries.html", context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Email User View
+
+def email_user(request):
+    user = request.user
+    if request.method == 'POST':
+        form = EmailForm(request.POST)
+        if form.is_valid():
+            recipient_username = form.cleaned_data['recipient']
+            recipient = User.objects.get(username=recipient_username)
+            recipient_email = recipient.email
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+
+            email = EmailMessage(
+                subject=subject,
+                body=message,
+                to=[recipient_email]
+            )
+            email.send()
+
+            messages.success(request, 'Email sent successfully!')
+            return redirect('view_accounts')
+    else:
+        form = EmailForm()
+
+    context = {'user': user, 'form': form, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
+    return render(request, "QuestAccounting/email_user.html", context)

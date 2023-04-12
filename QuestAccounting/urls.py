@@ -19,6 +19,7 @@ urlpatterns = [
     path('administrator/', views.admin, name = "admin"),
     path('administrator/user_creation/', views.user_creation, name = "user_creation"),
     path('administrator/user_creation/<int:user_id>/', views.group_selection, name = "group_selection"),
+    path('email_user', views.email_user, name = "email_user"),
 
 
     # manager+ based urls

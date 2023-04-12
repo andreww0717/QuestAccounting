@@ -9,6 +9,31 @@
 <head>
   <style>
 
+    .email-user {
+      position: absolute;
+      top: 100;
+      left: 15;
+      background-color: #ffffff;
+      color: #000000; 
+      border-radius: 5px;
+      margin-bottom: 20px;
+      border: 3px solid #000000;
+      display: block;
+      margin:0 auto;
+      font-weight: bold;
+      box-shadow: 2px 2px 2px #888888;
+      }
+
+    .email-button {
+      background-color: transparent;
+      border: none;
+      outline: none;
+      color: #000000;
+      width: 100%;
+      height: 100%;
+      font-weight: bold;
+    }
+
     .form-center {
         position: fixed;
         top: 50%;
@@ -156,6 +181,15 @@
 
   </script>
 </head>
+{% if 'Manager' in groups or 'Regular' in groups %}
+    
+{% else %}
+  <div class="email-user">
+    <button type = "button" class = "email-button" onclick = "location.href = '{% url 'email_user' %}'">
+        Email User
+    </button>
+  </div>
+{% endif %}
 
   <div class="form-center">
     <div class = top>
