@@ -36,9 +36,6 @@
     <li class="nav-item">
         <a class="nav-link" href="{% url 'email_user' %}">Email User</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'account' %}">User Account</a>
-    </li>
 
 {% elif 'Manager' in groups %}
 
@@ -54,9 +51,6 @@
     <li class="nav-item">
         <a class="nav-link" href="{% url 'journal_entries' %}">Journal Entries</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'account' %}">User Account</a>
-    </li>
 
 {% else %}
     
@@ -71,9 +65,6 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" href="{% url 'journal_entries' %}">Journal Entries</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'account' %}">User Account</a>
     </li>
 
 {% endif %}
