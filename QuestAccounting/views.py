@@ -16,9 +16,11 @@ from django.urls import reverse
 from django.contrib import messages
 from django.core.mail import EmailMessage
 
+# original login page 
 def home(request):
     return render(request, 'QuestAccounting/dashboard.html')
 
+# help page View
 def help(request):
     context = {
         'is_superuser': request.user.is_superuser,
@@ -98,7 +100,6 @@ def custom_password_reset(request):
         form = PasswordReset()
     return render(request, 'QuestAccounting/Password Reset/password_reset_form.html', {'form': form})
 
-# def custom_password_reset_done(request):
 
 
 # User Creation Request View

@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from .models import UserCreation, AccountModel, EventLog
+from .models import  AccountModel, EventLog
 
 
 
@@ -12,22 +12,8 @@ from .models import UserCreation, AccountModel, EventLog
 
 User = get_user_model()
 
-@receiver(post_save, sender=UserCreation)
-def create_user(sender, instance, created, **kwargs):
-    if created:
-        User.objects.create_user(
-            username=instance.username,
-            email=instance.email,
-            password=instance.password1,
-            first_name=instance.first_name,
-            last_name=instance.last_name,
-            date_of_birth=instance.date_of_birth
-        )
+# how event logs are saved when an account is created or edited
 
-
-
-
-User = get_user_model()
 
 account_changed = Signal()
 
@@ -35,11 +21,12 @@ account_changed = Signal()
 def log_account_model_change_pre_save(sender, user, instance, new, **kwargs):
     print(new)
     if instance.pk:
+        # checks if account is new or not and sets the before_image accordingly
         if new:
-            print('1')
+            
             before_image = None
         else:
-            print('2')
+            
             before_image = AccountModel.objects.get(pk=instance.pk)
         after_image = instance
         account_name = instance.account_name
@@ -47,12 +34,11 @@ def log_account_model_change_pre_save(sender, user, instance, new, **kwargs):
         before_change = {}
         after_change = {}
 
+        # find the fields that have changed and combine them into before_change and after_change
         for field in instance._meta.fields:
             if new:
-                print('3')
                 before_value = None
             else:
-                print('4')
                 before_value = getattr(before_image, field.name)
             
             after_value = getattr(after_image, field.name)
@@ -66,7 +52,6 @@ def log_account_model_change_pre_save(sender, user, instance, new, **kwargs):
             
         # create readable output for before_image
         if not new:
-            print('5')
             before_image_output = ''
             for key, value in before_image.__dict__.items():
                 if key.startswith('_'):
@@ -86,6 +71,7 @@ def log_account_model_change_pre_save(sender, user, instance, new, **kwargs):
             else:
                 after_image_output += f'{key}: {value}\n'
 
+        # if there is no data for before_change (new account) then create eventlog with empty before_image
         if not before_change and after_change:
             EventLog.objects.create(
                 account_changed=account_name,
@@ -95,8 +81,8 @@ def log_account_model_change_pre_save(sender, user, instance, new, **kwargs):
             )
             return
         
+        # if account is not new create eventlog with before and after info else its new so before will be empty
         if not new:
-            print('6')
             EventLog.objects.create(
                 account_changed=account_name,
                 before_image=before_change,
@@ -104,7 +90,6 @@ def log_account_model_change_pre_save(sender, user, instance, new, **kwargs):
                 user=user
             )
         else: 
-            print('7')
             EventLog.objects.create(
                 account_changed=account_name,
                 before_image=None,
