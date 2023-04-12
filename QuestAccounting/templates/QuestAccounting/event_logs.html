@@ -4,51 +4,7 @@
 {% block content %}
 
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-  
-    <script>
-  
-        $(document).ready(function() {
-            jQuery('#event-log').DataTable({
-                "order": [[0, "desc"]],
-                lengthMenu: [5, 10, 25, 50]
-            });
-        });
-  
-    </script>
-  </head>
-
-<div class= "form-center">
-    <h1>Event Logs</h1>
-    <table id="event-log">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Account Changed</th>
-                <th>Before Image</th>
-                <th>After Image</th>
-                <th>User</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for event_log in event_logs %}
-                <tr>
-                    <td>{{ event_log.id }}</td>
-                    <td>{{ event_log.account_changed }}</td>
-                    <td>{{ event_log.before_image }}</td>
-                    <td>{{ event_log.after_image }}</td>
-                    <td>{{ event_log.user }}</td>
-                    <td>{{ event_log.event_date }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-<style>
+  <style>
 
     .form-center {
         position: fixed;
@@ -116,5 +72,50 @@
       }
 
 </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+  
+    <script>
+  
+        $(document).ready(function() {
+            jQuery('#event-log').DataTable({
+                "order": [[0, "desc"]],
+                lengthMenu: [5, 10, 25, 50]
+            });
+        });
+  
+    </script>
+  </head>
+
+<div class= "form-center">
+    <h1>Event Logs</h1>
+    <table id="event-log">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Account Changed</th>
+                <th>Before Image</th>
+                <th>After Image</th>
+                <th>User</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event_log in event_logs %}
+                <tr>
+                    <td>{{ event_log.id }}</td>
+                    <td>{{ event_log.account_changed }}</td>
+                    <td>{{ event_log.before_image }}</td>
+                    <td>{{ event_log.after_image }}</td>
+                    <td>{{ event_log.user }}</td>
+                    <td>{{ event_log.event_date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
 {% endblock %}
 

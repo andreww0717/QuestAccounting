@@ -308,7 +308,6 @@ def edit_profile_picture(request):
 
 
 
-
 # Account Views
 
 def view_accounts(request):
