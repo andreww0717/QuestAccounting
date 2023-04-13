@@ -1,0 +1,125 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+{% load static %}
+
+{% block content %}
+<form action="{% url 'logout' %}" method="get">
+    <button type="submit" class=logout>Logout</button>
+</form>
+<div = class='form-center'>
+    <div class='title'>
+        <h1>Account Info</h1>
+    </div>
+    <div>
+        {% if user.userprofile.profile_pic %}
+            <img src="{{ user.userprofile.profile_pic.url }}" class="profile-picture" alt="{{ user.username }}'s profile picture">
+        {% else %}
+        <img src="{{ '../media/profile_pics/profilepicture.png' }}" class="profile-picture" alt="default profile picture">
+        {% endif %}
+    </div>
+    <div class='info'>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+    </div>
+    <div class='info'>
+        <p><strong>First Name:</strong> {{ user.first_name }}</p>
+    </div>
+    <div class='info'>
+        <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+    </div>
+    <div class='info'>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+    </div>
+    <div class='info'>
+        {% if user.is_active %}
+            <p><strong>Status: </strong>Active</p>
+        {% else %}
+            <p><strong>Status: </strong>Inactive</p>
+        {% endif %}
+    </div>
+<form action="{% url 'edit_user' user.id %}" method="get">
+    <button type="submit" class=edit>Edit Account Information</button>
+</form>
+     
+
+    </div>
+</div>
+
+    <style>
+        .form-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            display: flex;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+            border-radius: 25px;
+            padding: 50px;
+            border: 3px solid #FFFFFF;
+          }
+        
+          .title{
+            color: #FFFFFF;
+            margin-bottom: 35px;
+          }
+        
+          .info{
+            color: #FFFFFF;
+            font-size: 22px;
+            margin-bottom: 20px;
+          }
+
+          .logout{
+            background-color: #1973D1;
+            color: #ffffff;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 3px solid #ffffff;
+            display:block;
+            margin:0 auto;
+            font-size: 18px;
+            font-weight: bold;
+            position: absolute;
+            top: 250;
+            left: 20;
+          }
+
+          .edit{
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 3px solid #000000;
+            display:block;
+            margin:0 auto;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 2px 2px 2px #888888;
+          }
+
+          .profile-picture {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: 125px;
+            border-radius: 100%;
+            border: 3px solid #000000;
+            margin-bottom: 35px;
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+            width: 100%;
+          }
+
+          {% block profilepicture %}display: none;{% endblock%}
+
+          {% block nav_user_account %} style = "margin-right: 0;" {% endblock %}
+        
+    </style>
+{% endblock %}
