@@ -15,6 +15,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.contrib import messages
 from django.core.mail import EmailMessage
+from django.db.models import Sum
 
 # original login page 
 def home(request):
@@ -267,7 +268,11 @@ def edit_user(request, user_id):
         if form.is_valid():
             form.save()
             
-            context = {'previous_page': previous_page, 'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True),}
+            context = {'previous_page': previous_page, 
+                       'user': user, 'form': form, 
+                       'is_superuser': request.user.is_superuser, 
+                       'groups': request.user.groups.values_list('name', flat=True),
+                       }
             print(previous_page)
             if previous_page == 'http://127.0.0.1:8000/account/':
                 return redirect('account')
@@ -275,7 +280,11 @@ def edit_user(request, user_id):
                 return redirect('detailed_user', user_id)
         else:
             
-            context = {'previous_page': previous_page, 'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True),}
+            context = {'previous_page': previous_page, 
+                       'user': user, 'form': form, 
+                       'is_superuser': request.user.is_superuser, 
+                       'groups': request.user.groups.values_list('name', flat=True),
+                       }
 
             return render(request, 'QuestAccounting/edit_user.html', context)
     else:
@@ -284,7 +293,11 @@ def edit_user(request, user_id):
         request.session['previous_page'] = previous_page
         print(previous_page)
         form.fields['previous_page'] = forms.CharField(widget=forms.HiddenInput(), initial=previous_page)
-        context = {'previous_page': previous_page, 'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True),}
+        context = {'previous_page': previous_page, 
+                   'user': user, 'form': form, 
+                   'is_superuser': request.user.is_superuser, 
+                   'groups': request.user.groups.values_list('name', flat=True),
+                   }
 
         return render(request, 'QuestAccounting/edit_user.html', context)
     
@@ -299,7 +312,11 @@ def edit_profile_picture(request):
     else:
         form = UserProfileForm(instance=user_profile)
     
-    context = {'user': user, 'form': form, 'groups': request.user.groups.values_list('name', flat=True), 'is_superuser': request.user.is_superuser}
+    context = {'user': user, 
+               'form': form, 
+               'groups': request.user.groups.values_list('name', flat=True), 
+               'is_superuser': request.user.is_superuser
+               }
     return render(request, 'QuestAccounting/edit_profile_picture.html', context)
 
 
@@ -317,7 +334,12 @@ def view_accounts(request):
     user = request.user
     account_info = AccountModel.objects.all()
     form = AccountForm()
-    context = {'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True), 'user': user, 'account_info': account_info}
+    context = {'form': form, 
+               'is_superuser': request.user.is_superuser, 
+               'groups': request.user.groups.values_list('name', flat=True), 
+               'user': user, 
+               'account_info': account_info
+               }
     return render(request, 'QuestAccounting/chartofaccounts/view_accounts.html', context)
 
 def edit_accounts(request, account_name):
@@ -329,7 +351,14 @@ def edit_accounts(request, account_name):
         
         print(previous_page)
         form = AccountForm(request.POST, instance=account)
-        context = {'previous_page': previous_page, 'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'groups': request.user.groups.values_list('name', flat=True), 'account': account, 'account_info': account_info}
+        context = {'previous_page': previous_page, 
+                   'user': user, 
+                   'form': form, 
+                   'is_superuser': request.user.is_superuser, 
+                   'groups': request.user.groups.values_list('name', flat=True), 
+                   'account': account, 
+                   'account_info': account_info
+                   }
         if form.is_valid():
             print(form.errors)
             print('form is valid')
@@ -345,7 +374,13 @@ def edit_accounts(request, account_name):
         referer = request.META.get('HTTP_REFERER')
         previous_page = referer.split('/')[3]
         request.session['previous_page'] = previous_page
-        context = {'previous_page': previous_page, 'user': user, 'form': form, 'account': account, 'groups': request.user.groups.values_list('name', flat=True), 'is_superuser': request.user.is_superuser}
+        context = {'previous_page': previous_page, 
+                   'user': user, 
+                   'form': form, 
+                   'account': account, 
+                   'groups': request.user.groups.values_list('name', flat=True), 
+                   'is_superuser': request.user.is_superuser
+                   }
         return render(request, 'QuestAccounting/chartofaccounts/edit_accounts.html', context)
     
     
@@ -366,10 +401,16 @@ def add_accounts(request):
             return redirect(view_accounts)
         else:
             print(form.errors)
-            context = {'form': form, 'is_superuser': request.user.is_superuser, 'user': user}
+            context = {'form': form, 
+                       'is_superuser': request.user.is_superuser, 
+                       'user': user
+                       }
             return render(request, 'QuestAccounting/chartofaccounts/add_accounts.html', context)
     else:
-        context = {'form': form, 'is_superuser': request.user.is_superuser, 'user': user}
+        context = {'form': form, 
+                   'is_superuser': request.user.is_superuser, 
+                   'user': user
+                   }
         return render(request, 'QuestAccounting/chartofaccounts/add_accounts.html', context)
 
 
@@ -383,7 +424,13 @@ def deactivate_accounts(request, account_name):
     if request.method == 'POST':
         print(request.method)
         form = AccountForm(request.POST, instance=account)
-        context = {'user': user, 'form': form, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info, 'groups': request.user.groups.values_list('name', flat=True)}
+        context = {'user': user, 
+                   'form': form, 
+                   'is_superuser': request.user.is_superuser, 
+                   'account': account, 
+                   'account_info': account_info, 
+                   'groups': request.user.groups.values_list('name', flat=True)
+                   }
         print(form.errors)
         if form.is_valid():
             form.save()
@@ -391,20 +438,33 @@ def deactivate_accounts(request, account_name):
     else:
         
         form = AccountForm(instance=account)
-    context = {'user': user, 'form': form, 'account': account, 'is_superuser': request.user.is_superuser}
+    context = {'user': user, 
+               'form': form, 
+               'account': account, 
+               'is_superuser': request.user.is_superuser
+               }
     return render(request, 'QuestAccounting/chartofaccounts/deactivate_accounts.html', context)
 
 def view_account_list(request):
     user = request.user
     account_info = AccountModel.objects.all()
-    context = {'user': user, 'is_superuser': request.user.is_superuser, 'account_info': account_info, 'groups': request.user.groups.values_list('name', flat=True)}
+    context = {'user': user, 
+               'is_superuser': request.user.is_superuser, 
+               'account_info': account_info, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
     return render(request, "QuestAccounting/chartofaccounts/view_account_list.html", context)
 
 def select_account_view(request, account_name):
     user = request.user
     account_info = AccountModel.objects.all()
     account = get_object_or_404(AccountModel, account_name=account_name)
-    context = {'user': user, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info, 'groups': request.user.groups.values_list('name', flat=True)}
+    context = {'user': user, 
+               'is_superuser': request.user.is_superuser, 
+               'account': account, 
+               'account_info': account_info, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
     return render(request, "QuestAccounting/chartofaccounts/select_account_view.html", context)
 
 
@@ -420,7 +480,12 @@ def general_ledger(request, account_name):
     user = request.user
     account_info = AccountModel.objects.all()
     account = get_object_or_404(AccountModel, account_name=account_name)
-    context = {'user': user, 'is_superuser': request.user.is_superuser, 'account': account, 'account_info': account_info, 'groups': request.user.groups.values_list('name', flat=True)}
+    context = {'user': user, 
+               'is_superuser': request.user.is_superuser, 
+               'account': account, 
+               'account_info': account_info, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
     return render(request, "QuestAccounting/general_ledger.html", context)
 
 
@@ -437,7 +502,12 @@ def general_ledger(request, account_name):
 def event_logs(request):
     user = request.user
     event_logs = EventLog.objects.all()
-    context = {'user': user, 'is_superuser': request.user.is_superuser, 'event_logs': event_logs, 'account': account, 'groups': request.user.groups.values_list('name', flat=True)}
+    context = {'user': user, 
+               'is_superuser': request.user.is_superuser, 
+               'event_logs': event_logs, 
+               'account': account, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
     return render(request, 'QuestAccounting/event_logs.html', context)
 
 
@@ -452,19 +522,58 @@ def event_logs(request):
 
 def journal_entries(request):
     user = request.user
-    context = {'user': user, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
+    total_credit = JournalEntriesModel.objects.aggregate(Sum('credit'))['credit__sum']
+    total_debit = JournalEntriesModel.objects.aggregate(Sum('debit'))['debit__sum']
+    if total_credit == total_debit:
+        doTheyMatch = True
+    else:
+        doTheyMatch = False
+    context = {'user': user, 
+               'doTheyMatch': doTheyMatch, 
+               'total_credit': total_credit, 
+               'total_debit': total_debit, 
+               'is_superuser': request.user.is_superuser, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
     return render(request, "QuestAccounting/journalentries/journal_entries.html", context)
 
 def view_journal_entries(request):
     user = request.user
     journal_entries = JournalEntriesModel.objects.all()
-    context = {'user': user, 'journal_entries': journal_entries, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
+
+    total_credit = JournalEntriesModel.objects.aggregate(Sum('credit'))['credit__sum']
+    total_debit = JournalEntriesModel.objects.aggregate(Sum('debit'))['debit__sum']
+    if total_credit == total_debit:
+        doTheyMatch = True
+    else:
+        doTheyMatch = False
+    context = {'user': user, 
+               'journal_entries': journal_entries, 
+               'doTheyMatch': doTheyMatch, 
+               'total_credit': total_credit, 
+               'total_debit': total_debit, 
+               'is_superuser': request.user.is_superuser, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
     return render(request, "QuestAccounting/journalentries/view_journal_entries.html", context)
 
 def add_journal_entries(request):
     user = request.user
     form = JournalEntriesForm(request.POST)
-    context = {'user': user, 'form': form, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
+    total_credit = JournalEntriesModel.objects.aggregate(Sum('credit'))['credit__sum']
+    total_debit = JournalEntriesModel.objects.aggregate(Sum('debit'))['debit__sum']
+    if total_credit == total_debit:
+        doTheyMatch = True
+    else:
+        doTheyMatch = False
+    context = {'user': user, 
+               'form': form, 
+               'doTheyMatch': doTheyMatch, 
+               'total_credit': total_credit, 
+               'total_debit': total_debit, 
+               'is_superuser': request.user.is_superuser, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
     if request.method == 'POST':
         if form.is_valid():
             form.save()
@@ -475,12 +584,36 @@ def add_journal_entries(request):
 
 def pending_journal_entries(request):
     user = request.user
-    context = {'user': user, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
+    total_credit = JournalEntriesModel.objects.aggregate(Sum('credit'))['credit__sum']
+    total_debit = JournalEntriesModel.objects.aggregate(Sum('debit'))['debit__sum']
+    if total_credit == total_debit:
+        doTheyMatch = True
+    else:
+        doTheyMatch = False
+    context = {'user': user, 
+               'doTheyMatch': doTheyMatch, 
+               'total_credit': total_credit, 
+               'total_debit': total_debit, 
+               'is_superuser': request.user.is_superuser, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
     return render(request, "QuestAccounting/journalentries/add_journal_entries.html", context)
 
 def all_journal_entries(request):
     user = request.user
-    context = {'user': user, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
+    total_credit = JournalEntriesModel.objects.aggregate(Sum('credit'))['credit__sum']
+    total_debit = JournalEntriesModel.objects.aggregate(Sum('debit'))['debit__sum']
+    if total_credit == total_debit:
+        doTheyMatch = True
+    else:
+        doTheyMatch = False
+    context = {'user': user, 
+               'doTheyMatch': doTheyMatch, 
+               'total_credit': total_credit, 
+               'total_debit': total_debit, 
+               'is_superuser': request.user.is_superuser, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
     return render(request, "QuestAccounting/journalentries/add_journal_entries.html", context)
 
 
@@ -520,5 +653,9 @@ def email_user(request):
     else:
         form = EmailForm()
 
-    context = {'user': user, 'form': form, 'is_superuser': request.user.is_superuser,'groups': request.user.groups.values_list('name', flat=True)}
+    context = {'user': user, 
+               'form': form, 
+               'is_superuser': request.user.is_superuser, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
     return render(request, "QuestAccounting/email_user.html", context)

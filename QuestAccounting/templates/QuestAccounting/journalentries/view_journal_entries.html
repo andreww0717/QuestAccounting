@@ -19,13 +19,28 @@
     </script>
 </head>
 
+{% if not doTheyMatch %}
+    <div class=error>
+        <div class = "error-header"><b>Error: Credit and Debit Do Not Match!</b></div>
+            <div class = "error-totals">
+                <div class = "error-text">Credit: {{ total_credit }}</div>
+                <button type = "button" class = "error-button" onclick = "location.href = '{% url 'view_journal_entries' %}'"> Go To View</button>
+                <button type = "button" class = "error-button" onclick = "location.href = '{% url 'add_journal_entries' %}'">Go To Add</button>
+                <div class = "error-text">Debit: {{ total_debit }}</div>
+            </div>
+        </div>
+    </div>
+  {% endif %}
+</div>
+
+
 <div class="form-center">
   <div class = top>
     <div class = back-button>
       <button type = "button" class = buttons onclick = "location.href = '{% url 'journal_entries' %}'">Back</button>
     </div>
     <div class = title>
-      <h1>Add Journal Entry</h1>
+      <h1>Journal Entries</h1>
     </div>
   </div>
     
