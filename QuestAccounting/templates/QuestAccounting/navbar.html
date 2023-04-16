@@ -34,6 +34,7 @@
                 border-radius: 50px;
                 width: 30px;
                 height: 30px;
+                
             }
             
             
@@ -83,12 +84,15 @@
                 left: 10;
                 border-radius: 25px;
                 border: 3px solid #FFFFFF;
+                cursor: pointer;
             }
 
             .calendar{
                 margin-top: 5px;
                 translate: 100%;
                 border-radius: 5px;
+                cursor: pointer;
+
             }
             
         </style>
@@ -115,17 +119,17 @@
                 </ul>
                 <ul class="navbar-nav ml-auto" {% block nav_user_account %} style = "margin-right: 125px;" {% endblock %}>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'account' %}">User Account</a>
+                        <a class="nav-link" href="{% url 'account' %}" cursor="pointer" title="See User Details">User Account</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <button class="help-button" onclick = "location.href = '{% url 'help' %}'"></button>
-    <input type="date" class="calendar">
+    <button class="help-button" title="Help" onclick = "location.href = '{% url 'help' %}'"></button>
+    <input type="date" class="calendar" title="Calendar">
     
-    <div class='username'>
+    <div class= "username">
         <p>{{ user.username }}<p>
     </div>
 
@@ -135,7 +139,7 @@
         <img src="{{ '../media/profile_pics/profilepicture.png' }}" class="profile-picture-navbar" alt="default profile picture">
     {% endif %}
 
-    <img src="{% static 'images/logo.jpeg' %}" class= "navbar-logo" alt="Logo">
+    <img src="{% static 'images/logo.jpeg' %}" class= "navbar-logo" alt="Logo" title="Home">
 
     <html>
         {% block content %}
