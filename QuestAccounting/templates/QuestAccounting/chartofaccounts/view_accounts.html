@@ -35,10 +35,12 @@
     }
 
     .form-center {
+        
         position: fixed;
         top: 50%;
         left: 50%;
-        display: flex;
+        /* display: flex; */
+        display: grid;
         justify-content: center;
         transform: translate(-50%, -50%);
         flex-direction: column;
@@ -48,19 +50,22 @@
         padding: 25px;
         border: 3px solid #ffffff;
         color: #ffffff;
+
       }
   
-    table {
+    table { /*styling for head and body of table*/
       margin-top: 15px;
       border-collapse: collapse;
       border: 3px solid black;
-      max-width: 2000px;
+      max-width: 1000px;
       min-width: 70vw;
-      width: auto;
+
+      overflow: scroll;
+    
       
     }
   
-    th {
+    th { /*styling for top of the table*/
       text-align: center;
       border-top: 2px solid black;
       border-bottom: 2px solid black;
@@ -69,13 +74,14 @@
       padding: 5px;
     }
   
-    td {
+    td { /*styling for inside the table*/
       text-align: center;
       border-top: 2px solid black;
       border-bottom: 2px solid black;
       color: #000000;
       vertical-align: center;
       padding: 5px;
+
     }
     
     .first {
@@ -164,6 +170,8 @@
       color: white;
       background-color: transparent; 
     }
+
+
   
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -232,9 +240,10 @@
             <th>Status</th>
           </tr>
         </thead>
+        <!-- list starts here of account information -->
         <tbody>
           {% for account in account_info %}
-            <tr>
+            <tr >
             <td class = first>
               <div class = first-td>
                 <button type = "button" class = buttons onclick = "location.href = '{% url 'general_ledger' account.account_name %}'">

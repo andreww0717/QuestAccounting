@@ -14,7 +14,7 @@
         </div>
     <form method="post" action="{% url 'deactivate_accounts' account.account_name %}">
         {% csrf_token %}
-        <div style="display:none">
+        <div style="display:none" >
             {{ form.account_name }}
             {{ form.account_number }}
             {{ form.account_description }}
@@ -56,6 +56,7 @@
 </div>
 
 <style>
+
 
   .form-center {
     position: fixed;
