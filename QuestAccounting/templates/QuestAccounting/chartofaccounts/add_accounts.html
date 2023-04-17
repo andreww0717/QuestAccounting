@@ -9,9 +9,7 @@
     <div class = back-button>
       <button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">Back</button>
     </div>
-        <div class='title'>
-            <h2>Add Account</h2>
-        </div>
+      <h2>Add Account</h2>
   </div>
       <form method="post" action="{% url 'add_accounts' %}">
         {% csrf_token %}
@@ -77,9 +75,6 @@
 
 <style>
 
-    body{
-      background-color:#000000;
-    }
 
     .h2 {
         color: #ffffff;

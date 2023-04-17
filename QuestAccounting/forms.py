@@ -3,21 +3,21 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from QuestAccounting import models
 from django.core.mail import send_mail
-from .models import AccountRequest, UserProfile, AccountModel
+from .models import AccountRequest, UserProfile, AccountModel, JournalEntriesModel
 
 
 
 
 userList = User.objects.values_list('username', flat = True)
 
-
+# form that holds info for creating a user request
 class UserCreationRequest(models.ModelForm):
     class Meta:
         model = AccountRequest
         fields = ['first_name', 'last_name', 'date_of_birth', 'email']
 
     def save(self, *args, **kwargs):
-        # Send email notification to admin when a new request is submitted
+        # Sends email notification when a new request is submitted
         if self.instance.pk is None:
             send_mail(
                 'New user creation request',
@@ -29,6 +29,7 @@ class UserCreationRequest(models.ModelForm):
             )
         return super().save(*args, **kwargs)
     
+# form that holds info for created user
 class UserCreation(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True)
     last_name = forms.CharField(max_length=30, required=True)
@@ -40,7 +41,7 @@ class UserCreation(UserCreationForm):
         fields = ['username', 'first_name', 'last_name','date_of_birth', 'email', 'password1', 'password2']
 
     def save(self, *args, **kwargs):
-        # Send email notification to user when account is created
+        # Sends email notification to user when account is created
         if self.instance.pk is None:
             send_mail(
                 'Account Request Approved',
@@ -52,6 +53,7 @@ class UserCreation(UserCreationForm):
             )
         return super().save(*args, **kwargs)
     
+# form for editting a users information
 class EditUser(forms.ModelForm):
     username = forms.CharField(max_length=30, required = True)
     first_name = forms.CharField(max_length=30, required = True)
@@ -64,6 +66,7 @@ class EditUser(forms.ModelForm):
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'is_active']
 
+# form that takes the user's email for password reset
 class PasswordReset(PasswordResetForm):
     email = forms.EmailField(required = True)
 
@@ -71,6 +74,7 @@ class PasswordReset(PasswordResetForm):
         model = User
         fields = ['email']
 
+# form that adds profile pic for user
 class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
@@ -80,14 +84,28 @@ class UserProfileForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['profile_pic'].widget.attrs.update({'class': 'form-control-file'})
 
+# form that holds info for accounts being created in chart of accounts
 class AccountForm(forms.ModelForm):
     class Meta:
         model = AccountModel
         fields = ['account_name', 'account_number','account_description','normal_side','account_category','account_subcategory','initial_balance','debit','credit','balance','user_id','order','statement','comment', 'activated']
 
+# form to select user group
 class GroupSelection(forms.ModelForm):
     group = forms.ModelChoiceField(queryset=Group.objects.all())
     
     class Meta:
         model = Group
         fields = ['group']
+
+#form that holds journal entry info
+class JournalEntriesForm(forms.ModelForm):
+    class Meta:
+        model = JournalEntriesModel
+        fields = ['account_name', 'debit', 'credit']
+
+# form that holds email info to send to users
+class EmailForm(forms.Form):
+    recipient = forms.ModelChoiceField(queryset=User.objects.all())
+    subject = forms.CharField(max_length=100)
+    message = forms.CharField(widget=forms.Textarea)

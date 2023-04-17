@@ -100,7 +100,7 @@
     font-size: 22px;
     margin-right: 10px;
     text-align: right;
-}
+  }
 
   .info input[type="text"], .info input[type="email"] {
     width: 325px;
@@ -112,7 +112,7 @@
     color: #000000;
     font-size: 18px;
     box-shadow: 2px 2px 2px #888888;
-}
+  }
 
   button[type="submit"]{
     background-color: #ffffff;
@@ -153,6 +153,10 @@
     font-size: 15px;
     font-weight: bold;
   }
+
+  {% block profilepicture %}
+    display: none;
+  {% endblock%}
 
 </style>
 

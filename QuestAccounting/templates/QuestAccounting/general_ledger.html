@@ -2,13 +2,62 @@
 
 
 {% block content %}
-
-<h1>Ledger<h1>
+<div class="form-center">
+    <div class="t-chart-title">
+        <h1 style="float: left;">Dr<h1>
+        <h1 class = "account_name">{{ account.account_name }}<h1>
+        <h1 style="float: right; margin: 0;">Cr<h1>
+    </div>
+    {% for account in account_info %}
+    {% endfor %}
+</div>
 
 <style>
-    h1 {
+    .form-center {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        justify-content: center;
+        transform: translate(-50%, -50%);
+        flex-direction: column;
+        align-items: center;
+        background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+        border-radius: 25px;
+        padding: 50px;
+        border: 3px solid #FFFFFF;
+      }
+
+    .t-chart-title{
         color: #ffffff;
+        width: 100%;
+        display: flex;
+        text-align: center;
+        border-bottom: 3px solid #ffffff;
     }
+
+    .account_name{
+        padding-left: 250px;
+        padding-right: 250px;
+    }
+
+    .t-chart-debit{
+        color: #ffffff;
+        width: 50%;
+        display: flex;
+        text-align: center;
+        border-right: 3px solid #ffffff;
+    }
+
+    .t-chart-credit{
+        color: #ffffff;
+        width: 50%;
+        text-align: center;
+        border-left: 3px solid #ffffff;
+    }
+
+   
+
 </style>
 
 {% endblock %}

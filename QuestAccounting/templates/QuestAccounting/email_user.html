@@ -1,0 +1,101 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+
+<head>
+    <style>
+        .form-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            display: flex;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+            border-radius: 25px;
+            padding-left: 50px;
+            padding-right: 50px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+            border: 3px solid #FFFFFF;
+            color: #ffffff;
+          }
+          
+          .form-input {
+            display: inline-block;
+            margin-right: 10px;
+          }
+        
+          .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+            
+          }
+        
+          label {
+            font-weight: bold;
+            color: #FFFFFF;
+            font-size: 18px;
+            
+          }
+        
+          input[type="text"],
+          textarea {
+            padding: 10px;
+            border-radius: 5px;
+            border: 3px solid #000000;
+            width: 100%;
+            font-size: 15px;
+          }
+        
+          button[type="submit"] {
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 3px solid #000000;
+            display:block;
+            margin:0 auto;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 2px 2px 2px #888888;
+          }
+
+          select{
+            padding: 10px;
+            border-radius: 5px;
+            border: 3px solid #000000;
+            width: 100%;
+            font-size: 15px;
+          }
+    </style>
+</head>
+
+<div class = "form-center">
+    
+    <h2>Email</h2>
+   
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="recipient">Recipient:</label>
+            {{ form.recipient }}
+        </div>
+            <div class="form-group">
+            <label for="subject">Subject:</label>
+            {{ form.subject }}
+        </div>
+            <div class="form-group">
+            <label for="message">Message:</label>
+            {{ form.message }}
+        </div>
+            <button type="submit">Send Email</button>
+    </form>
+</div>
+
+{% endblock %}

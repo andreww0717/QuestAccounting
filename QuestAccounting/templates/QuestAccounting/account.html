@@ -44,13 +44,7 @@
     </div>
 </div>
 
-
-
     <style>
-        body{
-            background-color: #000000;
-        }
-
         .form-center {
             position: fixed;
             top: 50%;
@@ -90,8 +84,8 @@
             font-size: 18px;
             font-weight: bold;
             position: absolute;
-            top: 90;
-            right: 10;
+            top: 250;
+            left: 20;
           }
 
           .edit{
@@ -122,6 +116,10 @@
             text-align: center;
             width: 100%;
           }
+
+          {% block profilepicture %}display: none;{% endblock%}
+
+          {% block nav_user_account %} style = "margin-right: 0;" {% endblock %}
         
     </style>
 {% endblock %}
