@@ -102,7 +102,7 @@ class GroupSelection(forms.ModelForm):
 class JournalEntriesForm(forms.ModelForm):
     class Meta:
         model = JournalEntriesModel
-        fields = ['account_name', 'debit', 'credit']
+        fields = ['account_name', 'debit', 'credit', 'status']
 
 # form that holds email info to send to users
 class EmailForm(forms.Form):

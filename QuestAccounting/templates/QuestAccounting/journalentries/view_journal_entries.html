@@ -51,6 +51,7 @@
             <th class= "text">Account</th>
             <th class= "numbers">Debit</th>
             <th class= "numbers">Credit</th>
+            <th class= "text">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -60,6 +61,7 @@
             <td class= "text" >{{ entry.account_name }}</td>
             <td class= "numbers" >{{ entry.debit }}</td>
             <td class= "numbers" >{{ entry.credit }}</td>
+            <td class= "text" >{{ entry.status }}</td>
           </tr>
           {% endfor %}
         </tbody>

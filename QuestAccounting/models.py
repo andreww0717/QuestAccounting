@@ -46,6 +46,7 @@ class JournalEntriesModel(models.Model):
     account_name = models.ForeignKey(AccountModel, on_delete=models.CASCADE)
     debit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     credit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    status = models.CharField(max_length=50, default="pending", blank=True, null=True)
 
 # adds the database that tracks the event logs
 class EventLog(models.Model):

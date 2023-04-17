@@ -8,8 +8,6 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-
-
     # credential based urls
     path('', views.home, name = 'home'),
     path('login/', views.login_view, name = "login"),
@@ -17,47 +15,37 @@ urlpatterns = [
     path('logout/', views.logout_view, name = "logout"),
 
 
-    # homepage urls
+    # admin based urls
     path('administrator/', views.admin, name = "admin"),
+    path('administrator/user_creation/', views.user_creation, name = "user_creation"),
+    path('administrator/user_creation/<int:user_id>/', views.group_selection, name = "group_selection"),
+
+
+    # manager+ based urls
     path('manager/', views.manager, name = "manager"),
-    path('regular/', views.regular, name = "regular"),
-
-
-    # user view urls
     path('user_view/', views.user_view, name = "user_view"),
     path('user_management/', views.user_management, name = "user_management"),
     path('user_view/<int:user_id>/', views.individual_user_view, name = "detailed_user"),
     path('user_view/<int:user_id>/edit_user', views.edit_user, name = "edit_user"),
 
 
-    # admin user creation urls
-    path('administrator/user_creation/', views.user_creation, name = "user_creation"),
-    path('administrator/user_creation/<int:user_id>/', views.group_selection, name = "group_selection"),
-
-
-
-    # admin email url
-    path('email_user', views.email_user, name = "email_user"),
-
-
-    # journal entry urls
     path('journals/', views.journal_entries, name = "journal_entries"),
     path('journals/view', views.view_journal_entries, name = "view_journal_entries"),
     path('journals/add', views.add_journal_entries, name = "add_journal_entries"),
     path('journals/pending', views.pending_journal_entries, name = "pending_journal_entries"),
     path('journals/all', views.all_journal_entries, name = "all_journal_entries"),
+    path('journals/approve/<int:id>', views.approve_journal_entries, name = "approve_journal_entries"),
+    path('journals/reject/<int:id>', views.reject_journal_entries, name = "reject_journal_entries"),
 
 
-    # user account based urls
+    
+
+
+    # regular+ based urls
+    path('regular/', views.regular, name = "regular"),
     path('account/', views.account, name = "account"),
     path('account/edit_profile_picture', views.edit_profile_picture, name = "edit_profile_picture"),
-
-
-    # help urls
     path('help/', views.help, name = "help"),
-
-
-    # event log url
     path('event_logs/', views.event_logs, name = "event_logs"),
     
 

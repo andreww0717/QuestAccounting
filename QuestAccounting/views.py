@@ -584,6 +584,8 @@ def add_journal_entries(request):
 
 def pending_journal_entries(request):
     user = request.user
+    journal_entries = JournalEntriesModel.objects.filter(status="pending")
+
     total_credit = JournalEntriesModel.objects.aggregate(Sum('credit'))['credit__sum']
     total_debit = JournalEntriesModel.objects.aggregate(Sum('debit'))['debit__sum']
     if total_credit == total_debit:
@@ -591,13 +593,30 @@ def pending_journal_entries(request):
     else:
         doTheyMatch = False
     context = {'user': user, 
+               'journal_entries': journal_entries, 
                'doTheyMatch': doTheyMatch, 
                'total_credit': total_credit, 
                'total_debit': total_debit, 
                'is_superuser': request.user.is_superuser, 
                'groups': request.user.groups.values_list('name', flat=True)
                }
-    return render(request, "QuestAccounting/journalentries/add_journal_entries.html", context)
+    return render(request, "QuestAccounting/journalentries/pending_journal_entries.html", context)
+
+def approve_journal_entries(request, id):
+    journal_entries = JournalEntriesModel.objects.filter(status="pending")
+    journal_entry = get_object_or_404(JournalEntriesModel, id=id)
+    journal_entry.status = "approved"
+    journal_entry.save()
+
+    return redirect(pending_journal_entries)
+
+def reject_journal_entries(request, id):
+    journal_entries = JournalEntriesModel.objects.filter(status="pending")
+    journal_entry = get_object_or_404(JournalEntriesModel, id=id)
+    journal_entry.status = "rejected"
+    journal_entry.save()
+
+    return redirect(pending_journal_entries)
 
 def all_journal_entries(request):
     user = request.user
@@ -614,7 +633,7 @@ def all_journal_entries(request):
                'is_superuser': request.user.is_superuser, 
                'groups': request.user.groups.values_list('name', flat=True)
                }
-    return render(request, "QuestAccounting/journalentries/add_journal_entries.html", context)
+    return render(request, "QuestAccounting/journalentries/all_journal_entries.html", context)
 
 
 
