@@ -46,6 +46,7 @@ urlpatterns = [
     path('journals/add', views.add_journal_entries, name = "add_journal_entries"),
     path('journals/pending', views.pending_journal_entries, name = "pending_journal_entries"),
     path('journals/all', views.all_journal_entries, name = "all_journal_entries"),
+    path('journals/pending/<int:id>', views.journal_entry_approval, name = "journal_entry_approval"),
 
 
     # user account based urls

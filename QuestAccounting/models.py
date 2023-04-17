@@ -40,12 +40,46 @@ class AccountModel(models.Model):
     def __str__(self):
         return self.account_name
 
+status_options = (
+        ('approved', 'Approved'),
+        ('pending', 'Pending'),
+        ('rejected', 'Rejected'),
+    )
+    
+
 # adds the database that tracks journal entries
 class JournalEntriesModel(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     account_name = models.ForeignKey(AccountModel, on_delete=models.CASCADE)
     debit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     credit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    status = models.CharField(max_length=10, choices=status_options, blank=True, default='approved')
+
+# adds the database that tracks pending journal entries
+class PendingJournalEntriesModel(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    account_name = models.ForeignKey(AccountModel, on_delete=models.CASCADE)
+    debit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    credit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    status = models.CharField(max_length=10, choices=status_options, blank=True, default='pending')
+
+# adds the database that tracks rejected journal entries
+class RejectedJournalEntriesModel(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    account_name = models.ForeignKey(AccountModel, on_delete=models.CASCADE)
+    debit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    credit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    status = models.CharField(max_length=10, choices=status_options, blank=True, default='rejected')
+    comment = models.TextField(blank=True)
+
+# adds the database that tracks all journal entries
+class AllJournalEntriesModel(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    account_name = models.ForeignKey(AccountModel, on_delete=models.CASCADE)
+    debit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    credit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
+    status = models.CharField(max_length=10, choices=status_options, blank=True, default='pending')
+    comment = models.TextField(blank=True)
 
 # adds the database that tracks the event logs
 class EventLog(models.Model):

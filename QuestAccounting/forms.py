@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from QuestAccounting import models
 from django.core.mail import send_mail
-from .models import AccountRequest, UserProfile, AccountModel, JournalEntriesModel
+from .models import AccountRequest, AllJournalEntriesModel, PendingJournalEntriesModel, RejectedJournalEntriesModel, UserProfile, AccountModel, JournalEntriesModel
 
 
 
@@ -101,9 +101,28 @@ class GroupSelection(forms.ModelForm):
 
 #form that holds journal entry info
 class JournalEntriesForm(forms.ModelForm):
+
     class Meta:
         model = JournalEntriesModel
+        fields = ['account_name', 'debit', 'credit', 'status']
+
+#form that holds journal entry info
+class PendingJournalEntriesForm(forms.ModelForm):
+    class Meta:
+        model = PendingJournalEntriesModel
         fields = ['account_name', 'debit', 'credit']
+
+#form that holds journal entry info
+class RejectedJournalEntriesForm(forms.ModelForm):
+    class Meta:
+        model = RejectedJournalEntriesModel
+        fields = ['account_name', 'debit', 'credit', 'status']
+
+#form that holds journal entry info
+class AllJournalEntriesForm(forms.ModelForm):
+    class Meta:
+        model = AllJournalEntriesModel
+        fields = ['account_name', 'debit', 'credit', 'status']
 
 # form that holds email info to send to users
 class EmailForm(forms.Form):

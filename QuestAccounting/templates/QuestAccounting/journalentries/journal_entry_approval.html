@@ -1,0 +1,138 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+
+<style>
+
+    .form-center {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        justify-content: center;
+        transform: translate(-50%, -50%);
+        flex-direction: column;
+        align-items: center;
+        background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+        border-radius: 25px;
+        padding: 25px;
+        border: 3px solid #ffffff;
+        color: #ffffff;
+      }
+
+      table {
+        margin-top: 15px;
+        border-collapse: collapse;
+        border: 3px solid black;
+        width: auto;
+        text-align: center;
+      }
+
+      th{
+        border-bottom: 3px solid black;
+      }
+
+      td{
+        border-bottom: 2px solid black;
+        background-color: transparent;
+      }
+      
+      thead{
+        background-color: transparent;
+        color: white;
+      }
+
+      .text{
+        width: 200px;
+      }
+
+      .numbers{
+        width: 100px;
+      }
+
+      .buttons {
+        background-color: #ffffff;
+        color: #000000;
+        border-radius: 5px;
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        text-align: center;
+        border: 3px solid #000000;
+        display: block;
+        margin:0 auto;
+        font-size: 18px;
+        font-weight: bold;
+        box-shadow: 2px 2px 2px #888888;
+      }
+      
+      .top {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+      
+      .title{
+        margin-right: 30%;
+      }
+
+      .dataTables_filter input[type=search] {
+        background-color: #ffffff;
+      }
+
+      .dataTables_length select{
+        color: #000000;
+      }
+  
+      .dataTables_filter label, .dataTables_length label, .dataTables_info{
+        color: #ffffff !important;
+      }
+      
+      .dataTables_wrapper .dataTables_paginate .paginate_button.previous.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.next.disabled {
+        color: #fff !important;
+      }
+
+      
+      .dataTables_wrapper {
+        color: white;
+        background-color: transparent; 
+      }
+
+</style>
+
+{% if not doTheyMatch %}
+    <div class=error>
+        <div class = "error-header"><b>Error: Credit and Debit Do Not Match!</b></div>
+            <div class = "error-totals">
+                <div class = "error-text">Credit: {{ total_credit }}</div>
+                <button type = "button" class = "error-button" onclick = "location.href = '{% url 'view_journal_entries' %}'"> Go To View</button>
+                <button type = "button" class = "error-button" onclick = "location.href = '{% url 'add_journal_entries' %}'">Go To Add</button>
+                <div class = "error-text">Debit: {{ total_debit }}</div>
+            </div>
+        </div>
+    </div>
+  {% endif %}
+
+
+<div class='form-center'>
+        <form method="post">
+            {% csrf_token %}
+            <h1>Journal Entry Details</h1>
+            
+            <p><strong>ID:</strong> {{ journal_entry.id }}</p>
+            <p><strong>Account Name:</strong> {{ journal_entry.account_name}}</p>
+            <p><strong>Date:</strong> {{ journal_entry.date }}</p>
+            <p><strong>Credit:</strong> {{ journal_entry.credit }}</p>
+            <p><strong>Debit:</strong> {{ journal_entry.debit }}</p>
+            <p><strong>Status:</strong> {{ journal_entry.status }}</p>
+            <input type="text" name="account_name" value="{{ journal_entry.account_name_id }}" readonly/>
+            <input type="text" name="debit" value="{{ journal_entry.debit|default:"0" }}" readonly/>
+        <input type="text" name="credit" value="{{ journal_entry.credit|default:"0" }}" readonly/>
+
+            <button type="submit" name="approved">Approve</button>
+            <button type="submit" name="rejected">Reject</button>
+        </form>
+</div>
+
+{% endblock %}

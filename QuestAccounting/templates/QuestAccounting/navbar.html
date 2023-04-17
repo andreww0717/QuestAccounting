@@ -178,7 +178,7 @@
     {% if user.userprofile.profile_pic %}
         <img src="{{ user.userprofile.profile_pic.url }}" class="profile-picture-navbar" alt="{{ user.username }}'s profile picture">
     {% else %}
-        <img src="{{ '../media/profile_pics/profilepicture.png' }}" class="profile-picture-navbar" alt="default profile picture">
+        <img src="{{ '/media/profile_pics/profilepicture.png' }}" class="profile-picture-navbar" alt="default profile picture">
     {% endif %}
 
     <img src="{% static 'images/logo.jpeg' %}" class= "navbar-logo" alt="Logo" title="Home">

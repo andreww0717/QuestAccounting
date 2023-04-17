@@ -1,13 +1,14 @@
 
 from base64 import urlsafe_b64encode
+from gettext import translation
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.dispatch import Signal
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404, HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
-from QuestAccounting.models import AccountModel, EventLog, JournalEntriesModel, UserProfile
-from .forms import EmailForm, GroupSelection, UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset, AccountForm, JournalEntriesForm
+from QuestAccounting.models import AccountModel, AllJournalEntriesModel, EventLog, JournalEntriesModel, PendingJournalEntriesModel, RejectedJournalEntriesModel, UserProfile
+from .forms import AllJournalEntriesForm, EmailForm, GroupSelection, PendingJournalEntriesForm, RejectedJournalEntriesForm, UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset, AccountForm, JournalEntriesForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group, User
 from .signals import account_changed
@@ -16,6 +17,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.core.mail import EmailMessage
 from django.db.models import Sum
+from django.db import transaction
 
 # original login page 
 def home(request):
@@ -560,6 +562,8 @@ def view_journal_entries(request):
 def add_journal_entries(request):
     user = request.user
     form = JournalEntriesForm(request.POST)
+    accountant_form = PendingJournalEntriesForm(request.POST)
+    all_form = AllJournalEntriesForm(request.POST)
     total_credit = JournalEntriesModel.objects.aggregate(Sum('credit'))['credit__sum']
     total_debit = JournalEntriesModel.objects.aggregate(Sum('debit'))['debit__sum']
     if total_credit == total_debit:
@@ -576,7 +580,20 @@ def add_journal_entries(request):
                }
     if request.method == 'POST':
         if form.is_valid():
-            form.save()
+            journal_entry = form.save(commit=False)
+            if 'Regular' in request.user.groups.values_list('name', flat=True):
+                journal_entry.status = 'pending'
+                accountant_form.save()
+                all_form.save()
+            elif  'Manager' in request.user.groups.values_list('name', flat=True) or 'Admin' in request.user.groups.values_list('name', flat=True):
+                journal_entry.status = 'approved'
+                form.save()
+                with transaction.atomic():
+                    accountant_entry = accountant_form.save(commit=False)
+                    accountant_entry.save()
+                    accountant_entry.delete()
+                all_form.save()
+
             return redirect(journal_entries)
 
     
@@ -584,6 +601,7 @@ def add_journal_entries(request):
 
 def pending_journal_entries(request):
     user = request.user
+    pending_journal_entries = PendingJournalEntriesModel.objects.all()
     total_credit = JournalEntriesModel.objects.aggregate(Sum('credit'))['credit__sum']
     total_debit = JournalEntriesModel.objects.aggregate(Sum('debit'))['debit__sum']
     if total_credit == total_debit:
@@ -591,16 +609,18 @@ def pending_journal_entries(request):
     else:
         doTheyMatch = False
     context = {'user': user, 
+               'pending_journal_entries': pending_journal_entries,
                'doTheyMatch': doTheyMatch, 
                'total_credit': total_credit, 
                'total_debit': total_debit, 
                'is_superuser': request.user.is_superuser, 
                'groups': request.user.groups.values_list('name', flat=True)
                }
-    return render(request, "QuestAccounting/journalentries/add_journal_entries.html", context)
+    return render(request, "QuestAccounting/journalentries/pending_journal_entries.html", context)
 
 def all_journal_entries(request):
     user = request.user
+    all_journal_entries = AllJournalEntriesModel.objects.all()
     total_credit = JournalEntriesModel.objects.aggregate(Sum('credit'))['credit__sum']
     total_debit = JournalEntriesModel.objects.aggregate(Sum('debit'))['debit__sum']
     if total_credit == total_debit:
@@ -608,13 +628,69 @@ def all_journal_entries(request):
     else:
         doTheyMatch = False
     context = {'user': user, 
+               'all_journal_entries': all_journal_entries,
                'doTheyMatch': doTheyMatch, 
                'total_credit': total_credit, 
                'total_debit': total_debit, 
                'is_superuser': request.user.is_superuser, 
                'groups': request.user.groups.values_list('name', flat=True)
                }
-    return render(request, "QuestAccounting/journalentries/add_journal_entries.html", context)
+    return render(request, "QuestAccounting/journalentries/all_journal_entries.html", context)
+
+def journal_entry_approval(request, id):
+    user = request.user
+    journal_entry = AllJournalEntriesModel.objects.get(id=id)
+    pending_entry = PendingJournalEntriesModel.objects.get(id=id)
+    if 'approved' in request.POST:
+            journal_entry.status = "approved"
+    if 'rejected' in request.POST:
+            journal_entry.status = "rejected"
+
+    form = JournalEntriesForm(instance=journal_entry)
+    total_credit = JournalEntriesModel.objects.aggregate(Sum('credit'))['credit__sum']
+    total_debit = JournalEntriesModel.objects.aggregate(Sum('debit'))['debit__sum']
+    if total_credit == total_debit:
+        doTheyMatch = True
+    else:
+        doTheyMatch = False
+
+    
+    if request.method == 'POST':
+        form = JournalEntriesForm(request.POST, instance=journal_entry)
+        form = RejectedJournalEntriesForm(request.POST, instance=journal_entry)  
+        
+        if form.is_valid():
+            if 'approved' in request.POST:
+                journal_entry_model = JournalEntriesModel.objects.create(
+                account_name=form.cleaned_data['account_name'],
+                debit=form.cleaned_data['debit'],
+                credit=form.cleaned_data['credit']
+                )
+                
+            if 'rejected' in request.POST:
+                journal_entry_model = RejectedJournalEntriesModel.objects.create(
+                account_name=form.cleaned_data['account_name'],
+                debit=form.cleaned_data['debit'],
+                credit=form.cleaned_data['credit']
+                )
+            journal_entry.save()
+            journal_entry_model.save()
+            pending_entry.delete()
+
+            return redirect(journal_entries)
+
+    context = {'user': user, 
+               'form': form,
+               'journal_entry': journal_entry,
+               'doTheyMatch': doTheyMatch, 
+               'total_credit': total_credit, 
+               'total_debit': total_debit, 
+               'is_superuser': request.user.is_superuser, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
+    return render(request, "QuestAccounting/journalentries/journal_entry_approval.html", context)
+
+
 
 
 

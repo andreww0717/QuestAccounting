@@ -32,11 +32,22 @@
             <label for="{{ form.credit.id_for_label }}">Credit:</label>
             {{ form.credit }}
         </div>
+
+        {% if 'Manager'  in groups or 'Admin' in groups%}
+          <div class="hidden">
+              <input type="text" name="status" value="{{ "approved" }}" readonly/>
+          </div>
+        {% endif %}
+        
         <button type="submit">Submit</button>
     </form>
 </div>
 
 <style>
+
+  .hidden{
+      display: none;
+  }
 
       .form-center {
         position: fixed;
