@@ -3,6 +3,19 @@
 
 {% block content %}
 
+{% if not doTheyMatch %}
+    <div class=error>
+        <div class = "error-header"><b>Error: Credit and Debit Do Not Match!</b></div>
+            <div class = "error-totals">
+                <div class = "error-text">Credit: {{ total_credit }}</div>
+                <button type = "button" class = "error-button" onclick = "location.href = '{% url 'view_journal_entries' %}'"> Go To View</button>
+                <button type = "button" class = "error-button" onclick = "location.href = '{% url 'add_journal_entries' %}'">Go To Add</button>
+                <div class = "error-text">Debit: {{ total_debit }}</div>
+            </div>
+        </div>
+    </div>
+  {% endif %}
+
 <div class="form-center">
     <h2>Add Journal Entry<h2>
     <form method="post">
@@ -19,11 +32,22 @@
             <label for="{{ form.credit.id_for_label }}">Credit:</label>
             {{ form.credit }}
         </div>
+
+        {% if 'Manager'  in groups or 'Admin' in groups%}
+          <div class="hidden">
+              <input type="text" name="status" value="{{ "approved" }}" readonly/>
+          </div>
+        {% endif %}
+        
         <button type="submit">Submit</button>
     </form>
 </div>
 
 <style>
+
+  .hidden{
+      display: none;
+  }
 
       .form-center {
         position: fixed;
