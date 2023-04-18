@@ -1,0 +1,217 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+{% load static %}
+
+{% block content %}
+<div class='form-center'>
+        <div class = top>
+          {% if previous_page == 'view_account_list'%}
+            <div class = back-button>
+              <button type = "button" onclick = "location.href = '{% url 'select_account_view' account.account_name%}'">Back</button>
+            </div>
+          {% else %}
+            <div class = back-button>
+              <button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">Back</button>
+            </div>
+          {% endif %}
+              <div class='title'>
+                  <h2>Edit Account</h2>
+              </div>
+        </div>
+    <form method="post" action="{% url 'edit_accounts' account.account_name %}">
+        {% csrf_token %}
+        <div class="form-account">
+            <label for="{{ form.account_name.id_for_label }}">Account Name:</label>
+            {{ form.account_name }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.account_number.id_for_label }}">Account Number:</label>
+            {{ form.account_number }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.account_description.id_for_label }}">Account Description:</label>
+            {{ form.account_description }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.normal_side.id_for_label }}">Normal Side:</label>
+            {{ form.normal_side }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.account_category.id_for_label }}">Account Category:</label>
+            {{ form.account_category }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.account_subcategory.id_for_label }}">Account Sub Category:</label>
+            {{ form.account_subcategory }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.initial_balance.id_for_label }}">Initial Balance:</label>
+            {{ form.initial_balance }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.debit.id_for_label }}">Debit:</label>
+            {{ form.debit }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.credit.id_for_label }}">Credit:</label>
+            {{ form.credit }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.balance.id_for_label }}">Balance:</label>
+            {{ form.balance }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.user_id.id_for_label }}">User ID:</label>
+            {{ form.user_id }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.order.id_for_label }}">Order:</label>
+            {{ form.order }}
+          </div>
+          <div class="form-group">
+            <label for="{{ form.statement.id_for_label }}">Statement:</label>
+            {{ form.statement }}
+          </div>
+          <div class="form-comment">
+            <label for="{{ form.comment.id_for_label }}">Comment:</label>
+            {{ form.comment }}
+          </div>
+          <div style="display:none">
+                        {{ form.activated }}
+          </div>
+        <button type="submit" >Save Account Information</button>
+    </form>
+</div>
+
+<style>
+
+.form-center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+    border-radius: 25px;
+    padding: 50px;
+    padding-left: 50px;
+    padding-right: 50px;
+    border: 3px solid #FFFFFF;
+  }
+
+  .form-center {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    transform: translate(-50%, -50%);
+    flex-direction: column;
+    align-items: center;
+    background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+    border-radius: 25px;
+    padding: 50px;
+    border: 3px solid #FFFFFF;
+    width: 1000px;
+    overflow: auto;
+  }
+  
+  .form-input {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+    text-align: left;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 32%;
+    float: left;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+
+  .form-account {
+      margin-bottom: 20px;
+      text-align: left;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 98.1%;
+      float: left;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+
+  label {
+    font-weight: bold;
+    color: #FFFFFF;
+    font-size: 18px;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  input[type="text"], textarea, input[type="number"] {
+    padding: 10px;
+    border-radius: 5px;
+    border: 3px solid #000000;
+    width: 100%;
+  }
+
+  textarea {
+      width: 99%;
+      height: 150px;
+      margin-bottom: 10px;
+  }
+
+  button[type="submit"] {
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 3px solid #000000;
+    display:block;
+    margin:0 auto;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px #888888;
+  }
+ 
+  button[type="button"] {
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 3px solid #000000;
+    display: block;
+    margin:0 auto;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 2px 2px 2px #888888;
+    float: left;
+
+  }
+
+  .top {
+    display: flex;
+    align-items: center;
+    width: 850px;
+    margin-bottom: 15px;
+  }
+
+  .back-button {  
+    margin-right: 250px;
+
+  }
+  
+
+</style>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'QuestAccounting/navbar.html' %}
+
+{% load static %}
+{% block navbar_brand %}
+{% if 'Admin' in groups %}
+
+    <a class="navbar-brand" href="{% url 'admin' %}">Admin Homepage</a>
+
+{% elif 'Manager' in groups %}
+
+    <a class="navbar-brand" href="{% url 'manager' %}">Manager Homepage</a>
+
+{% else %}
+
+    <a class="navbar-brand" href="{% url 'regular' %}">Homepage</a>
+
+{% endif %}
+{% endblock %}
+
+{% block nav_items %}
+
+{% if 'Admin' in groups %}
+
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'user_management' %}">User Management</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'view_accounts' %}">Accounts</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'event_logs' %}">Event Logs</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'journal_entries' %}">Journal Entries</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'email_user' %}">Email User</a>
+    </li>
+
+{% elif 'Manager' in groups %}
+
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'user_view' %}">User View</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'view_accounts' %}">Accounts</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'event_logs' %}">Event Logs</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'journal_entries' %}">Journal Entries</a>
+    </li>
+
+{% else %}
+    
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'user_view' %}">User View</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'view_accounts' %}">Accounts</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'event_logs' %}">Event Logs</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'journal_entries' %}">Journal Entries</a>
+    </li>
+
+{% endif %}
+
+
+{% endblock %}

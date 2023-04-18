@@ -1,0 +1,81 @@
+
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+<div = class='form-center'>
+    <div class = top>
+        <div class = back-button>
+          {% if 'Manager' in groups %}
+          <button type = "button" onclick = "location.href = '{% url 'manager' %}'">Back</button>
+          {% elif 'Regular' in groups %}
+          <button type = "button" onclick = "location.href = '{% url 'regular' %}'">Back</button>
+          {% else %}
+          <button type = "button" onclick = "location.href = '{% url 'admin' %}'">Back</button>
+          {% endif %}
+        </div>
+        <div class = title>
+          <h1>Accounts</h1>
+        </div>
+    </div>
+
+    {% for account in account_info %}
+    <form action="{% url 'select_account_view' account.account_name %}" method="get">
+        <button type="submit">{{ account.account_name }}</button>
+    </form>
+    {% endfor %}
+</div>
+    
+
+
+<style>  
+    
+    .form-center {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        display: flex;
+        justify-content: center;
+        transform: translate(-50%, -50%);
+        flex-direction: column;
+        align-items: center;
+        background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+        border-radius: 25px;
+        padding: 50px;
+        border: 3px solid #FFFFFF;
+      }
+
+      
+
+      button[type="button"] {
+      background-color: #ffffff;
+      color: #000000;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      border: 3px solid #000000;
+      display: block;
+      margin:0 auto;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 2px 2px 2px #888888;
+    }
+      
+    button[type="submit"] {
+        color: #FFFFFF;
+        font-size: 22px;
+        background-color: #1973D1;
+        width: 250px;
+        height 50px;
+        border: 3px solid #FFFFFF;
+        border-radius: 10px;
+    }
+    .legend{
+        color: #FFFFFF;
+        margin-bottom: 15px;
+    }
+
+</style>
+
+{% endblock %}
