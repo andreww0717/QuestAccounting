@@ -29,7 +29,7 @@ class AccountModel(models.Model):
     initial_balance = models.DecimalField(max_digits=20, decimal_places=2)
     debit = models.DecimalField(max_digits=20, decimal_places=2)
     credit = models.DecimalField(max_digits=20, decimal_places=2)
-    balance = models.DecimalField(max_digits=20, decimal_places=2)
+    balance = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     user_id = models.ForeignKey(User, on_delete=models.PROTECT)
     order = models.CharField(max_length=2)
@@ -54,6 +54,26 @@ class JournalEntriesModel(models.Model):
     debit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     credit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     status = models.CharField(max_length=10, choices=status_options, blank=True, default='approved')
+
+    def save(self, *args, **kwargs):
+        super(JournalEntriesModel, self).save(*args, **kwargs)
+        initial_balance = self.account_name.initial_balance
+        balance = self.account_name.balance
+        debit = self.account_name.debit
+        credit = self.account_name.credit
+        debit += self.debit
+        credit += self.credit
+
+        if debit == credit:
+            balance = initial_balance + debit
+        elif debit != credit: 
+            balance = None
+
+        self.account_name.debit = debit
+        self.account_name.credit = credit
+        self.account_name.balance = balance
+        self.account_name.save()
+        
 
 # adds the database that tracks pending journal entries
 class PendingJournalEntriesModel(models.Model):

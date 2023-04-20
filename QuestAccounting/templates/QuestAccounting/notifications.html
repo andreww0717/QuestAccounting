@@ -1,0 +1,65 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+
+    <script>
+
+        $(document).ready(function() {
+            jQuery('#journal-entries').DataTable({
+                "order": [[0, "desc"]]
+            });
+        });
+
+    </script>
+
+    <style>
+
+        .form-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            display: flex;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+            border-radius: 25px;
+            padding: 25px;
+            border: 3px solid #ffffff;
+            color: #ffffff;
+          }
+          
+        h1 {
+            margin-bottom: 15px;
+            text-decoration: underline;
+        }
+        a, a:hover {
+            color: white;
+        }
+    
+    </style>
+</head>
+
+<div class="form-center">
+    <h1>Notifications</h1>
+    {% if pending %}
+        {% if pending|length == 1 %}
+            <h3>There is {{ pending|length }} pending journal entries.</h3>
+            <a href="{% url 'pending_journal_entries' %}" class="button">View Pending Journals</a>
+        {% else %}
+            <h3>There are {{ pending|length }} pending journal entries. </h3>
+            <a href="{% url 'pending_journal_entries' %}" class="button">View Pending Journals</a>
+        {% endif %}
+    {% else %}
+        <h3>There are no pending journal entries.</h3>
+{% endif %}
+</div>
+
+{% endblock %}

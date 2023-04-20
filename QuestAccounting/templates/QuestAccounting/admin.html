@@ -3,30 +3,16 @@
 
 {% block content %}
 
-
-    
-<div class="container" style= "position: fixed; top: 50%; left: 50%; height: 450px; width: 700px;">
-    <div class="form-center" style="position: fixed; top: 26%; left: 50%;">
-        <button type = "button" onclick = "location.href = '{% url 'view_account_list' %}'">
-            <h1>View Account List</h1>
-        </button>
-    </div>
-
-    <div class="form-center" style="position: fixed; top: 50%; left: 50%;">
-        <button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">
-            <h1>View Accounts</h1>
-        </button>
-    </div>
-
-    <div class="form-center" style= "position: fixed; top: 74%; left: 50%;">
-        <button type = "button" onclick = "location.href = '{% url 'journal_entries' %}'">
-            <h1>Journal Entries</h1>
-        </button>
-    </div>
-</div>
-
 <style>
 
+    a, a:hover {
+        color: white;
+        text-decoration: none;
+    }
+
+    h3{
+        display: flex;
+    }
     .container {
         transform: translate(-50%, -50%);
     }
@@ -76,5 +62,35 @@
     {% endblock%}
    
 </style>
+
+{% if pending %}
+<div class = "form-center" style= "position: fixed; top: 10%; left: 50%; height: 100px; width: 550px;">
+    <div style = "display: flex;">
+        <h3 style = "margin-right: 15px; margin-left: 25px;">There are pending journal entries.</h3> <a onclick="this.parentNode.parentNode.style.display = 'none';" style="cursor: pointer;" title="Dismiss Notification" class="button">X</a>
+    </div>
+            <a href="{% url 'pending_journal_entries' %}" class="button">View Pending Journals</a>
+</div>
+{% endif %}
+<div class="container" style= "position: fixed; top: 50%; left: 50%; height: 450px; width: 700px;">
+    <div class="form-center" style="position: fixed; top: 26%; left: 50%;">
+        <button type = "button" onclick = "location.href = '{% url 'view_account_list' %}'">
+            <h1>View Account List</h1>
+        </button>
+    </div>
+
+    <div class="form-center" style="position: fixed; top: 50%; left: 50%;">
+        <button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">
+            <h1>View Accounts</h1>
+        </button>
+    </div>
+
+    <div class="form-center" style= "position: fixed; top: 74%; left: 50%;">
+        <button type = "button" onclick = "location.href = '{% url 'journal_entries' %}'">
+            <h1>Journal Entries</h1>
+        </button>
+    </div>
+</div>
+
+
 
 {% endblock %}

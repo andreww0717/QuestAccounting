@@ -55,9 +55,11 @@ def login_view(request):
 @login_required
 @user_passes_test(lambda u: u.groups.filter(name='Admin').exists())
 def admin(request):
+    pending = PendingJournalEntriesModel
     context = {
         'is_superuser': request.user.is_superuser,
-        'groups': request.user.groups.values_list('name', flat=True),  
+        'groups': request.user.groups.values_list('name', flat=True), 
+        'pending': pending,  
     }
     
     return render(request, 'QuestAccounting/admin.html', context)
@@ -579,7 +581,11 @@ def add_journal_entries(request):
                'groups': request.user.groups.values_list('name', flat=True)
                }
     if request.method == 'POST':
+        print(form.errors)
+        print(1)
         if form.is_valid():
+            print(2)
+            print(request.user.groups.values_list('name', flat=True))
             journal_entry = form.save(commit=False)
             if 'Regular' in request.user.groups.values_list('name', flat=True):
                 journal_entry.status = 'pending'
@@ -735,3 +741,26 @@ def email_user(request):
                'groups': request.user.groups.values_list('name', flat=True)
                }
     return render(request, "QuestAccounting/email_user.html", context)
+
+
+
+
+
+
+
+
+
+
+
+
+# Notifications View
+def notifications(request):
+    user = request.user
+    pending = PendingJournalEntriesModel.objects.all()
+    print(pending)
+    context = {'user': user, 
+               'pending': pending,
+               'is_superuser': request.user.is_superuser, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
+    return render(request, "QuestAccounting/notifications.html", context)
