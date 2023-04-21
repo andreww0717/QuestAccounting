@@ -482,12 +482,14 @@ def select_account_view(request, account_name):
 # General Ledger View
 def general_ledger(request, account_name):
     user = request.user
-    account_info = AccountModel.objects.all()
     account = get_object_or_404(AccountModel, account_name=account_name)
+    account_info = JournalEntriesModel.objects.filter(account_name__account_name=account_name)
+    balance = account.initial_balance
     context = {'user': user, 
                'is_superuser': request.user.is_superuser, 
                'account': account, 
-               'account_info': account_info, 
+               'account_info': account_info,
+               'balance': balance, 
                'groups': request.user.groups.values_list('name', flat=True)
                }
     return render(request, "QuestAccounting/general_ledger.html", context)
