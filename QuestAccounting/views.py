@@ -55,9 +55,11 @@ def login_view(request):
 @login_required
 @user_passes_test(lambda u: u.groups.filter(name='Admin').exists())
 def admin(request):
+    pending = PendingJournalEntriesModel
     context = {
         'is_superuser': request.user.is_superuser,
-        'groups': request.user.groups.values_list('name', flat=True),  
+        'groups': request.user.groups.values_list('name', flat=True), 
+        'pending': pending,  
     }
     
     return render(request, 'QuestAccounting/admin.html', context)
@@ -480,12 +482,14 @@ def select_account_view(request, account_name):
 # General Ledger View
 def general_ledger(request, account_name):
     user = request.user
-    account_info = AccountModel.objects.all()
     account = get_object_or_404(AccountModel, account_name=account_name)
+    account_info = JournalEntriesModel.objects.filter(account_name__account_name=account_name)
+    balance = account.initial_balance
     context = {'user': user, 
                'is_superuser': request.user.is_superuser, 
                'account': account, 
-               'account_info': account_info, 
+               'account_info': account_info,
+               'balance': balance, 
                'groups': request.user.groups.values_list('name', flat=True)
                }
     return render(request, "QuestAccounting/general_ledger.html", context)
@@ -579,7 +583,11 @@ def add_journal_entries(request):
                'groups': request.user.groups.values_list('name', flat=True)
                }
     if request.method == 'POST':
+        print(form.errors)
+        print(1)
         if form.is_valid():
+            print(2)
+            print(request.user.groups.values_list('name', flat=True))
             journal_entry = form.save(commit=False)
             if 'Regular' in request.user.groups.values_list('name', flat=True):
                 journal_entry.status = 'pending'
@@ -735,3 +743,26 @@ def email_user(request):
                'groups': request.user.groups.values_list('name', flat=True)
                }
     return render(request, "QuestAccounting/email_user.html", context)
+
+
+
+
+
+
+
+
+
+
+
+
+# Notifications View
+def notifications(request):
+    user = request.user
+    pending = PendingJournalEntriesModel.objects.all()
+    print(pending)
+    context = {'user': user, 
+               'pending': pending,
+               'is_superuser': request.user.is_superuser, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
+    return render(request, "QuestAccounting/notifications.html", context)

@@ -4,7 +4,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
-from .models import  AccountModel, EventLog
+from .models import  AccountModel, EventLog, JournalEntriesModel
 
 
 
@@ -13,7 +13,6 @@ from .models import  AccountModel, EventLog
 User = get_user_model()
 
 # how event logs are saved when an account is created or edited
-
 
 account_changed = Signal()
 
@@ -97,5 +96,15 @@ def log_account_model_change_pre_save(sender, user, instance, new, **kwargs):
                 user=user
             )
 
-        
+# # Signal to update account balance from journal entries
+# @receiver(post_save, sender=JournalEntriesModel)
+# def update_accounts(sender, instance, **kwargs):
+#     account_name = instance.account_name_id
+#     accounts = AccountModel.objects.filter(name=account_name)
+#     for account in accounts:
+#         if account.debit == account.credit:
+#             account.balance = account.debit + account.initial_balance
+#         elif account.debit != account.credit:
+            
+#         account.save()
 

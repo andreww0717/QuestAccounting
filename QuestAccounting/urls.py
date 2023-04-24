@@ -35,6 +35,10 @@ urlpatterns = [
     path('administrator/user_creation/<int:user_id>/', views.group_selection, name = "group_selection"),
 
 
+    # notification url
+    path('notifications', views.notifications, name = "notifications"),
+
+
 
     # admin email url
     path('email_user', views.email_user, name = "email_user"),
