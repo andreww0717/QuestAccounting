@@ -600,6 +600,7 @@ def add_journal_entries(request):
                     accountant_entry = accountant_form.save(commit=False)
                     accountant_entry.save()
                     accountant_entry.delete()
+                    
                 all_form.save()
 
             return redirect(journal_entries)
@@ -766,3 +767,53 @@ def notifications(request):
                'groups': request.user.groups.values_list('name', flat=True)
                }
     return render(request, "QuestAccounting/notifications.html", context)
+
+
+
+
+
+
+# Financial Sheet Views
+def financial_sheets(request):
+    user = request.user
+    
+    context = {'user': user,
+
+              'is_superuser': request.user.is_superuser, 
+              'groups': request.user.groups.values_list('name', flat=True)
+              }
+    return render(request, "QuestAccounting/financialsheets/financial_sheets.html", context)
+
+def trial_balance(request):
+    user = request.user
+    accounts = AccountModel.objects.all()
+    context = {'user': user, 
+              'accounts': accounts, 
+              'is_superuser': request.user.is_superuser, 
+              'groups': request.user.groups.values_list('name', flat=True)
+              }
+    return render(request, "QuestAccounting/financialsheets/trial_balance.html", context)
+
+def balance_sheet(request):
+    user = request.user
+    context = {'user': user, 
+              'is_superuser': request.user.is_superuser, 
+              'groups': request.user.groups.values_list('name', flat=True)
+              }
+    return render(request, "QuestAccounting/financialsheets/balance_sheet.html", context)
+
+def income_statement(request):
+    user = request.user
+    context = {'user': user, 
+              'is_superuser': request.user.is_superuser, 
+              'groups': request.user.groups.values_list('name', flat=True)
+              }
+    return render(request, "QuestAccounting/financialsheets/income_statement.html", context)
+
+def retained_earnings_statement(request):
+    user = request.user
+    context = {'user': user, 
+              'is_superuser': request.user.is_superuser, 
+              'groups': request.user.groups.values_list('name', flat=True)
+              }
+    return render(request, "QuestAccounting/financialsheets/retained_earnings_statement.html", context)

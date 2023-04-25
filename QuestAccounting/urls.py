@@ -66,6 +66,15 @@ urlpatterns = [
     path('event_logs/', views.event_logs, name = "event_logs"),
     
 
+    # financial sheet urls
+    path('financialsheets/', views.financial_sheets, name='financial_sheets'),
+    path('financialsheets/trial_balance/', views.trial_balance, name='trial_balance'),
+    path('financialsheets/balance_sheet/', views.balance_sheet, name='balance_sheet'),
+    path('financialsheets/income_statement/', views.income_statement, name='income_statement'),
+    path('financialsheets/retained_earnings_statement/', views.retained_earnings_statement, name='retained_earnings_statement'),
+
+
+
     # password reset urls
     path('password_reset/', custom_password_reset, name='password_reset'),
     path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),

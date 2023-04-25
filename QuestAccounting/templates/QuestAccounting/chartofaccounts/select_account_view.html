@@ -2,101 +2,6 @@
 
 
 {% block content %}
-<div = class='form-center'>
-  <form action="{% url 'view_account_list' %}" method="get">
-      <button type="submit">Back to Account List</button>
-  </form>
-    <div class = lines-three>
-        <div class="form-account">
-            <label for="{{ form.account_name.id_for_label }}">Account Name</label>
-            {{ account.account_name }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.account_number.id_for_label }}">Account Number</label>
-            {{ account.account_number }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.account_description.id_for_label }}">Account Description</label>
-            {{ account.account_description }}
-        </div>
-    </div>
-    <div class = lines-three>
-        <div class="form-group">
-            <label for="{{ form.normal_side.id_for_label }}">Normal Side</label>
-            {{ account.normal_side }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.account_category.id_for_label }}">Account Category</label>
-            {{ account.account_category }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.account_subcategory.id_for_label }}">Account Sub Category</label>
-            {{ account.account_subcategory }}
-        </div>
-    </div>
-    <div class = lines-three>
-        <div class="form-group">
-            <label for="{{ form.initial_balance.id_for_label }}">Initial Balance</label>
-            {{ account.initial_balance }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.debit.id_for_label }}">Debit</label>
-            {{ account.debit }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.credit.id_for_label }}">Credit</label>
-            {{ account.credit }}
-        </div>
-    </div>
-    <div class = lines-three>
-        <div class="form-group">
-            <label for="{{ form.balance.id_for_label }}">Balance</label>
-            {{ account.balance }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.user_id.id_for_label }}">User ID</label>
-            {{ account.user_id }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.order.id_for_label }}">Order</label>
-            {{ account.order }}
-        </div>
-    </div>
-    <div class = lines-three>
-        <div class="form-group">
-            <label for="{{ form.statement.id_for_label }}">Statement</label>
-            {{ account.statement }}
-        </div>
-        <div class="form-group">
-            <label for="{{ form.statement.id_for_label }}">Status</label>
-            {%if account.activated %}
-            <td>
-            Active
-            </td>
-        {%else%}
-            Inactive
-        {% endif %}
-        </div>
-        <div class="form-comment">
-            <label for="{{ form.comment.id_for_label }}">Comment</label>
-            {{ account.comment }}
-        </div>
-    </div>
-      
-    {% if 'Admin' in groups %}
-    
-    <form action="{% url 'edit_accounts' account.account_name %}" method="get">
-        <button type="submit">Edit Account Information</button>
-    </form>
-
-{% else %}
-
-{% endif %}
-
-     
-
-    </div>
-</div>
 
 <style>
 
@@ -181,5 +86,103 @@
   }
 
 </style>
+
+<div = class='form-center'>
+  <form action="{% url 'view_account_list' %}" method="get">
+      <button type="submit">Back to Account List</button>
+  </form>
+    <div class = lines-three>
+        <div class="form-account">
+            <label for="{{ form.account_name.id_for_label }}">Account Name</label>
+            {{ account.account_name }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.account_number.id_for_label }}">Account Number</label>
+            {{ account.account_number }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.account_description.id_for_label }}">Account Description</label>
+            {{ account.account_description }}
+        </div>
+    </div>
+    <div class = lines-three>
+        <div class="form-group">
+            <label for="{{ form.normal_side.id_for_label }}">Normal Side</label>
+            {{ account.normal_side }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.account_category.id_for_label }}">Account Category</label>
+            {{ account.account_category }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.account_subcategory.id_for_label }}">Account Sub Category</label>
+            {{ account.account_subcategory }}
+        </div>
+    </div>
+    <div class = lines-three>
+        <div class="form-group">
+            <label for="{{ form.initial_balance.id_for_label }}">Initial Balance</label>
+            ${{ account.initial_balance }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.debit.id_for_label }}">Debit</label>
+            ${{ account.debit }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.credit.id_for_label }}">Credit</label>
+            ${{ account.credit }}
+        </div>
+    </div>
+    <div class = lines-three>
+        <div class="form-group">
+            <label for="{{ form.balance.id_for_label }}">Balance</label>
+            ${{ account.balance }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.user_id.id_for_label }}">User ID</label>
+            {{ account.user_id }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.order.id_for_label }}">Order</label>
+            {{ account.order }}
+        </div>
+    </div>
+    <div class = lines-three>
+        <div class="form-group">
+            <label for="{{ form.statement.id_for_label }}">Statement</label>
+            {{ account.statement }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.statement.id_for_label }}">Status</label>
+            {%if account.activated %}
+            <td>
+            Active
+            </td>
+        {%else%}
+            Inactive
+        {% endif %}
+        </div>
+        <div class="form-comment">
+            <label for="{{ form.comment.id_for_label }}">Comment</label>
+            {{ account.comment }}
+        </div>
+    </div>
+      
+    {% if 'Admin' in groups %}
+    
+    <form action="{% url 'edit_accounts' account.account_name %}" method="get">
+        <button type="submit">Edit Account Information</button>
+    </form>
+
+{% else %}
+
+{% endif %}
+
+     
+
+    </div>
+</div>
+
+
 
 {% endblock %}
