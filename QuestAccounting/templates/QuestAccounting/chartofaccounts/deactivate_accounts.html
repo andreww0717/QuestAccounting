@@ -3,6 +3,105 @@
 {% load static %}
 
 {% block content %}
+
+<head>
+  <style>
+
+
+    .form-center {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      display: flex;
+      transform: translate(-50%, -50%);
+      flex-direction: column;
+      align-items: center;
+      background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+      border-radius: 25px;
+      padding: 50px;
+      border: 3px solid #FFFFFF;
+      width: 500px;
+      overflow: auto;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: center;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      margin-left: 5px;
+      margin-right: 5px;
+      color: #FFFFFF;
+      font-size: 18px;
+    }
+
+    .form-account {
+      margin-bottom: 20px;
+      text-align: center;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 98.1%;
+      margin-left: 5px;
+      margin-right: 5px;
+      color: #FFFFFF;
+      font-size: 18px;
+    }
+
+    label {
+      font-weight: bold;
+      color: #FFFFFF;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    button[type="submit"] {
+      background-color: #ffffff;
+      color: #000000;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      border: 3px solid #000000;
+      display:block;
+      margin:0 auto;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 2px 2px 2px #888888;
+    }
+  
+    button[type="button"] {
+      background-color: #ffffff;
+      color: #000000;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      border: 3px solid #000000;
+      display: block;
+      margin:0 auto;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 2px 2px 2px #888888;
+      float: left;
+
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .back-button {  
+      margin-right: 25px;
+    }
+    
+
+  </style>
+</head>
+
 <div class='form-center'>
         <div class = top>
           <div class = back-button>
@@ -54,101 +153,5 @@
         
     </form>
 </div>
-
-<style>
-
-
-  .form-center {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    display: flex;
-    transform: translate(-50%, -50%);
-    flex-direction: column;
-    align-items: center;
-    background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
-    border-radius: 25px;
-    padding: 50px;
-    border: 3px solid #FFFFFF;
-    width: 500px;
-    overflow: auto;
-  }
-
-  .form-group {
-    margin-bottom: 20px;
-    text-align: center;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    margin-left: 5px;
-    margin-right: 5px;
-    color: #FFFFFF;
-    font-size: 18px;
-  }
-
-  .form-account {
-    margin-bottom: 20px;
-    text-align: center;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 98.1%;
-    margin-left: 5px;
-    margin-right: 5px;
-    color: #FFFFFF;
-    font-size: 18px;
-  }
-
-  label {
-    font-weight: bold;
-    color: #FFFFFF;
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-
-  button[type="submit"] {
-    background-color: #ffffff;
-    color: #000000;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    border: 3px solid #000000;
-    display:block;
-    margin:0 auto;
-    font-size: 18px;
-    font-weight: bold;
-    box-shadow: 2px 2px 2px #888888;
-  }
- 
-  button[type="button"] {
-    background-color: #ffffff;
-    color: #000000;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    border: 3px solid #000000;
-    display: block;
-    margin:0 auto;
-    font-size: 18px;
-    font-weight: bold;
-    box-shadow: 2px 2px 2px #888888;
-    float: left;
-
-  }
-
-  .top {
-    display: flex;
-    align-items: center;
-    margin-bottom: 15px;
-  }
-
-  .back-button {  
-    margin-right: 25px;
-  }
-  
-
-</style>
 
 {% endblock %}

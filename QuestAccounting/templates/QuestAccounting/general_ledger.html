@@ -3,103 +3,104 @@
 
 {% block content %}
 
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
-
-  <script>
-    {% comment %} create variables to use for updating balance logic in ledger {% endcomment %}
-        var balance = {{ balance }};
-        var totalCredit = 0;
-        var totalDebit = 0;
-        {% comment %} creates dataTable with transparent cells {% endcomment %}
-        $(document).ready(function() {
-            $('#ledger').DataTable({
-              "order": [[0, "asc"]],
-              "lengthMenu": [6], 
-              
+    <script>
+      {% comment %} create variables to use for updating balance logic in ledger {% endcomment %}
+          var balance = {{ balance }};
+          var totalCredit = 0;
+          var totalDebit = 0;
+          {% comment %} creates dataTable with transparent cells {% endcomment %}
+          $(document).ready(function() {
+              $('#ledger').DataTable({
+                "order": [[0, "asc"]],
+                "lengthMenu": [6], 
+                
+              });
             });
-          });
 
-  </script>
+    </script>
 
-<style>
-      
-      table.dataTable thead th,
-      table.dataTable tfoot th {
-        border: none;
-      }
+  <style>
+        
+        table.dataTable thead th,
+        table.dataTable tfoot th {
+          border: none;
+        }
 
-      table#ledger tfoot th {
-        border: none;
-    }
-    
-    .dataTable no-footer, .odd, .even {
-        background-color: transparent !important;
-    }
-
-    .dataTables_filter input[type=search] {
-        background-color: #ffffff;
-      }
-    
-      .dataTables_length select{
-        color: #000000;
-      }
-    
-      .dataTables_filter label, .dataTables_length label, .dataTables_info{
-        color: #ffffff !important;
+        table#ledger tfoot th {
+          border: none;
       }
       
-      .dataTables_wrapper .dataTables_paginate .paginate_button.previous.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.next.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.next, .dataTables_wrapper .dataTables_paginate .paginate_button {
-        color: #fff !important;
+      .dataTable no-footer, .odd, .even {
+          background-color: transparent !important;
       }
 
-    .form-center {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        display: flex;
-        justify-content: center;
-        transform: translate(-50%, -50%);
-        flex-direction: column;
-        align-items: center;
-        background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
-        border-radius: 25px;
-        padding: 50px;
-        border: 3px solid #FFFFFF;
-      }
-
-    .t-chart-title{
-        color: #ffffff;
-        width: 100%;
-        text-align: center;
-    }
-
-    td{
-        color: #ffffff;
-        padding-bottom: 10px;
-        width: 10%;
-    }
-
-    .debit{
-        text-align: left;
-        border-right: 3px solid #ffffff;
-        width: calc(40% - 3px) !important;
-    }
-
-    .credit{
-        text-align: right;
-        width: 40% !important;
-    }
-
-    table.dataTable.no-footer {
-        border-bottom: none;
-    }
+      .dataTables_filter input[type=search] {
+          background-color: #ffffff;
+        }
       
-    
+        .dataTables_length select{
+          color: #000000;
+        }
+      
+        .dataTables_filter label, .dataTables_length label, .dataTables_info{
+          color: #ffffff !important;
+        }
+        
+        .dataTables_wrapper .dataTables_paginate .paginate_button.previous.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.next.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.next, .dataTables_wrapper .dataTables_paginate .paginate_button {
+          color: #fff !important;
+        }
 
-</style>
+      .form-center {
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          display: flex;
+          justify-content: center;
+          transform: translate(-50%, -50%);
+          flex-direction: column;
+          align-items: center;
+          background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+          border-radius: 25px;
+          padding: 50px;
+          border: 3px solid #FFFFFF;
+        }
+
+      .t-chart-title{
+          color: #ffffff;
+          width: 100%;
+          text-align: center;
+      }
+
+      td{
+          color: #ffffff;
+          padding-bottom: 10px;
+          width: 10%;
+      }
+
+      .debit{
+          text-align: left;
+          border-right: 3px solid #ffffff;
+          width: calc(40% - 3px) !important;
+      }
+
+      .credit{
+          text-align: right;
+          width: 40% !important;
+      }
+
+      table.dataTable.no-footer {
+          border-bottom: none;
+      }
+        
+      
+
+  </style>
+</head>
 
 
 

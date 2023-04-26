@@ -2,66 +2,67 @@
 
 
 {% block content %}
+<head>
+    <style>
 
-<style>
+        a, a:hover {
+            color: white;
+            text-decoration: none;
+        }
 
-    a, a:hover {
-        color: white;
-        text-decoration: none;
-    }
+        h3{
+            display: flex;
+        }
+        .container {
+            transform: translate(-50%, -50%);
+        }
+        
+        .form-center {
+            display: flex;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+            border-radius: 25px;
+            width: 500px;
+            height: 100px;
+            border: 3px solid #ffffff;
+            color: #ffffff;
+        }
 
-    h3{
-        display: flex;
-    }
-    .container {
-        transform: translate(-50%, -50%);
-    }
+        button[type="button"] {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            width: 100%;
+            height: 100%;
+        }
+
+        {% block styling %}
+
+        .username{
+        color: #ffffff;
+        font-size: 22px;
+        align-items: right;
+        text-align: right;
+        background-color: #1973D1;
+        border-radius: 25px 0 0 25px;
+        padding: 20px;
+        border-top: 3px solid #FFFFFF;
+        border-left: 3px solid #FFFFFF;
+        border-bottom: 3px solid #FFFFFF;
+        height: 80px;
+        position: absolute;
+        top: 150;
+        right: 0;
+        }
+
+        {% endblock%}
     
-    .form-center {
-        display: flex;
-        justify-content: center;
-        transform: translate(-50%, -50%);
-        flex-direction: column;
-        align-items: center;
-        background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
-        border-radius: 25px;
-        width: 500px;
-        height: 100px;
-        border: 3px solid #ffffff;
-        color: #ffffff;
-      }
-
-    button[type="button"] {
-        background-color: transparent;
-        border: none;
-        outline: none;
-        color: #ffffff;
-        width: 100%;
-        height: 100%;
-    }
-
-    {% block styling %}
-
-    .username{
-    color: #ffffff;
-    font-size: 22px;
-    align-items: right;
-    text-align: right;
-    background-color: #1973D1;
-    border-radius: 25px 0 0 25px;
-    padding: 20px;
-    border-top: 3px solid #FFFFFF;
-    border-left: 3px solid #FFFFFF;
-    border-bottom: 3px solid #FFFFFF;
-    height: 80px;
-    position: absolute;
-    top: 150;
-    right: 0;
-    }
-
-    {% endblock%}
-   
-</style>
+    </style>
+</head>
 
 {% if pending %}
 <div class = "form-center" style= "position: fixed; top: 10%; left: 50%; height: 100px; width: 550px;">

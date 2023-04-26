@@ -2,6 +2,54 @@
 
 {% block content %}
 
+<head>
+    <style>
+
+        h1{
+            font-size: 33px;
+        }
+    
+        .form-center{
+          color:#ffffff;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          display: flex;
+          justify-content: center;
+          transform: translate(-50%, -50%);
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+          border-radius: 25px;
+          padding: 50px;
+          border: 3px solid #FFFFFF;
+        }
+    
+        p{
+            color: #FFFFFF;
+            font-size: 21px;
+            padding-right: 15px;
+          }
+    
+          button[type="submit"]{
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            text-align: center;
+            border: 3px solid #000000;
+            display:block;
+            margin:0 auto;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 2px 2px 2px #888888;
+          }
+    
+    </style>
+</head>
+
 <div class="form-center">
     <h1>You have successfully created a user</h1>
     <p>Username: {{ user.username }} Role: {{ user.groups.first.name }}</p>
@@ -28,50 +76,6 @@
     
 </div>
 
-<style>
 
-    h1{
-        font-size: 33px;
-    }
-
-    .form-center{
-      color:#ffffff;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      display: flex;
-      justify-content: center;
-      transform: translate(-50%, -50%);
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
-      border-radius: 25px;
-      padding: 50px;
-      border: 3px solid #FFFFFF;
-    }
-
-    p{
-        color: #FFFFFF;
-        font-size: 21px;
-        padding-right: 15px;
-      }
-
-      button[type="submit"]{
-        background-color: #ffffff;
-        color: #000000;
-        border-radius: 5px;
-        padding: 10px 20px;
-        margin-top: 10px;
-        text-align: center;
-        border: 3px solid #000000;
-        display:block;
-        margin:0 auto;
-        font-size: 18px;
-        font-weight: bold;
-        box-shadow: 2px 2px 2px #888888;
-      }
-
-</style>
 
 {% endblock %}
