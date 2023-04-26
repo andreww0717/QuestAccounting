@@ -3,7 +3,8 @@
 
 {% block content %}
 
-<style>
+<head>
+  <style>
 
     .form-center {
         position: fixed;
@@ -14,6 +15,7 @@
         transform: translate(-50%, -50%);
         flex-direction: column;
         align-items: center;
+        text-align: center;
         background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
         border-radius: 25px;
         padding: 25px;
@@ -52,18 +54,23 @@
       }
 
       .buttons {
+        display: flex;
+      }
+
+      button {
         background-color: #ffffff;
         color: #000000;
         border-radius: 5px;
         padding: 10px 20px;
         margin-bottom: 20px;
         text-align: center;
+        justify-content: center;
         border: 3px solid #000000;
-        display: block;
         margin:0 auto;
         font-size: 18px;
         font-weight: bold;
         box-shadow: 2px 2px 2px #888888;
+        width: 125px;
       }
       
       .top {
@@ -99,7 +106,8 @@
         background-color: transparent; 
       }
 
-</style>
+  </style>
+</head>
 
 {% if not doTheyMatch %}
     <div class=error>
@@ -126,12 +134,13 @@
             <p><strong>Credit:</strong> {{ journal_entry.credit }}</p>
             <p><strong>Debit:</strong> {{ journal_entry.debit }}</p>
             <p><strong>Status:</strong> {{ journal_entry.status }}</p>
-            <input type="text" name="account_name" value="{{ journal_entry.account_name_id }}" readonly/>
-            <input type="text" name="debit" value="{{ journal_entry.debit|default:"0" }}" readonly/>
-        <input type="text" name="credit" value="{{ journal_entry.credit|default:"0" }}" readonly/>
-
+            <input type="text" style="display: none;" name="account_name" value="{{ journal_entry.account_name_id }}" readonly/>
+            <input type="text" style="display: none;" name="debit" value="{{ journal_entry.debit|default:"0" }}" readonly/>
+        <input type="text" style="display: none;" name="credit" value="{{ journal_entry.credit|default:"0" }}" readonly/>
+          <div class = "buttons">
             <button type="submit" name="approved">Approve</button>
             <button type="submit" name="rejected">Reject</button>
+          </div>
         </form>
 </div>
 

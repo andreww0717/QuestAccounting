@@ -60,7 +60,7 @@
             border-top: 2px solid #FFFFFF;
           }
 
-        button{
+        .print-button{
             position: fixed;
             left: 50%;
             top: 100;
@@ -76,6 +76,12 @@
             margin:0 auto;
             font-size: 18px;
             font-weight: bold;
+        }
+
+        caption {
+            caption-side: top;
+            text-align: center;
+            color: #ffffff;
         }
         
     </style>
@@ -96,16 +102,27 @@
         console.log(total, totalCredit, totalDebit)
         document.write(total);
         
-
+        
+            function printTable() {
+                var table = document.getElementsByTagName('table')[0];
+                var newWin = window.open('', 'Print-Window');
+                newWin.document.open();
+                newWin.document.write('<html><head><title>Trial Balance</title></head><body>' + table.outerHTML + '</body></html>');
+                newWin.document.close();
+                newWin.print();
+            }
     </script>
 </head>
 
 <div class='form-center'>
-    <div class="t-chart-title">
-        <h1>Trial Balance<h1>
-    </div>
+    
 
     <table id="trial-balance">
+        <caption>
+            <h1>
+                Trial Balance
+            </h1>
+        </caption>
         <thead>
             <tr>
                 <th style = "width: 65%;">Accounts</th>
@@ -130,18 +147,11 @@
     </table>
     
 </div>
-    <button onclick="printTable()">Save/Print Trial Balance</button>
-<script>
-    document.getElementById("totalCredit").innerHTML = "$" + totalCredit;
-    document.getElementById("totalDebit").innerHTML = "$" + totalDebit;
-		function printTable() {
-			var table = document.getElementsByTagName('table')[0];
-			var newWin = window.open('', 'Print-Window');
-			newWin.document.open();
-			newWin.document.write('<html><head><title>Trial Balance</title></head><body>' + table.outerHTML + '</body></html>');
-			newWin.document.close();
-			newWin.print();
-		}
-</script>
+    <button class="print-button" onclick="printTable()">Save/Print Trial Balance</button>
+
+    <script>
+        document.getElementById("totalCredit").innerHTML = "$" + totalCredit;
+        document.getElementById("totalDebit").innerHTML = "$" + totalDebit;
+    </script>
 
 {% endblock %}

@@ -1,18 +1,8 @@
 {% load static %}
 {% block content %}
 
-<!-- Main page for log in -->
-<div class='form-center'>
-    <img src="{% static 'images/logo.jpeg' %}" alt="Logo">
-
-    <div class='title'>
-        <h1>Quest Accounting</h1>
-    </div>
-
-    <a href="{% url 'login' %}"><button type="button" class="button" title="Login or Create Account">Login or Request Access</button></a>
-</div>
-
-<style>
+<head>
+  <style>
     body{
       background-color: #000000;
     }
@@ -49,5 +39,18 @@
         border: 3px solid #FFFFFF;
       }
   </style>
+</head>
+<!-- Main page for log in -->
+<div class='form-center'>
+    <img src="{% static 'images/logo.jpeg' %}" alt="Logo">
+
+    <div class='title'>
+        <h1>Quest Accounting</h1>
+    </div>
+
+    <a href="{% url 'login' %}"><button type="button" class="button" title="Login or Create Account">Login or Request Access</button></a>
+</div>
+
+
    
 {% endblock %}
