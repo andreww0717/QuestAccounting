@@ -159,7 +159,12 @@
             <td class= "text" >{{ entry.account_name }}</td>
             <td class= "numbers" >{{ entry.debit }}</td>
             <td class= "numbers" >{{ entry.credit }}</td>
-            <td class= "text" ><button type = "button" class = buttons onclick = "location.href = '{% url 'journal_entry_approval' entry.id %}'">{{ entry.status }}</button>
+            <td class= "text" >
+            {% if can_edit %}
+            <button type = "button" class = buttons onclick = "location.href = '{% url 'journal_entry_approval' entry.id %}'">{{ entry.status }}</button>
+            {% else %}
+            {{ entry.status }}
+            {% endif %}
             </td>
           </tr>
           {% endfor %}

@@ -617,14 +617,20 @@ def pending_journal_entries(request):
         doTheyMatch = True
     else:
         doTheyMatch = False
+    if user.groups.filter(name='Admin').exists() or user.groups.filter(name="Manager").exists():
+        can_edit = True
+    else:
+        can_edit = False
     context = {'user': user, 
                'pending_journal_entries': pending_journal_entries,
                'doTheyMatch': doTheyMatch, 
                'total_credit': total_credit, 
                'total_debit': total_debit, 
                'is_superuser': request.user.is_superuser, 
+               'can_edit': can_edit,
                'groups': request.user.groups.values_list('name', flat=True)
                }
+    print(request.user.groups.filter(name='Manager').exists())
     return render(request, "QuestAccounting/journalentries/pending_journal_entries.html", context)
 
 def all_journal_entries(request):
