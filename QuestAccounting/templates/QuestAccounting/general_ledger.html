@@ -9,15 +9,16 @@
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 
   <script>
+    {% comment %} create variables to use for updating balance logic in ledger {% endcomment %}
         var balance = {{ balance }};
-        
+        var totalCredit = 0;
+        var totalDebit = 0;
+        {% comment %} creates dataTable with transparent cells {% endcomment %}
         $(document).ready(function() {
             $('#ledger').DataTable({
-              "order": [[0, "desc"]],
+              "order": [[0, "asc"]],
               "lengthMenu": [6], 
-              "createdRow": function (row, data, dataIndex) {
-                $(row).find('td').css('background-color', 'rgba(255, 0, 0, 0)');
-              }
+              
             });
           });
 
@@ -126,19 +127,17 @@
                 <td id="balance-{{ forloop.counter }}" style="text-align: right;">Balance: $ {{balance}}</td>
             </tr>  
 <script>
-    
+    {% comment %} adds up all credit and debit separately
+    only updates balance if the totals match each other {% endcomment %}
     console.log("Balance:", {{ balance }});
-    if ({{journal.credit}} == 0 || {{journal.credit}} == null)
+    totalCredit += {{ journal.credit }};
+    totalDebit += {{ journal.debit }};
+    console.log("Credit:", totalCredit);
+    console.log("Debit:", totalDebit);
+
+    if (totalCredit == totalDebit)
     {
-        balance += {{ journal.debit }};
-    }
-    else if ({{journal.debit}} == 0 || {{journal.debit}} == null)
-    {
-        balance += {{ journal.credit }};
-    }
-    else if ({{journal.debit}} == {{journal.credit}})
-    {
-        balance += {{ journal.debit }};
+      balance = totalCredit;
     }
 
     console.log("2Balance:",  balance );
