@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AccountRequest, AllJournalEntriesModel, PendingJournalEntriesModel, RejectedJournalEntriesModel, UserProfile, AccountModel, JournalEntriesModel, EventLog
+from .models import AccountRequest, AllJournalEntriesModel, PendingJournalEntriesModel, RejectedJournalEntriesModel, UserProfile, AccountModel, JournalEntriesModel, JournalEntryDocuments, EventLog
 
 # Register your models here.
 
@@ -44,6 +44,11 @@ class AllJournalEntriesModelAdmin(admin.ModelAdmin):
     list_display = ('id', 'date', 'debit', 'credit', 'status', 'account_name_id', 'comment')
 
 admin.site.register(AllJournalEntriesModel, AllJournalEntriesModelAdmin)
+
+class JournalEntryDocumentsAdmin(admin.ModelAdmin):
+    list_display = ('journal_entry', 'file_document', 'image_document')
+
+admin.site.register(JournalEntryDocuments, JournalEntryDocumentsAdmin)
 
 
 class EventLogAdmin(admin.ModelAdmin):

@@ -2,6 +2,7 @@
 
 
 {% block content %}
+
 <head>
     <style>
     
@@ -59,7 +60,7 @@
             text-align: right;
         }
 
-        button{
+        .print-button{
             position: fixed;
             left: 50%;
             top: 100;
@@ -76,6 +77,12 @@
             font-size: 18px;
             font-weight: bold;
         }
+
+        caption {
+            caption-side: top;
+            text-align: center;
+            color: #ffffff;
+        }
         
     </style>
     <script>
@@ -83,7 +90,7 @@
             var table = document.getElementsByTagName('table')[0];
             var newWin = window.open('', 'Print-Window');
             newWin.document.open();
-            newWin.document.write('<html><head><title>Trial Balance</title></head><body>' + table.outerHTML + '</body></html>');
+            newWin.document.write('<html><head><title>Balance Sheet</title></head><body>' + table.outerHTML + '</body></html>');
             newWin.document.close();
             newWin.print();
         }
@@ -92,11 +99,13 @@
 </head>
 
 <div class="form-center">
-    <h1>
-        Balance Sheet
-    </h1>
     <table>
         <thead>
+            <caption>
+                <h1>
+                    Balance Sheet
+                </h1>
+            </caption>
             <tr>
                 <th colspan="2">Assets</th>
                 <th colspan="2">Liabilities</th>
@@ -173,6 +182,6 @@
         </tbody>
     </table>
 </div>
-<button onclick="printTable()">Save/Print Balance Sheet</button>
+<button class="print-button" onclick="printTable()">Save/Print Balance Sheet</button>
 
 {% endblock %}
