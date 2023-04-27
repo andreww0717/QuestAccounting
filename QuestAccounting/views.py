@@ -7,8 +7,8 @@ from django.dispatch import Signal
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404, HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
-from QuestAccounting.models import AccountModel, AllJournalEntriesModel, EventLog, JournalEntriesModel, PendingJournalEntriesModel, RejectedJournalEntriesModel, UserProfile
-from .forms import AllJournalEntriesForm, EmailForm, GroupSelection, PendingJournalEntriesForm, RejectedJournalEntriesForm, UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset, AccountForm, JournalEntriesForm
+from QuestAccounting.models import AccountModel, AllJournalEntriesModel, EventLog, JournalEntriesModel, JournalEntryDocuments, PendingJournalEntriesModel, RejectedJournalEntriesModel, UserProfile
+from .forms import AllJournalEntriesForm, EmailForm, GroupSelection, JournalEntriesDocumentsForm, PendingJournalEntriesForm, RejectedJournalEntriesForm, UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset, AccountForm, JournalEntriesForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group, User
 from .signals import account_changed
@@ -705,7 +705,39 @@ def journal_entry_approval(request, id):
                }
     return render(request, "QuestAccounting/journalentries/journal_entry_approval.html", context)
 
+def journal_entry_documents(request, id):
+    user = request.user
+    journal_entry = JournalEntriesModel.objects.get(id=id)
+    form = JournalEntriesDocumentsForm(request.POST, request.FILES)
+    document = None
 
+    try:
+        document = JournalEntryDocuments.objects.filter(journal_entry_id=id)
+    except JournalEntryDocuments.DoesNotExist:
+        print('empty')
+    
+    
+    print(form.errors)
+
+    if request.method == 'POST':
+        
+        if form.is_valid():
+            journal_entry_document = JournalEntryDocuments()
+            journal_entry_document.journal_entry = journal_entry
+            journal_entry_document.file_document = form.cleaned_data['file_document']
+            journal_entry_document.image_document = form.cleaned_data['image_document']
+            journal_entry_document.save()
+        
+
+        
+    context = {'user': user, 
+               'form': form, 
+               'document': document, 
+               'journal_entry': journal_entry, 
+               'is_superuser': request.user.is_superuser, 
+               'groups': request.user.groups.values_list('name', flat=True)
+               }
+    return render(request, "QuestAccounting/journalentries/journal_entry_documents.html", context)
 
 
 

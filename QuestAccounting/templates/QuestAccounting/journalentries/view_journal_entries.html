@@ -145,19 +145,27 @@
     <table id="journal-entries">
         <thead>
           <tr>
+            <th class= "numbers">ID</th>
             <th class= "text">Date Created</th>
             <th class= "text">Account</th>
             <th class= "numbers">Debit</th>
             <th class= "numbers">Credit</th>
+            <th class= "text">Documents</th>
           </tr>
         </thead>
         <tbody>
           {% for entry in journal_entries %}
           <tr>
+            <td class= "numbers" >{{ entry.id }}</td>
             <td class= "text" >{{ entry.date }}</td>
             <td class= "text" >{{ entry.account_name }}</td>
             <td class= "numbers" >{{ entry.debit }}</td>
             <td class= "numbers" >{{ entry.credit }}</td>
+            <td class= "text" >
+              <button type = "button" onclick = "location.href = '{% url 'journal_entry_documents' entry.id %}'">
+                Documents
+              </button>
+            </td>
           </tr>
           {% endfor %}
         </tbody>

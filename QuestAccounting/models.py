@@ -73,6 +73,11 @@ class JournalEntriesModel(models.Model):
         self.account_name.credit = credit
         self.account_name.balance = balance
         self.account_name.save()
+
+    def __str__(self):
+        return f"{self.id}: {self.account_name}"
+    
+
         
 
 # adds the database that tracks pending journal entries
@@ -100,6 +105,14 @@ class AllJournalEntriesModel(models.Model):
     credit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     status = models.CharField(max_length=10, choices=status_options, blank=True, default='pending')
     comment = models.TextField(blank=True)
+
+# document uploading for journal entries
+class JournalEntryDocuments(models.Model):
+    journal_entry = models.ForeignKey(JournalEntriesModel, on_delete=models.CASCADE)
+    file_document = models.FileField(upload_to='journal_entry_documents', blank=True, null=True)
+    image_document = models.ImageField(upload_to='journal_entry_documents', blank=True, null=True)
+
+    
 
 # adds the database that tracks the event logs
 class EventLog(models.Model):

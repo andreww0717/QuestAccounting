@@ -1,0 +1,136 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+
+    <script>
+
+        $(document).ready(function() {
+            jQuery('#journal-entries').DataTable({
+                "order": [[0, "desc"]]
+            });
+        });
+
+    </script>
+  <style>
+
+        .form-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            display: flex;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+            border-radius: 25px;
+            padding: 25px;
+            border: 3px solid #ffffff;
+            color: #ffffff;
+        }
+
+        .form-center-form {
+          position: fixed;
+          top: 15%;
+          left: 50%;
+          display: flex;
+          justify-content: center;
+          transform: translate(-50%, -50%);
+          flex-direction: column;
+          align-items: center;
+          background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+          border-radius: 25px;
+          padding: 25px;
+          border: 3px solid #ffffff;
+          color: #ffffff;
+        }
+  
+        .form-group {
+            font-size: 15px;
+            display: flex;
+        }
+
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+        }
+  
+        .text{
+          width: 200px;
+        }
+  
+        .numbers{
+          width: 100px;
+        }
+  
+        .buttons {
+          background-color: #ffffff;
+          color: #000000;
+          border-radius: 5px;
+          padding: 10px 20px;
+          margin-bottom: 20px;
+          text-align: center;
+          border: 3px solid #000000;
+          display: block;
+          margin:0 auto;
+          font-size: 18px;
+          font-weight: bold;
+          box-shadow: 2px 2px 2px #888888;
+        }
+  
+  </style>
+</head>
+
+<div class='form-center-form'>
+    <h4>Add Documents<h4>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ document.account_name.id_for_label }}">Associated Account ID: </label>
+                    {{ journal_entry.id }}
+                </div>
+                    <div class="form-group">
+                    <label for="{{ document.journal_entry.id_for_label }}">Add to Journal Entry ID: </label>
+                    {{ form.journal_entry }}
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.file_document.id_for_label }}">Add File: </label>
+                    {{ form.file_document }}
+                </div>
+                <div class="form-group">
+                    <label for="{{ form.image_document.id_for_label }}">Add Image: </label>
+                    {{ form.image_document }}
+                </div>
+            </div>
+    
+            <button type="submit">Submit</button>
+
+        </form>
+</div>
+
+<div class='form-center'>
+    <h1>Files/Images for ID: {{ journal_entry.id }} Account: {{ journal_entry.account_name }}</h1>
+    {% for document in document %}
+        {% if document.file_document.url != None %}
+            <a href="{{ document.file_document.url }}">{{ document.file_document }}</a>
+        
+        {% endif %} 
+        {% if document.image_document.url != None %}
+        <a href="{{ document.image_document.url }}">{{ document.image_document }}</a>
+        {% endif %} 
+
+    
+    {% endfor %}
+</div>
+
+
+{% endblock %}

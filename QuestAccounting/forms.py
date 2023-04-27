@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from QuestAccounting import models
 from django.core.mail import send_mail
-from .models import AccountRequest, AllJournalEntriesModel, PendingJournalEntriesModel, RejectedJournalEntriesModel, UserProfile, AccountModel, JournalEntriesModel
+from .models import AccountRequest, AllJournalEntriesModel, JournalEntryDocuments, PendingJournalEntriesModel, RejectedJournalEntriesModel, UserProfile, AccountModel, JournalEntriesModel
 
 
 
@@ -98,30 +98,44 @@ class GroupSelection(forms.ModelForm):
         model = Group
         fields = ['group']
 
-#form that holds journal entry info
+# form that holds approved journal entry info
 class JournalEntriesForm(forms.ModelForm):
 
     class Meta:
         model = JournalEntriesModel
         fields = ['account_name', 'debit', 'credit', 'status']
 
-#form that holds journal entry info
+# form that holds pending journal entry info
 class PendingJournalEntriesForm(forms.ModelForm):
     class Meta:
         model = PendingJournalEntriesModel
         fields = ['account_name', 'debit', 'credit']
 
-#form that holds journal entry info
+# form that holds rejected journal entry info
 class RejectedJournalEntriesForm(forms.ModelForm):
     class Meta:
         model = RejectedJournalEntriesModel
         fields = ['account_name', 'debit', 'credit', 'status']
 
-#form that holds journal entry info
+# form that holds all journal entry info
 class AllJournalEntriesForm(forms.ModelForm):
     class Meta:
         model = AllJournalEntriesModel
         fields = ['account_name', 'debit', 'credit', 'status']
+
+# form that holds journal entry documents
+class JournalEntriesDocumentsForm(forms.ModelForm):
+    class Meta: 
+        model = JournalEntryDocuments
+        fields = ['journal_entry', 'file_document', 'image_document']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        file_field = cleaned_data.get("file_document")
+        image_field = cleaned_data.get("image_document")
+    
+
+        return cleaned_data
 
 # form that holds email info to send to users
 class EmailForm(forms.Form):
