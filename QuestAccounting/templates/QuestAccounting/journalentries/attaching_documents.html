@@ -1,0 +1,48 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+{% load static %}
+<html>
+  <head>
+    <title>Journal Entries</title>
+  </head>
+  <body>
+    <h1>Journal Entries</h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Entry</th>
+          <th>PDF</th>
+          <th>Word</th>
+          <th>Excel</th>
+          <th>CSV</th>
+          <th>JPG</th>
+          <th>PNG</th>
+        </tr>
+      </thead>
+      {% block content %}
+        <tr>
+          <td>April 17, 2023</td>
+          <td>Journal Entry 1</td>
+          <td><a href="path/to/your/document.pdf" download>Download PDF</a></td>
+          journal_entry = models.JournalField(upload_to='journal_entry', default = 'journal_entry/wp4013910.pdf')
+          journal_name = models.ForeignKey(JournalModel, on_delete=models.PROTECT)
+          <td><a href="path/to/your/document.docx" download>Download Word</a></td>
+          journal_entry = models.JournalField(upload_to='journal_entry', default = 'journal_entry/wp4013911.docx')
+          journal_name = models.ForeignKey(JournalModel, on_delete=models.PROTECT)
+          <td><a href="path/to/your/document.xlsx" download>Download Excel</a></td>
+          journal_entry = models.JournalField(upload_to='journal_entry', default = 'journal_entry/wp4013912.xlsx')
+          journal_name = models.ForeignKey(JournalModel, on_delete=models.PROTECT)
+          <td><a href="path/to/your/document.csv" download>Download CSV</a></td>
+          journal_entry = models.JournalField(upload_to='journal_entry', default = 'journal_entry/wp4013913.CSV')
+          journal_name = models.ForeignKey(JournalModel, on_delete=models.PROTECT)
+          <td><a href="path/to/your/image.jpg" download>Download JPG</a></td>
+          journal_entry = models.JournalField(upload_to='journal_entry', default = 'journal_entry/wp4013914.jpg')
+          journal_name = models.ForeignKey(JournalModel, on_delete=models.PROTECT)
+          <td><a href="path/to/your/image.png" download>Download PNG</a></td>
+          journal_entry = models.JournalField(upload_to='journal_entry', default = 'journal_entry/wp4013915.png')
+          journal_name = models.ForeignKey(JournalModel, on_delete=models.PROTECT)
+        </tr>
+        <!-- Add more rows for each journal entry with attached files -->
+      </tbody>
+    </table>
+    {% endblock %}
