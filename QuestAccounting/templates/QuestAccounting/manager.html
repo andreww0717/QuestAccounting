@@ -65,6 +65,8 @@
     </style>
 </head>
 
+{% comment %} shows notification if there are pending journal entries {% endcomment %}
+
 {% if pending %}
 <div class = "form-center" style= "position: fixed; top: 10%; left: 50%; height: 100px; width: 550px;">
     <div style = "display: flex;">
@@ -73,6 +75,9 @@
             <a href="{% url 'pending_journal_entries' %}" class="button">View Pending Journals</a>
 </div>
 {% endif %}
+
+{% comment %} navigation to accounts and journal entries from main page {% endcomment %}
+
 <div class="container" style= "position: fixed; top: 50%; left: 50%; height: 450px; width: 700px;">
     <div class="form-center" style="position: fixed; top: 26%; left: 50%;">
         <button type = "button" onclick = "location.href = '{% url 'view_account_list' %}'">

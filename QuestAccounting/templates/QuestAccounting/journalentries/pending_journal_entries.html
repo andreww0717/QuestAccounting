@@ -117,6 +117,8 @@
     </style>
 </head>
 
+{% comment %} Provides error if total credit and total debit are not the same in the chart of accounts {% endcomment %}
+
 {% if not doTheyMatch %}
     <div class=error>
         <div class = "error-header"><b>Error: Credit and Debit Do Not Match!</b></div>
@@ -131,6 +133,7 @@
   {% endif %}
 </div>
 
+{% comment %} Shows all pending journal entries and allows managers and admins to go to the page where they can approve or reject the pending journal entries {% endcomment %}
 
 <div class="form-center">
   <div class = top>

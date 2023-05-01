@@ -8,6 +8,7 @@
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
 
+    {% comment %} script above is code for dataTables to function, script below is the dataTable code that allows the table to be sortable and searchable {% endcomment %}
     <script>
 
         $(document).ready(function() {
@@ -46,6 +47,8 @@
     
     </style>
 </head>
+
+{% comment %} Shows pending notifications, currently only for pending journal entries {% endcomment %}
 
 <div class="form-center">
     <h1>Notifications</h1>

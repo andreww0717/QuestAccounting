@@ -4,6 +4,7 @@ from .models import AccountRequest, AllJournalEntriesModel, PendingJournalEntrie
 # Register your models here.
 
 # adds these models to the django admin page
+
 class AccountRequestAdmin(admin.ModelAdmin):
      list_display = ('id', 'first_name', 'last_name', 'date_of_birth', 'email', 'user_id')
 

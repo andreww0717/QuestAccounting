@@ -91,6 +91,8 @@
   </style>
 </head>
 
+{% comment %} allows adding of documents or images to a journal entry {% endcomment %}
+
 <div class='form-center-form'>
     <h4>Add Documents<h4>
         <form method="post" enctype="multipart/form-data">
@@ -120,6 +122,8 @@
 
         </form>
 </div>
+
+{% comment %} displays the list of files and images that are attached to a particular journal entry so they can be viewed {% endcomment %}
 
 <div class='form-center'>
     <h1>Files/Images for ID: {{ journal_entry.id }} Account: {{ journal_entry.account_name }}</h1>

@@ -85,6 +85,8 @@
     </style>
 </head>
 
+{% comment %} shows user account info and can go to edit view from here {% endcomment %}
+
 <form action="{% url 'logout' %}" method="get">
     <button type="submit" class=logout>Logout</button>
 </form>

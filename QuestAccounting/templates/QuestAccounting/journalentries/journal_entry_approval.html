@@ -109,6 +109,8 @@
   </style>
 </head>
 
+{% comment %} Provides error if total credit and total debit are not the same in the chart of accounts {% endcomment %}
+
 {% if not doTheyMatch %}
     <div class=error>
         <div class = "error-header"><b>Error: Credit and Debit Do Not Match!</b></div>
@@ -122,6 +124,7 @@
     </div>
   {% endif %}
 
+  {% comment %} Allows managers or admin to approve pending requests {% endcomment %}
 
 <div class='form-center'>
         <form method="post">
