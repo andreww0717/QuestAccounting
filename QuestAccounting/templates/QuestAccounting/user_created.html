@@ -50,6 +50,8 @@
     </style>
 </head>
 
+{% comment %} Shows the admin the username and role for the account that was just created {% endcomment %}
+
 <div class="form-center">
     <h1>You have successfully created a user</h1>
     <p>Username: {{ user.username }} Role: {{ user.groups.first.name }}</p>

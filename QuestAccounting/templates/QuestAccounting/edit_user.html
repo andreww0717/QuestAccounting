@@ -105,6 +105,9 @@
     </style>
 </head>
 
+{% comment %} Allows user to edit their own account or for managers/admins to update any account
+previous page logic returns the user to the page they came from so there are no discrepancies {% endcomment %}
+
 <div class='form-center'>
     {% if previous_page == 'http://127.0.0.1:8000/account/' %}
         <form action="{% url 'account' %}" method="get">
@@ -136,6 +139,8 @@
         </div>
     {% endif %}
     
+{% comment %} form that can be changed to edit user information {% endcomment %}
+
     <form method="post" action="{% url 'edit_user' user.id %}">
         {% csrf_token %}
     

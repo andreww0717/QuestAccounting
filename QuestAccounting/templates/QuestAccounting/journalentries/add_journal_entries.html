@@ -74,6 +74,8 @@
   </style>
 </head>
 
+{% comment %} Provides error if total credit and total debit are not the same in the chart of accounts {% endcomment %}
+
 {% if not doTheyMatch %}
     <div class=error>
         <div class = "error-header"><b>Error: Credit and Debit Do Not Match!</b></div>
@@ -86,6 +88,8 @@
         </div>
     </div>
   {% endif %}
+
+  {% comment %} Adds journal entry if the user is a manager or admin, otherwise creates a pending journal entry {% endcomment %}
 
 <div class="form-center">
     <h2>Add Journal Entry<h2>

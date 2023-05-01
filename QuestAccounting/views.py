@@ -24,6 +24,7 @@ def home(request):
     return render(request, 'QuestAccounting/dashboard.html')
 
 # help page View
+@login_required
 def help(request):
     context = {
         'is_superuser': request.user.is_superuser,
@@ -133,6 +134,7 @@ def signup(request):
 
 
 # Account Settings View
+@login_required
 def account(request):
     context = {
         'is_superuser': request.user.is_superuser,
@@ -151,6 +153,7 @@ def account(request):
 
 
 # User Management View
+@login_required
 def user_management(request):
     context = {
         'is_superuser': request.user.is_superuser,
@@ -243,7 +246,7 @@ def group_selection(request, user_id):
 
 
 # User Viewing Views
-
+@login_required
 @user_passes_test(lambda u: u.groups.filter(name='Admin').exists() or u.groups.filter(name='Manager').exists() and not u.groups.filter(name='Regular').exists())
 def user_view(request):
     userList = User.objects.all()
@@ -253,6 +256,7 @@ def user_view(request):
                }
     return render(request, 'QuestAccounting/user_view.html', context)
 
+@login_required
 @user_passes_test(lambda u: u.groups.filter(name='Admin').exists() or u.groups.filter(name='Manager').exists() and not u.groups.filter(name='Regular').exists())
 def individual_user_view(request, user_id):
     user = get_object_or_404(User, id=user_id)
@@ -262,6 +266,7 @@ def individual_user_view(request, user_id):
                }
     return render(request, 'QuestAccounting/individual_user_view.html', context)
 
+@login_required
 def edit_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
     
@@ -305,6 +310,7 @@ def edit_user(request, user_id):
 
         return render(request, 'QuestAccounting/edit_user.html', context)
     
+@login_required
 def edit_profile_picture(request):
     user = request.user
     user_profile, created = UserProfile.objects.get_or_create(user=request.user)
@@ -333,7 +339,7 @@ def edit_profile_picture(request):
 
 
 # Account Views
-
+@login_required
 def view_accounts(request):
     user = request.user
     account_info = AccountModel.objects.all()
@@ -346,6 +352,7 @@ def view_accounts(request):
                }
     return render(request, 'QuestAccounting/chartofaccounts/view_accounts.html', context)
 
+@login_required
 def edit_accounts(request, account_name):
     user = request.user
     account_info = AccountModel.objects.all()
@@ -388,7 +395,7 @@ def edit_accounts(request, account_name):
         return render(request, 'QuestAccounting/chartofaccounts/edit_accounts.html', context)
     
     
-
+@login_required
 def add_accounts(request):
     user = request.user
     form = AccountForm(request.POST)
@@ -418,6 +425,7 @@ def add_accounts(request):
         return render(request, 'QuestAccounting/chartofaccounts/add_accounts.html', context)
 
 
+@login_required
 def deactivate_accounts(request, account_name):
     user = request.user
     account_info = AccountModel.objects.all()
@@ -449,6 +457,7 @@ def deactivate_accounts(request, account_name):
                }
     return render(request, 'QuestAccounting/chartofaccounts/deactivate_accounts.html', context)
 
+@login_required
 def view_account_list(request):
     user = request.user
     account_info = AccountModel.objects.all()
@@ -459,6 +468,7 @@ def view_account_list(request):
                }
     return render(request, "QuestAccounting/chartofaccounts/view_account_list.html", context)
 
+@login_required
 def select_account_view(request, account_name):
     user = request.user
     account_info = AccountModel.objects.all()
@@ -480,6 +490,8 @@ def select_account_view(request, account_name):
 
 
 # General Ledger View
+
+@login_required
 def general_ledger(request, account_name):
     user = request.user
     account = get_object_or_404(AccountModel, account_name=account_name)
@@ -505,6 +517,8 @@ def general_ledger(request, account_name):
 
 
 # Event Logs View
+
+@login_required
 def event_logs(request):
     user = request.user
     event_logs = EventLog.objects.all()
@@ -526,6 +540,7 @@ def event_logs(request):
 
 # Journal Entries Views
 
+@login_required
 def journal_entries(request):
     user = request.user
     total_credit = JournalEntriesModel.objects.aggregate(Sum('credit'))['credit__sum']
@@ -543,6 +558,7 @@ def journal_entries(request):
                }
     return render(request, "QuestAccounting/journalentries/journal_entries.html", context)
 
+@login_required
 def view_journal_entries(request):
     user = request.user
     journal_entries = JournalEntriesModel.objects.all()
@@ -563,6 +579,7 @@ def view_journal_entries(request):
                }
     return render(request, "QuestAccounting/journalentries/view_journal_entries.html", context)
 
+@login_required
 def add_journal_entries(request):
     user = request.user
     form = JournalEntriesForm(request.POST)
@@ -608,6 +625,7 @@ def add_journal_entries(request):
     
     return render(request, "QuestAccounting/journalentries/add_journal_entries.html", context)
 
+@login_required
 def pending_journal_entries(request):
     user = request.user
     pending_journal_entries = PendingJournalEntriesModel.objects.all()
@@ -633,6 +651,7 @@ def pending_journal_entries(request):
     print(request.user.groups.filter(name='Manager').exists())
     return render(request, "QuestAccounting/journalentries/pending_journal_entries.html", context)
 
+@login_required
 def all_journal_entries(request):
     user = request.user
     all_journal_entries = AllJournalEntriesModel.objects.all()
@@ -652,6 +671,7 @@ def all_journal_entries(request):
                }
     return render(request, "QuestAccounting/journalentries/all_journal_entries.html", context)
 
+@login_required
 def journal_entry_approval(request, id):
     user = request.user
     journal_entry = AllJournalEntriesModel.objects.get(id=id)
@@ -705,6 +725,7 @@ def journal_entry_approval(request, id):
                }
     return render(request, "QuestAccounting/journalentries/journal_entry_approval.html", context)
 
+@login_required
 def journal_entry_documents(request, id):
     user = request.user
     journal_entry = JournalEntriesModel.objects.get(id=id)
@@ -753,6 +774,7 @@ def journal_entry_documents(request, id):
 
 # Email User View
 
+@login_required
 def email_user(request):
     user = request.user
     if request.method == 'POST':
@@ -795,6 +817,7 @@ def email_user(request):
 
 
 # Notifications View
+@login_required
 def notifications(request):
     user = request.user
     pending = PendingJournalEntriesModel.objects.all()
@@ -812,6 +835,7 @@ def notifications(request):
 
 
 # Financial Sheet Views
+@login_required
 def financial_sheets(request):
     user = request.user
     
@@ -822,6 +846,7 @@ def financial_sheets(request):
               }
     return render(request, "QuestAccounting/financialsheets/financial_sheets.html", context)
 
+@login_required
 def trial_balance(request):
     user = request.user
     accounts = AccountModel.objects.all()
@@ -832,6 +857,7 @@ def trial_balance(request):
               }
     return render(request, "QuestAccounting/financialsheets/trial_balance.html", context)
 
+@login_required
 def balance_sheet(request):
     user = request.user
     context = {'user': user, 
@@ -840,6 +866,7 @@ def balance_sheet(request):
               }
     return render(request, "QuestAccounting/financialsheets/balance_sheet.html", context)
 
+@login_required
 def income_statement(request):
     user = request.user
     context = {'user': user, 
@@ -848,6 +875,7 @@ def income_statement(request):
               }
     return render(request, "QuestAccounting/financialsheets/income_statement.html", context)
 
+@login_required
 def retained_earnings_statement(request):
     user = request.user
     context = {'user': user, 

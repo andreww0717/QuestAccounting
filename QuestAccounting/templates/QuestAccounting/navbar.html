@@ -146,6 +146,10 @@
 
     </head>
 
+
+    {% comment %} navbar bootstrap code 
+    All content is edited in the QuestAccounting/navbar_styling.html file {% endcomment %}
+
     <body>
       <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
@@ -168,22 +172,30 @@
         </div>
     </nav>
 
+    {% comment %} help button that appears on every page {% endcomment %}
     <button class="help-button" title="Help" onclick = "location.href = '{% url 'help' %}'"></button>
     
+    {% comment %} calendar that appears on every page {% endcomment %}
     <input type="date" class="calendar" title="Calendar">
     
+    {% comment %} username that appears on every page {% endcomment %}
     <div class= "username">
         <p>{{ user.username }}<p>
     </div>
 
+    {% comment %} Displays the user's profile picture, if they do not have one a default is used {% endcomment %}
     {% if user.userprofile.profile_pic %}
         <img src="{{ user.userprofile.profile_pic.url }}" class="profile-picture-navbar" alt="{{ user.username }}'s profile picture">
     {% else %}
         <img src="{{ '/media/profile_pics/profilepicture.png' }}" class="profile-picture-navbar" alt="default profile picture">
     {% endif %}
 
+
+    {% comment %} logo image on the navbar {% endcomment %}
     <img src="{% static 'images/logo.jpeg' %}" class= "navbar-logo" alt="Logo" title="Home">
 
+
+    {% comment %} script needed for bootstrap for the calendar and navbar {% endcomment %}
     <html>
         {% block content %}
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
