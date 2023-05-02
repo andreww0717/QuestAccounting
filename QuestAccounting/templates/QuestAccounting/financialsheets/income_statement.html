@@ -1,0 +1,169 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+
+<head>
+    <style>
+    
+        
+      
+          .form-center {
+            position: fixed;
+            top: 500;
+            left: 50%;
+            display: flex;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+            border-radius: 25px;
+            padding-left: 50px;
+            padding-right: 50px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+            border: 3px solid #FFFFFF;
+            color: #ffffff;
+        }
+
+        tr {
+            width: 100%;
+            color: #ffffff;
+        }
+
+        .total-name {
+            width:80%;
+            padding-left: 25px;
+        }
+        .total-value {
+            width:20%;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .name {
+            width: 80%;
+        }
+
+        .value {
+            width: 20%;
+        }
+
+        .print-button{
+            position: fixed;
+            left: 50%;
+            top: 100;
+            transform: translate(-50%, -50%);
+            background-color: #1973D1;
+            color: #ffffff;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 3px solid #ffffff;
+            display:block;
+            margin:0 auto;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        caption {
+            caption-side: top;
+            text-align: center;
+            color: #ffffff;
+        }
+    </style>
+    <script>
+        function printTable() {
+            var table = document.getElementsByTagName('table')[0];
+            var newWin = window.open('', 'Print-Window');
+            newWin.document.open();
+            newWin.document.write('<html><head><title>Income Statement</title></head><body>' + table.outerHTML + '</body></html>');
+            newWin.document.close();
+            newWin.print();
+        }
+    </script>
+</head>
+
+<div class='form-center'>
+    <table style="width: 500px;">
+
+        <thead>
+            <caption>
+            <h1>
+                Income Statement
+            </h1>
+        </caption>
+        <caption>
+            <h5 style="padding-bottom: 15px;">
+                For Year Ended December 31, 2022
+            </h5>
+        </caption>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td class="name">Net Sales</td>
+                <td class="value">$125125</td>
+            </tr>
+            <tr>
+                <td class="name">Cost Of Sales</td>
+                <td class="value">$46763</td>
+            </tr>
+            <tr>
+                <th class="total-name">Gross Profit</th>
+                <th class="total-value">$78362</th>
+            </tr>
+            <tr>
+                <td class="name">Selling and Operating Expenses</td>
+                <td class="value">$11435</td>
+            </tr>
+            <tr>
+                <td class="name">General and Administrative Expenses</td>
+                <td class="value">$5632</td>
+            </tr>
+            <tr>
+                <td class="name">Total Operating Expenses</td>
+                <td class="value">$17067</td>
+            </tr>
+            <tr>
+                <th class="total-name">Operating Income</th>
+                <th class="total-value">$61295</th>
+            </tr>
+            <tr>
+                <td class="name">Other Income</td>
+                <td class="value">$423</td>
+            </tr>
+            <tr>
+                <td class="name">Gain (Loss) On Financial Instruments</td>
+                <td class="value">$2341</td>
+            </tr>
+            <tr>
+                <td class="name">(Loss) Gain On Foreign Currency</td>
+                <td class="value">($4276)</td>
+            </tr>
+            <tr>
+                <td class="name">Interest Expense</td>
+                <td class="value">($6396)</td>
+            </tr>
+            <tr>
+                    <th class="total-name">Income Before Taxes</th>
+                    <th class="total-value">$53387</th>
+            </tr>
+            <tr>
+                <td class="name" style="padding-bottom: 15px;">Income Tax Expense</td>
+                <td class="value" style="padding-bottom: 15px;">$14065</td>
+            </tr>
+            <tr style = "border-bottom: 2px solid #FFFFFF; border-top: 2px solid #FFFFFF;">
+                    <th class="total-name">Net Income</th>
+                    <th class="total-value">$39322</th>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+<button class="print-button" onclick="printTable()">Save/Print Income Statement</button>
+
+
+{% endblock %}

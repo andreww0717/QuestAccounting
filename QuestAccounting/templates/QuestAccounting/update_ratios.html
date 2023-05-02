@@ -1,0 +1,85 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+
+<head>
+    <style>
+        
+        .form-center {
+            display: flex;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            justify-content: center;
+            text-align: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+            border-radius: 25px;
+            width: 250px;
+            height: 250px;
+            border: 3px solid #ffffff;
+            color: #ffffff;
+        }
+
+        input[type="number"]{
+            padding: 10px;
+            border-radius: 5px;
+            border: 3px solid #000000;
+            width: 90%;
+          }
+
+          button[type=submit] {
+            background-color: #ffffff;
+            color: #000000; 
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 3px solid #000000;
+            display: block;
+            margin:0 auto;
+            font-weight: bold;
+            box-shadow: 2px 2px 2px #888888;
+           
+          }
+          
+        {% block styling %}
+
+        .username{
+        color: #ffffff;
+        font-size: 22px;
+        align-items: right;
+        text-align: right;
+        background-color: #1973D1;
+        border-radius: 25px 0 0 25px;
+        padding: 20px;
+        border-top: 3px solid #FFFFFF;
+        border-left: 3px solid #FFFFFF;
+        border-bottom: 3px solid #FFFFFF;
+        height: 80px;
+        position: absolute;
+        top: 150;
+        right: 0;
+        }
+
+        {% endblock%}
+    
+    </style>
+</head>
+
+<div class = "form-center">
+    <form method="post">
+        {% csrf_token %}
+        <div style = "display: none;">
+            {{ form.ratio_type }}
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.ratio_value.id_for_label }}">Ratio:</label>
+            {{ form.ratio_value }}
+        </div>
+        <button type="submit" class="btn btn-primary">Update Ratio</button>
+    </form>
+</div>
+{% endblock %}

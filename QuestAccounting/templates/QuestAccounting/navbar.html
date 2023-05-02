@@ -1,0 +1,209 @@
+<html>
+{% load static %}
+
+    
+
+    <head>
+        <style>
+
+            .navbar{
+                background-color: #1973D1;
+                
+            }
+            
+            .navbar-brand{
+                margin-left: 70px;
+            }
+            
+            body{
+                background-color: #000000 !important;
+            }
+            
+            .title{
+                color:#ffffff;
+            }
+            
+            .help-button {
+                background-image: url('{% static "images/help.png" %}');
+                background-size: contain;
+                background-repeat: no-repeat;
+                border: none;
+                cursor: pointer;
+                position: absolute;
+                top: 60;
+                left: 100;
+                border-radius: 50px;
+                width: 30px;
+                height: 30px;
+                
+            }
+            
+            
+            {% block styling %}
+                .username{
+                    color: #ffffff;
+                    font-size: 22px;
+                    align-items: right;
+                    text-align: right;
+                    background-color: #1973D1;
+                    border-radius: 0 25px 25px 0;
+                    padding: 20px;
+                    border-top: 3px solid #FFFFFF;
+                    border-right: 3px solid #FFFFFF;
+                    border-bottom: 3px solid #FFFFFF;
+                    height: 80px;
+                    position: absolute;
+                    top: 150;
+                    left: 0;
+                }
+            {% endblock %}
+            
+            
+            
+            .profile-picture-navbar {
+                {% block profilepicture %}
+                display: block;
+                margin: 0 auto;
+                height: 125px;
+                border-radius: 50%;
+                border: 3px solid #000000;
+                margin-bottom: 35px;
+                position: absolute;
+                top: 10;
+                right: 10;
+                {% endblock %}
+            }
+            
+            
+            
+            .navbar-logo{
+                width: 80px;
+                height: 80px;
+                margin-right: 10px;
+                position: absolute;
+                top: 10;
+                left: 10;
+                border-radius: 25px;
+                border: 3px solid #FFFFFF;
+                cursor: pointer;
+            }
+
+            .calendar{
+                margin-top: 5px;
+                translate: 100%;
+                border-radius: 5px;
+                cursor: pointer;
+
+            }
+
+            .error {
+                position: absolute;
+                top: 100;
+                left: 50%;
+                transform: translate(-50%);
+                background-color: red;
+                padding: 25px;
+                border-radius: 50px;
+                color: white;
+                border: 3px solid #ffffff;
+                width: 684px;
+              }
+          
+              .error-totals {
+                justify-content: space-evenly;
+                display: flex;
+              }
+              
+          
+              .error-header {
+                font-size: 35px;
+                width: 100%;
+              }
+          
+              .error-text {
+                font-size: 25px;
+              }
+
+              .error-button {
+                border-radius: 10px;
+                border: 3px solid #ffffff;
+                background-color: transparent;
+                color: #ffffff;
+                font-size: 20px;
+                font-weight: bold;
+              }
+              
+              .error-buttons {
+                justify-content: center;
+                display: flex;
+              }
+            
+        </style>
+        <title>Quest Accounting</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    </head>
+
+
+    {% comment %} navbar bootstrap code 
+    All content is edited in the QuestAccounting/navbar_styling.html file {% endcomment %}
+
+    <body>
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+                {% block navbar_brand %}<a class="navbar-brand" href="{% url 'admin' %}">Quest Accounting</a>{% endblock %}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    {% block nav_items %}
+                        
+                    {% endblock %}
+                </ul>
+                <ul class="navbar-nav ml-auto" {% block nav_user_account %} style = "margin-right: 125px;" {% endblock %}>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account' %}" cursor="pointer" title="See User Details">User Account</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    {% comment %} help button that appears on every page {% endcomment %}
+    <button class="help-button" title="Help" onclick = "location.href = '{% url 'help' %}'"></button>
+    
+    {% comment %} calendar that appears on every page {% endcomment %}
+    <input type="date" class="calendar" title="Calendar">
+    
+    {% comment %} username that appears on every page {% endcomment %}
+    <div class= "username">
+        <p>{{ user.username }}<p>
+    </div>
+
+    {% comment %} Displays the user's profile picture, if they do not have one a default is used {% endcomment %}
+    {% if user.userprofile.profile_pic %}
+        <img src="{{ user.userprofile.profile_pic.url }}" class="profile-picture-navbar" alt="{{ user.username }}'s profile picture">
+    {% else %}
+        <img src="{{ '/media/profile_pics/profilepicture.png' }}" class="profile-picture-navbar" alt="default profile picture">
+    {% endif %}
+
+
+    {% comment %} logo image on the navbar {% endcomment %}
+    <img src="{% static 'images/logo.jpeg' %}" class= "navbar-logo" alt="Logo" title="Home">
+
+
+    {% comment %} script needed for bootstrap for the calendar and navbar {% endcomment %}
+    <html>
+        {% block content %}
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> 
+        {% endblock %}
+
+    </body>
+
+</html>

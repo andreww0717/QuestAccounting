@@ -1,0 +1,157 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <style>
+
+        @media print {
+            table {
+              margin: auto;
+            }
+          }
+
+        .form-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            display: flex;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+            border-radius: 25px;
+            padding-left: 50px;
+            padding-right: 50px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+            border: 3px solid #FFFFFF;
+            color: #ffffff;
+        }
+
+        .debit-credit {
+            width: 15%; 
+            text-align: center;
+        }
+
+        th{
+            font-size: 18px;
+            color: #ffffff;
+            border-bottom: 2px solid #FFFFFF;
+        }
+
+        td{ 
+            color: #ffffff;
+            padding-bottom: 10px;
+            text-align: center;
+            border-bottom: 1px solid #FFFFFF;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50vw;
+          }          
+        
+        tr:last-child td {
+            border-bottom: none;
+            border-top: 2px solid #FFFFFF;
+          }
+
+        .print-button{
+            position: fixed;
+            left: 50%;
+            top: 100;
+            transform: translate(-50%, -50%);
+            background-color: #1973D1;
+            color: #ffffff;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 3px solid #ffffff;
+            display:block;
+            margin:0 auto;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        caption {
+            caption-side: top;
+            text-align: center;
+            color: #ffffff;
+        }
+        
+    </style>
+    <script>
+        var totalCredit = 0;
+        var totalDebit = 0;
+        var total = 0;
+        
+        {% for account in accounts %}
+        totalCredit += {{ account.credit }};
+        totalDebit += {{ account.debit }};
+        {% endfor %}
+        if (totalCredit == totalDebit)
+        {
+            total = totalCredit;
+        }
+        
+        console.log(total, totalCredit, totalDebit)
+        document.write(total);
+        
+        
+            function printTable() {
+                var table = document.getElementsByTagName('table')[0];
+                var newWin = window.open('', 'Print-Window');
+                newWin.document.open();
+                newWin.document.write('<html><head><title>Trial Balance</title></head><body>' + table.outerHTML + '</body></html>');
+                newWin.document.close();
+                newWin.print();
+            }
+    </script>
+</head>
+
+<div class='form-center'>
+    
+
+    <table id="trial-balance">
+        <caption>
+            <h1>
+                Trial Balance
+            </h1>
+        </caption>
+        <thead>
+            <tr>
+                <th style = "width: 65%;">Accounts</th>
+                <th class = "debit-credit">Debit</th>
+                <th class = "debit-credit">Credit</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for account in accounts %}
+            <tr>
+                <td style= "text-align: left !important;">{{ account.account_name }}</td>
+                <td>${{ account.debit }}</td>
+                <td>${{ account.credit }}</td>
+            </tr> 
+        {% endfor %} 
+        <tr>
+            <td style= "text-align: left !important; font-weight: bold;">Total</td>
+            <td id="totalDebit"></td>
+            <td id="totalCredit"></td>
+        </tr>
+        </tbody>
+    </table>
+    
+</div>
+    <button class="print-button" onclick="printTable()">Save/Print Trial Balance</button>
+
+    <script>
+        document.getElementById("totalCredit").innerHTML = "$" + totalCredit;
+        document.getElementById("totalDebit").innerHTML = "$" + totalDebit;
+    </script>
+
+{% endblock %}

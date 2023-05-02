@@ -1,0 +1,86 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+
+<head>
+    <style>
+
+        .container {
+            transform: translate(-50%, -50%);
+        }
+    
+        .form-center {
+            display: flex;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+            border-radius: 25px;
+            width: 500px;
+            height: 100px;
+            border: 3px solid #ffffff;
+            color: #ffffff;
+          }
+    
+        .main-buttons {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            color: #ffffff;
+            width: 100%;
+            height: 100%;
+        }
+    
+    </style>
+</head>
+
+{% comment %} Provides error if total credit and total debit are not the same in the chart of accounts {% endcomment %}
+
+  {% if not doTheyMatch %}
+    <div class=error>
+        <div class = "error-header"><b>Error: Credit and Debit Do Not Match!</b></div>
+            <div class = "error-totals">
+                <div class = "error-text">Credit: {{ total_credit }}</div>
+                <button type = "button" class = "error-button" onclick = "location.href = '{% url 'view_journal_entries' %}'"> Go To View</button>
+                <button type = "button" class = "error-button" onclick = "location.href = '{% url 'add_journal_entries' %}'">Go To Add</button>
+                <div class = "error-text">Debit: {{ total_debit }}</div>
+            </div>
+        </div>
+    </div>
+  {% endif %}
+    
+  {% comment %} hub that allows the user easy access between the approved, pending, all, and add journal entry screens {% endcomment %}
+
+<div class="container" style= "position: fixed; top: 50%; left: 50%; height: 450px; width: 1000px;">
+    <div class="form-center" style= "position: fixed; top: 38%; left: 24%;">
+        <button type = "button" class = "main-buttons" onclick = "location.href = '{% url 'view_journal_entries' %}'">
+            <h1>View Journal Entries</h1>
+        </button>
+    </div>
+
+
+    <div class="form-center" style= "position: fixed; top: 38%; left: 76%;">
+        <button type = "button" class = "main-buttons" onclick = "location.href = '{% url 'add_journal_entries' %}'">
+            <h1>Add Journal Entries</h1>
+        </button>
+    </div>
+
+    <div class="form-center" style= "position: fixed; top: 62%; left: 24%;">
+        <button type = "button" class = "main-buttons" onclick = "location.href = '{% url 'pending_journal_entries' %}'">
+            <h1>Pending Journal Entries</h1>
+        </button>
+
+    </div>
+
+    <div class="form-center" style= "position: fixed; top: 62%; left: 76%;">
+        <button type = "button" class = "main-buttons" onclick = "location.href = '{% url 'all_journal_entries' %}'">
+            <h1>All Journal Entries</h1>
+        </button>
+    </div>
+</div>
+
+
+
+{% endblock %}

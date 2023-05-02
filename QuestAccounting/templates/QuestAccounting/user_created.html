@@ -1,0 +1,83 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+{% block content %}
+
+<head>
+    <style>
+
+        h1{
+            font-size: 33px;
+        }
+    
+        .form-center{
+          color:#ffffff;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          display: flex;
+          justify-content: center;
+          transform: translate(-50%, -50%);
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+          background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+          border-radius: 25px;
+          padding: 50px;
+          border: 3px solid #FFFFFF;
+        }
+    
+        p{
+            color: #FFFFFF;
+            font-size: 21px;
+            padding-right: 15px;
+          }
+    
+          button[type="submit"]{
+            background-color: #ffffff;
+            color: #000000;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-top: 10px;
+            text-align: center;
+            border: 3px solid #000000;
+            display:block;
+            margin:0 auto;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 2px 2px 2px #888888;
+          }
+    
+    </style>
+</head>
+
+{% comment %} Shows the admin the username and role for the account that was just created {% endcomment %}
+
+<div class="form-center">
+    <h1>You have successfully created a user</h1>
+    <p>Username: {{ user.username }} Role: {{ user.groups.first.name }}</p>
+
+    {% if 'Admin' in groups %}
+    
+    <form action="{% url 'admin' %}" method="get">
+        <button type="submit" class=edit>Return to Homepage</button>
+    </form>
+
+    {% elif 'Manager' in groups %}
+
+    <form action="{% url 'manager' %}" method="get">
+        <button type="submit" class=edit>Return to Homepage</button>
+    </form>
+
+    {% else %}
+
+    <form action="{% url 'regular' %}" method="get">
+        <button type="submit">Return to Homepage</button>
+    </form>
+
+    {% endif %}
+    
+</div>
+
+
+
+{% endblock %}

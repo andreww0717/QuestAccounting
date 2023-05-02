@@ -1,0 +1,130 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+{% load static %}
+{% block content %}
+
+<div class="form-center">
+    <h2>Create User</h2>
+    <form method="post" style= "margin-top: 20px;">
+      {% csrf_token %}
+        <div class="form-group">
+          <label for="{{ form.first_name.id_for_label }}">First Name:</label>
+          {{ form.first_name }}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+          {{ form.last_name }}
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.date_of_birth.id_for_label }}">Date of Birth:</label>
+          {{ form.date_of_birth }}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.email.id_for_label }}">Email:</label>
+          {{ form.email }}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.username.id_for_label }}">Username:</label>
+          {{ form.username }}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.password1.id_for_label }}">Password:</label>
+          {{ form.password1 }}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.password2.id_for_label }}">Verify Password:</label>
+          {{ form.password2 }}
+        </div>
+      <button type="submit" class="btn btn-primary">Create User</button>
+    </form>
+</div>
+
+<style>
+  
+    .form-center {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      display: flex;
+      justify-content: center;
+      transform: translate(-50%, -50%);
+      flex-direction: column;
+      align-items: center;
+      background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+      border-radius: 25px;
+      padding: 50px;
+      border: 3px solid #FFFFFF;
+      color: #ffffff;
+    }
+    
+    .form-input {
+      display: inline-block;
+      margin-right: 10px;
+    }
+  
+    .form-group {
+      margin-bottom: 20px;
+      text-align: right;
+      
+    }
+  
+    label {
+      font-weight: bold;
+      color: #FFFFFF;
+      font-size: 18px;
+      
+    }
+  
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      padding: 10px;
+      border-radius: 5px;
+      border: 3px solid #000000;
+      width: 250px;
+    }
+  
+    button[type="submit"] {
+      background-color: #ffffff;
+      color: #000000;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      border: 3px solid #000000;
+      display:block;
+      margin:0 auto;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 2px 2px 2px #888888;
+    }
+   
+    button[type="button"] {
+      background-color: transparent;
+      color: #000000;
+      border-radius: none;
+      padding: 10px 20px;
+      text-align: center;
+      border: none;
+      display:block;
+      margin:0 auto;
+      font-size: 12px;
+      font-weight: bold;
+      text-decoration: underline;
+      color: #FFFFFF;
+    }
+    
+    .logo{
+        display: block;
+        margin: 0 auto;
+        max-width: 100%;
+        height: 125px;
+        border-radius: 40%;
+        border: 3px solid #FFFFFF;
+    }
+  </style>
+  
+{% endblock %}
+
+
