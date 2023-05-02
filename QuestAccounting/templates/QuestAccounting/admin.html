@@ -3,6 +3,7 @@
 
 {% block content %}
 <head>
+    
     <style>
 
         a, a:hover {
@@ -10,9 +11,6 @@
             text-decoration: none;
         }
 
-        h3{
-            display: flex;
-        }
         .container {
             transform: translate(-50%, -50%);
         }
@@ -23,10 +21,11 @@
             transform: translate(-50%, -50%);
             flex-direction: column;
             align-items: center;
+            text-align: center;
             background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
             border-radius: 25px;
-            width: 500px;
-            height: 100px;
+            width: 250px;
+            height: 250px;
             border: 3px solid #ffffff;
             color: #ffffff;
         }
@@ -60,7 +59,7 @@
         }
 
         {% endblock%}
-    
+        
     </style>
 </head>
 
@@ -77,7 +76,7 @@
 
 {% comment %} navigation to accounts or journal entries from the admin page {% endcomment %}
 
-<div class="container" style= "position: fixed; top: 50%; left: 50%; height: 450px; width: 700px;">
+{% comment %} <div class="container" style= "position: fixed; top: 50%; left: 50%; height: 450px; width: 700px;">
     <div class="form-center" style="position: fixed; top: 26%; left: 50%;">
         <button type = "button" onclick = "location.href = '{% url 'view_account_list' %}'">
             <h1>View Account List</h1>
@@ -95,8 +94,183 @@
             <h1>Journal Entries</h1>
         </button>
     </div>
+</div> {% endcomment %}
+
+<div class="form-center" style="position: fixed; top: 36%; left: 50%;">
+    <button type = "button" onclick = "location.href = '{% url 'update_ratios' quick %}'">
+        <h2 id = "quick_title">Quick Ratio:</h2>
+        <h3 id = "quick" >{{ quick_ratio }}</h3>
+        {% comment %} 
+        .89 and under - red
+        .90 to 1.09 - yellow
+        1.10 and up - green 
+        {% endcomment %}
+    </button>
 </div>
 
+<div class="form-center" style="position: fixed; top: 64%; left: 50%;">
+    <button type = "button" onclick = "location.href = '{% url 'update_ratios' current %}'">
+        <h2 id = "current_title">Current Ratio:</h2>
+        <h3 id = "current">{{ current_ratio }}</h3>
+        {% comment %} 
+        1.49 and under - red
+        1.5 to 1.99 - yellow
+        2 and up - green 
+        {% endcomment %}
+    </button>
+</div>
+
+<div class="form-center" style="position: fixed; top: 36%; left: 64%;">
+    <button type = "button" onclick = "location.href = '{% url 'update_ratios' working %}'">
+        <h2 id = "working_title">Working Capital Ratio:</h2>
+        <h3 id = "working">{{ working_ratio }}</h3>
+        {% comment %} 
+        .99 and under - red
+        1 to 1.49 - yellow
+        1.5 and up - green
+        {% endcomment %}
+    </button>
+</div>
+
+<div class="form-center" style="position: fixed; top: 64%; left: 64%;">
+    <button type = "button" onclick = "location.href = '{% url 'update_ratios' times %}'">
+        <h2 id = "times_title">Times Interest Earned Ratio:</h2>
+        <h3 id = "times">{{ times_ratio }}</h3>
+        {% comment %} 
+        1.99 and under and 4.01 and up - red
+        2 to 2.50 - yellow
+        2.51 to 4 - green
+        {% endcomment %}
+    </button>
+</div>
+
+<div class="form-center" style="position: fixed; top: 36%; left: 36%;">
+    <button type = "button" onclick = "location.href = '{% url 'update_ratios' debt %}'">
+        <h2 id = "debt_title">Debt to Equity Ratio:</h2>
+        <h3 id = "debt">{{ debt_ratio }}</h3>
+        {% comment %} 
+        .71 and above - red
+        .41 to .7 - yellow
+        .4 and under - green
+        {% endcomment %}
+    </button>
+</div>
+
+<div class="form-center" style="position: fixed; top: 64%; left: 36%;">
+    <button type = "button" onclick = "location.href = '{% url 'update_ratios' accounts %}'">
+        <h2 id = "accounts_title">Accounts Receivable Turnover Ratio:</h2>
+        <h3 id = "accounts">{{ accounts_ratio }}</h3>
+        {% comment %} 
+        2.99 and under - red
+        3 to 7.49 - yellow
+        7.5 and up - green
+        {% endcomment %}
+    </button>
+</div>
+
+<script>
+    var quick = {{ quick_ratio }};
+    var current = {{ current_ratio }};
+    var working = {{ working_ratio }};
+    var times = {{ times_ratio }};
+    var debt = {{ debt_ratio }};
+    var accounts = {{ accounts_ratio }};
+
+    if (quick < .9) {
+        document.getElementById("quick_title").style.color = "red";
+        document.getElementById("quick").style.color = "red";
+    } 
+    else if (quick > .89 && quick < 1.1) {
+        document.getElementById("quick_title").style.color = "yellow";
+        document.getElementById("quick").style.color = "yellow";
+        
+    } 
+    else {
+        document.getElementById("quick_title").style.color = "green";
+        document.getElementById("quick").style.color = "green";
+        
+    }
+
+    if (current < 1.5) {
+        document.getElementById("current_title").style.color = "red";
+        document.getElementById("current").style.color = "red";
+    } 
+    else if (current > 1.49 && current < 2.00) {
+        document.getElementById("current_title").style.color = "yellow";
+        document.getElementById("current").style.color = "yellow";
+        
+    } 
+    else {
+        document.getElementById("current_title").style.color = "green";
+        document.getElementById("current").style.color = "green";
+        
+    }
+{% comment %} 
+        .99 and under - red
+        1 to 1.49 - yellow
+        1.5 and up - green
+        {% endcomment %}
+    if (working < 1.00) {
+        document.getElementById("working_title").style.color = "red";
+        document.getElementById("working").style.color = "red";
+    } 
+    else if (working > .99 && working < 1.5) {
+        document.getElementById("working_title").style.color = "yellow";
+        document.getElementById("working").style.color = "yellow";
+        
+    } 
+    else {
+        document.getElementById("working_title").style.color = "green";
+        document.getElementById("working").style.color = "green";
+        
+    }
+
+    if (times < 2 || times > 3.99) {
+        document.getElementById("times_title").style.color = "red";
+        document.getElementById("times").style.color = "red";
+    } 
+    else if (times > 1.99 && times < 2.51 || times > 3.49 && times < 4.00) {
+        document.getElementById("times_title").style.color = "yellow";
+        document.getElementById("times").style.color = "yellow";
+        
+    } 
+    else {
+        document.getElementById("times_title").style.color = "green";
+        document.getElementById("times").style.color = "green";
+        
+    }
+
+    if (debt > .7) {
+        document.getElementById("debt_title").style.color = "red";
+        document.getElementById("debt").style.color = "red";
+    } 
+    else if (debt > .4 && debt < .71) {
+        document.getElementById("debt_title").style.color = "yellow";
+        document.getElementById("debt").style.color = "yellow";
+        
+    } 
+    else {
+        document.getElementById("debt_title").style.color = "green";
+        document.getElementById("debt").style.color = "green";
+        
+    }
+
+    if (accounts < 3) {
+        document.getElementById("accounts_title").style.color = "red";
+        document.getElementById("accounts").style.color = "red";
+    } 
+    else if (accounts > 2.99 && accounts < 7.5) {
+        document.getElementById("accounts_title").style.color = "yellow";
+        document.getElementById("accounts").style.color = "yellow";
+        
+    } 
+    else {
+        document.getElementById("accounts_title").style.color = "green";
+        document.getElementById("accounts").style.color = "green";
+        
+    }
+
+</script>
 
 
 {% endblock %}

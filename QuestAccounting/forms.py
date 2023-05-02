@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from QuestAccounting import models
 from django.core.mail import send_mail
-from .models import AccountRequest, AllJournalEntriesModel, JournalEntryDocuments, PendingJournalEntriesModel, RejectedJournalEntriesModel, UserProfile, AccountModel, JournalEntriesModel
+from .models import AccountRequest, AllJournalEntriesModel, JournalEntryDocuments, PendingJournalEntriesModel, RatiosModel, RejectedJournalEntriesModel, UserProfile, AccountModel, JournalEntriesModel
 
 
 
@@ -142,3 +142,8 @@ class EmailForm(forms.Form):
     recipient = forms.ModelChoiceField(queryset=User.objects.all())
     subject = forms.CharField(max_length=100)
     message = forms.CharField(widget=forms.Textarea)
+
+class RatiosForm(forms.ModelForm):
+    class Meta: 
+        model = RatiosModel
+        fields = ['ratio_type', 'ratio_value']

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AccountRequest, AllJournalEntriesModel, PendingJournalEntriesModel, RejectedJournalEntriesModel, UserProfile, AccountModel, JournalEntriesModel, JournalEntryDocuments, EventLog
+from .models import AccountRequest, AllJournalEntriesModel, PendingJournalEntriesModel, RatiosModel, RejectedJournalEntriesModel, UserProfile, AccountModel, JournalEntriesModel, JournalEntryDocuments, EventLog
 
 # Register your models here.
 
@@ -56,4 +56,9 @@ class EventLogAdmin(admin.ModelAdmin):
      list_display = ('id','event_date', 'before_image', 'after_image', 'user_id', 'account_changed')
 
 admin.site.register(EventLog, EventLogAdmin)
+
+class RatiosModelAdmin(admin.ModelAdmin):
+     list_display = ('ratio_type','ratio_value')
+
+admin.site.register(RatiosModel, RatiosModelAdmin)
 

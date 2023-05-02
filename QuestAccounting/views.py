@@ -7,8 +7,8 @@ from django.dispatch import Signal
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404, HttpResponse
 from django.contrib.auth.forms import AuthenticationForm
-from QuestAccounting.models import AccountModel, AllJournalEntriesModel, EventLog, JournalEntriesModel, JournalEntryDocuments, PendingJournalEntriesModel, RejectedJournalEntriesModel, UserProfile
-from .forms import AllJournalEntriesForm, EmailForm, GroupSelection, JournalEntriesDocumentsForm, PendingJournalEntriesForm, RejectedJournalEntriesForm, UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset, AccountForm, JournalEntriesForm
+from QuestAccounting.models import AccountModel, AllJournalEntriesModel, EventLog, JournalEntriesModel, JournalEntryDocuments, PendingJournalEntriesModel, RatiosModel, RejectedJournalEntriesModel, UserProfile
+from .forms import AllJournalEntriesForm, EmailForm, GroupSelection, JournalEntriesDocumentsForm, PendingJournalEntriesForm, RatiosForm, RejectedJournalEntriesForm, UserCreationRequest, UserCreation, UserProfileForm, userList, EditUser, PasswordReset, AccountForm, JournalEntriesForm
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group, User
 from .signals import account_changed
@@ -57,10 +57,37 @@ def login_view(request):
 @user_passes_test(lambda u: u.groups.filter(name='Admin').exists())
 def admin(request):
     pending = PendingJournalEntriesModel
+    ratios = RatiosModel.objects.all()
+    quick_ratio = ratios.filter(ratio_type='Quick Ratio:').values_list('ratio_value', flat=True).first()
+    current_ratio = ratios.filter(ratio_type='Current Ratio:').values_list('ratio_value', flat=True).first()
+    working_ratio = ratios.filter(ratio_type='Working Capital Ratio:').values_list('ratio_value', flat=True).first()
+    times_ratio = ratios.filter(ratio_type='Times Interest Earned Ratio:').values_list('ratio_value', flat=True).first()
+    debt_ratio = ratios.filter(ratio_type='Debt to Equity Ratio:').values_list('ratio_value', flat=True).first()
+    accounts_ratio = ratios.filter(ratio_type='Accounts Receivable Turnover').values_list('ratio_value', flat=True).first()
+    quick = '1'
+    current = '2'
+    working = '3'
+    times = '4'
+    debt = '5'
+    accounts = '6'
+
     context = {
         'is_superuser': request.user.is_superuser,
         'groups': request.user.groups.values_list('name', flat=True), 
-        'pending': pending,  
+        'pending': pending, 
+        'ratios': ratios, 
+        'quick':quick, 
+        'quick_ratio':quick_ratio, 
+        'current':current, 
+        'current_ratio':current_ratio, 
+        'working':working, 
+        'working_ratio':working_ratio, 
+        'times':times, 
+        'times_ratio':times_ratio, 
+        'debt':debt, 
+        'debt_ratio':debt_ratio, 
+        'accounts':accounts, 
+        'accounts_ratio':accounts_ratio, 
     }
     
     return render(request, 'QuestAccounting/admin.html', context)
@@ -883,3 +910,28 @@ def retained_earnings_statement(request):
               'groups': request.user.groups.values_list('name', flat=True)
               }
     return render(request, "QuestAccounting/financialsheets/retained_earnings_statement.html", context)
+
+@login_required
+def update_ratios(request, ratio_type):
+    user = request.user
+    ratio = get_object_or_404(RatiosModel, pk=ratio_type)
+    if request.method == 'POST':
+        form = RatiosForm(request.POST, instance=ratio)
+        if form.is_valid():
+            form.save()
+            if user.groups.filter(name='Admin').exists():
+                return redirect('admin')
+            elif user.groups.filter(name='Manager').exists():
+                return redirect('manager')
+            elif user.groups.filter(name='Regular').exists():
+                return redirect('regular')
+            
+    else:
+        form = RatiosForm(instance=ratio)
+
+    context = {'user': user, 
+              'is_superuser': request.user.is_superuser, 
+              'groups': request.user.groups.values_list('name', flat=True), 
+              'form': form
+              }
+    return render(request, "QuestAccounting/update_ratios.html", context)

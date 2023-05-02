@@ -21,6 +21,8 @@ urlpatterns = [
     path('administrator', views.admin, name = "admin"),
     path('manager', views.manager, name = "manager"),
     path('regular', views.regular, name = "regular"),
+    path('update/<str:ratio_type>', views.update_ratios, name = "update_ratios"),
+
 
 
     # user view urls

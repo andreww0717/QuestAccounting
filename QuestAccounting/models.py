@@ -122,3 +122,7 @@ class EventLog(models.Model):
     account_changed = models.CharField(max_length=30)
     before_image = models.CharField(max_length=100, null=True, blank=True)
     after_image = models.CharField(max_length=100)
+
+class RatiosModel(models.Model):
+    ratio_type = models.CharField(max_length=30)
+    ratio_value = models.DecimalField(max_digits=20, decimal_places=2)
