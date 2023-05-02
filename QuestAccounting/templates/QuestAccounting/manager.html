@@ -63,6 +63,7 @@
         {% endblock%}
     
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 </head>
 
 {% comment %} shows notification if there are pending journal entries {% endcomment %}
@@ -78,26 +79,166 @@
 
 {% comment %} navigation to accounts and journal entries from main page {% endcomment %}
 
-<div class="container" style= "position: fixed; top: 50%; left: 50%; height: 450px; width: 700px;">
-    <div class="form-center" style="position: fixed; top: 26%; left: 50%;">
+
+
+
+
+
+
+
+
+
+
+<div class="container" style= "position: fixed; top: 50%; left: 50%; height: 800px; width: 1100px;">
+    <div>
+        <div class= "row">
+            <div class="col-md-6" style="color: white; font-size: 30px;">Dashboard</div>
+        </div>
+    </div>
+    <div>
+        
+        <div class="row" style="background-color: white; border-radius: 25px;">
+            <div class="col">
+                <div class="table">
+                <div class="row">
+                    <div class="col-md-6">
+                        <canvas id="myChartline"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                    <canvas id="myChartBar"></canvas>
+                    </div> 
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <canvas id="myChartline2"></canvas>
+                    </div>
+                    <div class="col-md-6">
+                    <canvas id="myChartBar2"></canvas>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="form-center" style="position: fixed; top: 100%; left: 0%;">
         <button type = "button" onclick = "location.href = '{% url 'view_account_list' %}'">
             <h1>View Account List</h1>
         </button>
     </div>
 
-    <div class="form-center" style="position: fixed; top: 50%; left: 50%;">
+    <div class="form-center" style="position: fixed; top: 100%; left: 50%;">
         <button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">
             <h1>View Accounts</h1>
         </button>
     </div>
 
-    <div class="form-center" style= "position: fixed; top: 74%; left: 50%;">
+    <div class="form-center" style= "position: fixed; top: 100%; left: 100%;">
         <button type = "button" onclick = "location.href = '{% url 'journal_entries' %}'">
             <h1>Journal Entries</h1>
         </button>
     </div>
 </div>
 
+
+
+
+  
+  <script>
+  
+    drawLineGraph('myChartline');
+    drawLineGraph('myChartBar');
+    drawLineGraph('myChartline2');
+    drawLineGraph('myChartBar2');
+
+    function drawLineGraph(id) {
+      var labels = [
+      'January',
+      'February', 
+      'March', 
+      'April', 
+      'May', 
+      'June', 
+      'July'
+      ];
+      var chartLabel = "my data";
+      var chartdata = [0, 10, 5, 2, 20, 30, 45];
+      var ctx = document.getElementById(id).getContext('2d');
+      var chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line',
+  
+        // The data for our dataset
+        data: {
+          labels: labels,
+          datasets: [{
+            label: chartLabel,
+            backgroundColor: 'rgb(255, 100, 200)',
+            borderColor: 'rgb(55, 99, 132)',
+            data: chartdata,
+          }]
+        },
+  
+        // Configuration options go here
+        options: {
+          scales: {
+            xAxes: [{
+              display: true
+            }],
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+  
+      });
+    }
+  
+    function drawBarGraph(data, id) {
+      var labels = data.labels;
+      var chartLabel = data.chartLabel;
+      var chartdata = data.chartdata;
+      var ctx = document.getElementById(id).getContext('2d');
+      var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: chartLabel,
+            data: chartdata,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+    }
+  </script>
 
 
 {% endblock %}
