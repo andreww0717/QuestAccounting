@@ -6,9 +6,14 @@
 <head>
   <style>
 
+    body{
+      height: auto;
+      overflow: auto;
+    }
+
     .form-center {
-        position: fixed;
-        top: 50%;
+        position: absolute;
+        top: 500;
         left: 50%;
         display: flex;
         justify-content: center;
@@ -71,7 +76,7 @@
         background-color: transparent; 
       }
 
-</style>
+  </style>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
@@ -86,7 +91,9 @@
         });
   
     </script>
-  </head>
+</head>
+
+{% comment %} displays event logs from when accounts are changed {% endcomment %}
 
 <div class= "form-center">
     <h1>Event Logs</h1>

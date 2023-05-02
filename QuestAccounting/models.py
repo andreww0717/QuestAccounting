@@ -29,7 +29,7 @@ class AccountModel(models.Model):
     initial_balance = models.DecimalField(max_digits=20, decimal_places=2)
     debit = models.DecimalField(max_digits=20, decimal_places=2)
     credit = models.DecimalField(max_digits=20, decimal_places=2)
-    balance = models.DecimalField(max_digits=20, decimal_places=2)
+    balance = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     user_id = models.ForeignKey(User, on_delete=models.PROTECT)
     order = models.CharField(max_length=2)
@@ -54,6 +54,31 @@ class JournalEntriesModel(models.Model):
     debit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     credit = models.DecimalField(max_digits=20, decimal_places=2, blank=True, null=True)
     status = models.CharField(max_length=10, choices=status_options, blank=True, default='approved')
+
+    def save(self, *args, **kwargs):
+        super(JournalEntriesModel, self).save(*args, **kwargs)
+        initial_balance = self.account_name.initial_balance
+        balance = self.account_name.balance
+        debit = self.account_name.debit
+        credit = self.account_name.credit
+        debit += self.debit
+        credit += self.credit
+
+        if debit == credit:
+            balance = initial_balance + debit
+        elif debit != credit: 
+            balance = None
+
+        self.account_name.debit = debit
+        self.account_name.credit = credit
+        self.account_name.balance = balance
+        self.account_name.save()
+
+    def __str__(self):
+        return f"{self.id}: {self.account_name}"
+    
+
+        
 
 # adds the database that tracks pending journal entries
 class PendingJournalEntriesModel(models.Model):
@@ -81,6 +106,14 @@ class AllJournalEntriesModel(models.Model):
     status = models.CharField(max_length=10, choices=status_options, blank=True, default='pending')
     comment = models.TextField(blank=True)
 
+# document uploading for journal entries
+class JournalEntryDocuments(models.Model):
+    journal_entry = models.ForeignKey(JournalEntriesModel, on_delete=models.CASCADE)
+    file_document = models.FileField(upload_to='journal_entry_documents', blank=True, null=True)
+    image_document = models.ImageField(upload_to='journal_entry_documents', blank=True, null=True)
+
+    
+
 # adds the database that tracks the event logs
 class EventLog(models.Model):
     id = models.AutoField(primary_key=True)
@@ -89,3 +122,7 @@ class EventLog(models.Model):
     account_changed = models.CharField(max_length=30)
     before_image = models.CharField(max_length=100, null=True, blank=True)
     after_image = models.CharField(max_length=100)
+
+class RatiosModel(models.Model):
+    ratio_type = models.CharField(max_length=30)
+    ratio_value = models.DecimalField(max_digits=20, decimal_places=2)

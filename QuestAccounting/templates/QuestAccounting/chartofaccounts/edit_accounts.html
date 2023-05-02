@@ -3,6 +3,131 @@
 {% load static %}
 
 {% block content %}
+
+<head>
+  <style>
+
+    body{
+      height: auto;
+      overflow: auto;
+    }
+
+    .form-center {
+      position: absolute;
+      top: 600;
+      left: 50%;
+      display: flex;
+      transform: translate(-50%, -50%);
+      flex-direction: column;
+      align-items: center;
+      background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+      border-radius: 25px;
+      padding: 50px;
+      border: 3px solid #FFFFFF;
+      width: 1000px;
+      overflow: auto;
+    }
+    
+    .form-input {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 32%;
+      float: left;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+
+    .form-account {
+        margin-bottom: 20px;
+        text-align: left;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 98.1%;
+        float: left;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+
+    label {
+      font-weight: bold;
+      color: #FFFFFF;
+      font-size: 18px;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="text"], textarea, input[type="number"], select {
+      padding: 10px;
+      border-radius: 5px;
+      border: 3px solid #000000;
+      width: 100%;
+    }
+
+    textarea {
+        width: 99%;
+        height: 150px;
+        margin-bottom: 10px;
+    }
+
+    button[type="submit"] {
+      background-color: #ffffff;
+      color: #000000;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      border: 3px solid #000000;
+      display:block;
+      margin:0 auto;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 2px 2px 2px #888888;
+    }
+  
+    button[type="button"] {
+      background-color: #ffffff;
+      color: #000000;
+      border-radius: 5px;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      border: 3px solid #000000;
+      display: block;
+      margin:0 auto;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 2px 2px 2px #888888;
+      float: left;
+
+    }
+
+    .top {
+      display: flex;
+      align-items: center;
+      width: 850px;
+      margin-bottom: 15px;
+    }
+
+    .back-button {  
+      margin-right: 250px;
+
+    }
+    
+
+  </style>
+</head>
+
+{% comment %} update the info in an account in the chart of accounts {% endcomment %}
+
 <div class='form-center'>
         <div class = top>
           {% if previous_page == 'view_account_list'%}
@@ -83,135 +208,5 @@
     </form>
 </div>
 
-<style>
-
-.form-center {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    display: flex;
-    justify-content: center;
-    transform: translate(-50%, -50%);
-    flex-direction: column;
-    background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
-    border-radius: 25px;
-    padding: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
-    border: 3px solid #FFFFFF;
-  }
-
-  .form-center {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    display: flex;
-    transform: translate(-50%, -50%);
-    flex-direction: column;
-    align-items: center;
-    background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
-    border-radius: 25px;
-    padding: 50px;
-    border: 3px solid #FFFFFF;
-    width: 1000px;
-    overflow: auto;
-  }
-  
-  .form-input {
-    display: inline-block;
-    margin-right: 10px;
-  }
-
-  .form-group {
-    margin-bottom: 20px;
-    text-align: left;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 32%;
-    float: left;
-    margin-left: 5px;
-    margin-right: 5px;
-  }
-
-  .form-account {
-      margin-bottom: 20px;
-      text-align: left;
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      width: 98.1%;
-      float: left;
-      margin-left: 5px;
-      margin-right: 5px;
-    }
-
-  label {
-    font-weight: bold;
-    color: #FFFFFF;
-    font-size: 18px;
-    display: block;
-    margin-bottom: 10px;
-  }
-
-  input[type="text"], textarea, input[type="number"] {
-    padding: 10px;
-    border-radius: 5px;
-    border: 3px solid #000000;
-    width: 100%;
-  }
-
-  textarea {
-      width: 99%;
-      height: 150px;
-      margin-bottom: 10px;
-  }
-
-  button[type="submit"] {
-    background-color: #ffffff;
-    color: #000000;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    border: 3px solid #000000;
-    display:block;
-    margin:0 auto;
-    font-size: 18px;
-    font-weight: bold;
-    box-shadow: 2px 2px 2px #888888;
-  }
- 
-  button[type="button"] {
-    background-color: #ffffff;
-    color: #000000;
-    border-radius: 5px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    border: 3px solid #000000;
-    display: block;
-    margin:0 auto;
-    font-size: 18px;
-    font-weight: bold;
-    box-shadow: 2px 2px 2px #888888;
-    float: left;
-
-  }
-
-  .top {
-    display: flex;
-    align-items: center;
-    width: 850px;
-    margin-bottom: 15px;
-  }
-
-  .back-button {  
-    margin-right: 250px;
-
-  }
-  
-
-</style>
 
 {% endblock %}

@@ -2,33 +2,58 @@
 
 {% block content %}
 
-<div class='form-center'>
-    <h1> help me plz </h1>
-    <button>Go to Page 1</button>
-	<button>Go to Page 2</button>
-	<button>Go to Page 3</button>
+<head>
+    <style>
 
+
+        body{
+           
+            scroll: auto;
+        }
+        .form-center {
+            position: absolute;
+            top: 750;
+            left: 50%;
+            display: flex;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+            border-radius: 25px;
+            width: 500px;
+            padding: 25px;
+            border: 3px solid #ffffff;
+            color: #ffffff;
+        }
+
+    </style>
+</head>
+
+<div class='form-center'>
+    <h1> Help Section </h1>
+    <h3><u>Homepage</u></h3>
+    <p>The homepage displays six important ratios every company needs to consider. These ratios are displayed in red if the ratio is considered bad, yellow for ratios that are considered ok, and green for ratios that are considered great.</p>
+    <h3><u>User View</u></h3>
+    <p>This page displays the list of users and allows the viewing of their account information.</p>
+    <h3><u>User Creation</u></h3>
+    <p>This page is an admin only page that allows admin to create accounts for users.</p>
+    <h3><u>Notifications</u></h3>
+    <p>This page displays notifications for managers and admins.</p>
+    <h3><u>Accounts</u></h3>
+    <p>This page allows users to see the chart of accounts, add accounts, edit accounts, deactivate accounts, and see each accounts general ledger.</p>
+    <h3><u>Event Logs</u></h3>
+    <p>This page displays changes made to account information.</p>
+    <h3><u>Journal Entries</u></h3>
+    <p>This page allows users to see the list of approved journal entries, pending journal entries, and a list of all journal entries. Users can add documents to journal entries through the view journal entries tab. This page also allows the adding of journal entries for managers, and the request for accountant users. </p>
+    <h3><u>Financial Sheets</u></h3>
+    <p>This page displays the trial balance, balance sheet, income statement, and retained earnings statement. Users can print and save these documents from this section.</p>
+    <h3><u>Email User</u></h3>
+    <p>This page allows the user to email an user by selecting an existing account.</p>
+    <h3><u>User Account</u></h3>
+    <p>This page displays the users information and allows them to edit their own information.</p>
 </div>
 
-<style>
 
-    .form-center {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        display: flex;
-        justify-content: center;
-        transform: translate(-50%, -50%);
-        flex-direction: column;
-        align-items: center;
-        background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
-        border-radius: 25px;
-        width: 500px;
-        padding: 25px;
-        border: 3px solid #ffffff;
-        color: #ffffff;
-      }
-
-</style>
 
 {% endblock %}

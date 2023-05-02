@@ -1,6 +1,9 @@
 {% extends 'QuestAccounting/navbar.html' %}
 
 {% load static %}
+
+{% comment %} link in navbar to the correct homepage based on the users group {% endcomment %}
+
 {% block navbar_brand %}
 {% if 'Admin' in groups %}
 
@@ -12,30 +15,25 @@
 
 {% else %}
 
-    <a class="navbar-brand" href="{% url 'regular' %}">Homepage</a>
+    <a class="navbar-brand" href="{% url 'regular' %}" cursor="pointer" title="Manager Homepage">Homepage</a>
 
 {% endif %}
 {% endblock %}
 
 {% block nav_items %}
 
+   {% comment %} Adds navbar buttons that are specific to certain groups {% endcomment %}
+
 {% if 'Admin' in groups %}
 
     <li class="nav-item">
         <a class="nav-link" href="{% url 'user_management' %}" cursor="pointer" title="Create or View Users">User Management</a>
     </li>
+    
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'view_accounts' %}" cursor="pointer" title="See Financial Accounts">Accounts</a>
+        <a class="nav-link" href="{% url 'notifications' %}"cursor="pointer" title="Journal Entry Requests">Notifications</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'event_logs' %}" cursor="pointer" title="User Events">Event Logs</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'journal_entries' %}" cursor="pointer" title="Modify Journal">Journal Entries</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'email_user' %}" cursor="pointer" title="Email User Accounts">Email User</a>
-    </li>
+    
 
 {% elif 'Manager' in groups %}
 
@@ -43,31 +41,32 @@
         <a class="nav-link" href="{% url 'user_view' %}">User View</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{% url 'view_accounts' %}">Accounts</a>
+        <a class="nav-link" href="{% url 'notifications' %}">Notifications</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'event_logs' %}">Event Logs</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'journal_entries' %}">Journal Entries</a>
-    </li>
-
 {% else %}
     
     <li class="nav-item">
         <a class="nav-link" href="{% url 'user_view' %}">User View</a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'view_accounts' %}">Accounts</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'event_logs' %}">Event Logs</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{% url 'journal_entries' %}">Journal Entries</a>
-    </li>
 
 {% endif %}
 
+    {% comment %} Universal Navbar buttons are here {% endcomment %}
+    
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'account_hub' %}" cursor="pointer" title="See Financial Accounts">Accounts</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'event_logs' %}" cursor="pointer" title="User Events">Event Logs</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'journal_entries' %}" cursor="pointer" title="Modify Journal">Journal Entries</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'financial_sheets' %}" cursor="pointer" title="Modify Journal">Financial Sheets</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link" href="{% url 'email_user' %}" cursor="pointer" title="Email User Accounts">Email User</a>
+        </li>
 
 {% endblock %}

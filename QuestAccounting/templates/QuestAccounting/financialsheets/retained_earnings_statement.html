@@ -1,0 +1,148 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+
+<head>
+    <style>
+    
+        .form-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            display: flex;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+            border-radius: 25px;
+            padding-left: 50px;
+            padding-right: 50px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+            border: 3px solid #FFFFFF;
+            color: #ffffff;
+        }
+
+        tr {
+            width: 100%;
+            color: #ffffff;
+        }
+
+        .total-name {
+            width:80%;
+            padding-left: 25px;
+        }
+        .total-value {
+            width:20%;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .name {
+            width: 80%;
+        }
+
+        .value {
+            width: 20%;
+        }
+
+        .print-button{
+            position: fixed;
+            left: 50%;
+            top: 100;
+            transform: translate(-50%, -50%);
+            background-color: #1973D1;
+            color: #ffffff;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 3px solid #ffffff;
+            display:block;
+            margin:0 auto;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        caption {
+            caption-side: top;
+            text-align: center;
+            color: #ffffff;
+        }
+    </style>
+    <script>
+        function printTable() {
+            var table = document.getElementsByTagName('table')[0];
+            var newWin = window.open('', 'Print-Window');
+            newWin.document.open();
+            newWin.document.write('<html><head><title>Income Statement</title></head><body>' + table.outerHTML + '</body></html>');
+            newWin.document.close();
+            newWin.print();
+        }
+    </script>
+</head>
+
+<div class='form-center'>
+    <table style="width: 600px;">
+
+        <thead>
+            <caption>
+            <h2>
+                Statement of Retained Earnings
+            </h2>
+        </caption>
+        <caption>
+            <h5 style="padding-bottom: 15px;">
+                For Year Ended December 31, 2022
+            </h5>
+        </caption>
+        </thead>
+
+        <tbody>
+            <tr>
+                <th class="total-name">Beginning Balance</th>
+                <td class="value"></td>
+            </tr>
+            <tr>
+                <td class="name">Retained earnings on January 1 2022</td>
+                <td class="value">$35451</td>
+            </tr>
+            <tr>
+                <td class="name">Net income for fiscal year 2022</td>
+                <td class="value">$30423</td>
+            </tr>
+            <tr>
+                <th class="total-name">Total</th>
+                <th class="total-value">$65874</th>
+            </tr>
+            <tr>
+                <td class="name">Dividends declared and paid on fiscal year 2022</td>
+                <td class="value"></td>
+            </tr>
+            <tr>
+                <td class="name">Dividends paid on preferred stocks</td>
+                <td class="value">$(639)</td>
+            </tr>
+            <tr>
+                <td class="name">Dividends paid on common stocks</td>
+                <td class="value">$(1232)</td>
+            </tr>
+            <tr>
+                <td class="name">Total Dividends deducted</td>
+                <td class="value">$(1871)</td>
+            </tr>
+            <tr>
+                <th class="total-name">Ending balance retained earnings December 31, 2022</th>
+                <th class="total-value">$64003</th>
+            </tr>
+        </tbody>
+
+    </table>
+</div>
+<button class="print-button" onclick="printTable()">Save/Print Statement of Retained Earnings</button>
+
+
+{% endblock %}
+

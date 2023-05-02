@@ -20,9 +20,14 @@
 
     <style>
 
+        body{
+          height: auto;
+          overflow: auto;
+        }
+  
         .form-center {
-            position: fixed;
-            top: 50%;
+            position: absolute;
+            top: 500;
             left: 50%;
             display: flex;
             justify-content: center;
@@ -117,6 +122,8 @@
     </style>
 </head>
 
+{% comment %} Provides error if total credit and total debit are not the same in the chart of accounts {% endcomment %}
+
 {% if not doTheyMatch %}
     <div class=error>
         <div class = "error-header"><b>Error: Credit and Debit Do Not Match!</b></div>
@@ -131,6 +138,7 @@
   {% endif %}
 </div>
 
+{% comment %} Shows all pending journal entries and allows managers and admins to go to the page where they can approve or reject the pending journal entries {% endcomment %}
 
 <div class="form-center">
   <div class = top>
@@ -159,7 +167,12 @@
             <td class= "text" >{{ entry.account_name }}</td>
             <td class= "numbers" >{{ entry.debit }}</td>
             <td class= "numbers" >{{ entry.credit }}</td>
-            <td class= "text" ><button type = "button" class = buttons onclick = "location.href = '{% url 'journal_entry_approval' entry.id %}'">{{ entry.status }}</button>
+            <td class= "text" >
+            {% if can_edit %}
+            <button type = "button" class = buttons onclick = "location.href = '{% url 'journal_entry_approval' entry.id %}'">{{ entry.status }}</button>
+            {% else %}
+            {{ entry.status }}
+            {% endif %}
             </td>
           </tr>
           {% endfor %}

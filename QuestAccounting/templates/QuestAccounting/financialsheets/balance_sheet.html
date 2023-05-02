@@ -1,0 +1,187 @@
+{% extends 'QuestAccounting/navbar_styling.html' %}
+
+
+{% block content %}
+
+<head>
+    <style>
+    
+        .form-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            justify-content: center;
+            transform: translate(-50%, -50%);
+            flex-direction: column;
+            align-items: center;
+            background-image: linear-gradient(to bottom,#1973D1, #0C3BAA);
+            border-radius: 25px;
+            padding-left: 50px;
+            padding-right: 50px;
+            padding-top: 25px;
+            padding-bottom: 25px;
+            border: 3px solid #FFFFFF;
+            color: #ffffff;
+        }
+
+        table {
+            width:100%;
+        }
+        th {
+            width: 50%;
+            color: #ffffff;
+            border-bottom: 3px solid #FFFFFF;
+        }
+        td {
+            color: #ffffff;
+        }
+
+        .title {
+            width: 40%;
+            padding-right: 15px;
+        }
+
+        .total {
+            width: 40%;
+            padding-right: 15px;
+            padding-left: 15px;
+            font-weight: bold;
+
+        }
+
+        .amount1 {
+            width: calc(10% + 20px);
+            text-align: right;
+            padding-right: 50px;
+        }
+
+        .amount2 {
+            width: 10%;
+            text-align: right;
+        }
+
+        .print-button{
+            position: fixed;
+            left: 50%;
+            top: 100;
+            transform: translate(-50%, -50%);
+            background-color: #1973D1;
+            color: #ffffff;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 3px solid #ffffff;
+            display:block;
+            margin:0 auto;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        caption {
+            caption-side: top;
+            text-align: center;
+            color: #ffffff;
+        }
+        
+    </style>
+    <script>
+        function printTable() {
+            var table = document.getElementsByTagName('table')[0];
+            var newWin = window.open('', 'Print-Window');
+            newWin.document.open();
+            newWin.document.write('<html><head><title>Balance Sheet</title></head><body>' + table.outerHTML + '</body></html>');
+            newWin.document.close();
+            newWin.print();
+        }
+        
+    </script>
+</head>
+
+<div class="form-center">
+    <table>
+        <thead>
+            <caption>
+                <h1>
+                    Balance Sheet
+                </h1>
+            </caption>
+            <tr>
+                <th colspan="2">Assets</th>
+                <th colspan="2">Liabilities</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="font-weight: bold;" colspan="2">Current Assets</td>
+                <td style="font-weight: bold;" colspan="2">Current Liabilities</td>
+            </tr>
+            <tr>
+                <td class="title">Cash and cash equivalents</td>
+                <td class="amount1">$2200</td>
+                <td class="title">Short-terms loans payable</td>
+                <td class="amount2">$5000</td>
+            </tr>
+            <tr>
+                <td class="title">Short-term investments</td>
+                <td class="amount1">$10000</td>
+                <td class="title">Current Portion of long-term debt</td>
+                <td class="amount2">$15000</td>
+            </tr>
+            <tr>
+                <td class="title">Accounts receivable - net</td>
+                <td class="amount1">$39500</td>
+                <td class="title">Accounts payable</td>
+                <td class="amount2">$20900</td>
+            </tr>
+            <tr>
+                <td class="title">Other receivables</td>
+                <td class="amount1">$1000</td>
+                <td class="title">Accrued compensation and benefits</td>
+                <td class="amount2">$8500</td>
+            </tr>
+            <tr>
+                <td class="title">Inventory</td>
+                <td class="amount1">$31000</td>
+                <td class="title">Income taxes payable</td>
+                <td class="amount2">$6100</td>
+            </tr>
+            <tr>
+                <td class="title">Supplies</td>
+                <td class="amount1">$3800</td>
+                <td class="title">Other accrued liabilities</td>
+                <td class="amount2">$4000</td>
+            </tr>
+            <tr>
+                <td class="title">Prepaid Expenses</td>
+                <td class="amount1">$1500</td>
+                <td class="title">Deferred revenues</td>
+                <td class="amount2">$1500</td>
+            </tr>
+            <tr>
+                <td class="total">Total current assets</td>
+                <td class="amount1">$89000</td>
+                <td class="total">Total current liabilities</td>
+                <td class="amount2">$61000</td>
+            </tr>
+            <tr>
+                <td class="title" style= "padding-top: 25px;">Investments</td>
+                <td class="amount1" style= "padding-top: 25px;">36000</td>
+                <td class="title" style= "padding-top: 25px;" colspan="2">Long-term liabilites</td>
+            </tr>
+            <tr>
+                <td class="title" style= "padding-top: 25px;" colspan="2">... </td>
+                <td class="title" style= "padding-top: 25px;" colspan="2">...</td>
+            </tr>
+            <tr>
+                <td class="total" style= "padding-top: 25px;">Total Assets </td>
+                <td class="amount1" style= "padding-top: 25px;">770,000</td>
+                <td class="total" style= "padding-top: 25px;">Total Liabilites & Equity</td>
+                <td class="amount2" style= "padding-top: 25px;">770,000</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<button class="print-button" onclick="printTable()">Save/Print Balance Sheet</button>
+
+{% endblock %}
