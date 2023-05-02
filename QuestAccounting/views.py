@@ -96,9 +96,38 @@ def admin(request):
 @login_required
 @user_passes_test(lambda u: not u.groups.filter(name='Admin').exists() and u.groups.filter(name='Manager').exists())
 def manager(request):
+    pending = PendingJournalEntriesModel
+    ratios = RatiosModel.objects.all()
+    quick_ratio = ratios.filter(ratio_type='Quick Ratio:').values_list('ratio_value', flat=True).first()
+    current_ratio = ratios.filter(ratio_type='Current Ratio:').values_list('ratio_value', flat=True).first()
+    working_ratio = ratios.filter(ratio_type='Working Capital Ratio:').values_list('ratio_value', flat=True).first()
+    times_ratio = ratios.filter(ratio_type='Times Interest Earned Ratio:').values_list('ratio_value', flat=True).first()
+    debt_ratio = ratios.filter(ratio_type='Debt to Equity Ratio:').values_list('ratio_value', flat=True).first()
+    accounts_ratio = ratios.filter(ratio_type='Accounts Receivable Turnover').values_list('ratio_value', flat=True).first()
+    quick = '1'
+    current = '2'
+    working = '3'
+    times = '4'
+    debt = '5'
+    accounts = '6'
+
     context = {
         'is_superuser': request.user.is_superuser,
-        'groups': request.user.groups.values_list('name', flat=True),  
+        'groups': request.user.groups.values_list('name', flat=True), 
+        'pending': pending, 
+        'ratios': ratios, 
+        'quick':quick, 
+        'quick_ratio':quick_ratio, 
+        'current':current, 
+        'current_ratio':current_ratio, 
+        'working':working, 
+        'working_ratio':working_ratio, 
+        'times':times, 
+        'times_ratio':times_ratio, 
+        'debt':debt, 
+        'debt_ratio':debt_ratio, 
+        'accounts':accounts, 
+        'accounts_ratio':accounts_ratio, 
     }
     return render(request, 'QuestAccounting/manager.html', context)
     pass
@@ -106,9 +135,36 @@ def manager(request):
 @login_required
 @user_passes_test(lambda u: not u.groups.filter(name='Admin').exists() and u.groups.filter(name='Regular').exists())
 def regular(request):
+    ratios = RatiosModel.objects.all()
+    quick_ratio = ratios.filter(ratio_type='Quick Ratio:').values_list('ratio_value', flat=True).first()
+    current_ratio = ratios.filter(ratio_type='Current Ratio:').values_list('ratio_value', flat=True).first()
+    working_ratio = ratios.filter(ratio_type='Working Capital Ratio:').values_list('ratio_value', flat=True).first()
+    times_ratio = ratios.filter(ratio_type='Times Interest Earned Ratio:').values_list('ratio_value', flat=True).first()
+    debt_ratio = ratios.filter(ratio_type='Debt to Equity Ratio:').values_list('ratio_value', flat=True).first()
+    accounts_ratio = ratios.filter(ratio_type='Accounts Receivable Turnover').values_list('ratio_value', flat=True).first()
+    quick = '1'
+    current = '2'
+    working = '3'
+    times = '4'
+    debt = '5'
+    accounts = '6'
+
     context = {
         'is_superuser': request.user.is_superuser,
-        'groups': request.user.groups.values_list('name', flat=True),  
+        'groups': request.user.groups.values_list('name', flat=True), 
+        'ratios': ratios, 
+        'quick':quick, 
+        'quick_ratio':quick_ratio, 
+        'current':current, 
+        'current_ratio':current_ratio, 
+        'working':working, 
+        'working_ratio':working_ratio, 
+        'times':times, 
+        'times_ratio':times_ratio, 
+        'debt':debt, 
+        'debt_ratio':debt_ratio, 
+        'accounts':accounts, 
+        'accounts_ratio':accounts_ratio, 
     }
     return render(request, 'QuestAccounting/regular.html', context)
     pass
@@ -923,6 +979,16 @@ def retained_earnings_statement(request):
               }
     return render(request, "QuestAccounting/financialsheets/retained_earnings_statement.html", context)
 
+
+
+
+
+
+
+
+
+
+# Update Ratios View
 @login_required
 def update_ratios(request, ratio_type):
     user = request.user
