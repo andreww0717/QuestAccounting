@@ -86,6 +86,7 @@ urlpatterns = [
 
 
     # account based urls
+    path('account_hub', views.account_hub, name = "account_hub"),
     path('view_account_list', views.view_account_list, name = "view_account_list"),
     path('view_account_list/<str:account_name>', views.select_account_view, name = "select_account_view"),
     path('view_accounts', views.view_accounts, name = "view_accounts"),

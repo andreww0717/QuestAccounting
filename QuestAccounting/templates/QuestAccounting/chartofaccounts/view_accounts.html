@@ -9,6 +9,11 @@
 <head>
   <style>
 
+    body{
+      height: auto;
+      overflow: auto;
+    }
+
     .email-user {
       position: absolute;
       top: 100;
@@ -36,11 +41,10 @@
 
     .form-center {
         
-        position: fixed;
-        top: 50%;
+        position: absolute;
+        top: 900;
         left: 50%;
-        /* display: flex; */
-        display: grid;
+        display: flex;
         justify-content: center;
         transform: translate(-50%, -50%);
         flex-direction: column;
@@ -50,37 +54,35 @@
         padding: 25px;
         border: 3px solid #ffffff;
         color: #ffffff;
-
+        
       }
   
-    table { /*styling for head and body of table*/
+    table{ 
       margin-top: 15px;
       border-collapse: collapse;
       border: 3px solid black;
-      max-width: 1000px;
-      min-width: 70vw;
-
-      overflow: scroll;
-    
+      width: 1600px !important;
       
     }
   
-    th { /*styling for top of the table*/
+    th { 
       text-align: center;
       border-top: 2px solid black;
       border-bottom: 2px solid black;
       color: #ffffff;
       vertical-align: center;
-      padding: 5px;
+      font-size: 15px;
+      
     }
   
-    td { /*styling for inside the table*/
+    td { 
       text-align: center;
       border-top: 2px solid black;
       border-bottom: 2px solid black;
       color: #000000;
       vertical-align: center;
-      padding: 5px;
+      font-size: 12px;
+      
 
     }
     
@@ -183,7 +185,7 @@
       $(document).ready(function() {
           jQuery('#account-list').DataTable({
               "order": [[0, "desc"]],
-              lengthMenu: [6]
+              lengthMenu: [10]
           });
       });
 
@@ -193,25 +195,17 @@
 {% comment %} Shows all accounts in the chart of accounts and their information
 Can also go to the add, deactivate, edit, or general ledger pages from here {% endcomment %}
 
-{% if 'Manager' in groups or 'Regular' in groups %}
-    
-{% else %}
+
   <div class="email-user">
     <button type = "button" class = "email-button" onclick = "location.href = '{% url 'email_user' %}'">
         Email User
     </button>
   </div>
-{% endif %}
+
 
   <div class="form-center">
     <div class = top>
-        {% if 'Manager' in groups %}
-        <button type = "button" class = back-button onclick = "location.href = '{% url 'manager' %}'">Back</button>
-        {% elif 'Regular' in groups %}
-        <button type = "button" class = back-button onclick = "location.href = '{% url 'regular' %}'">Back</button>
-        {% else %}
-        <button type = "button" class = back-button onclick = "location.href = '{% url 'admin' %}'">Back</button>
-        {% endif %}
+        <button type = "button" class = back-button onclick = "location.href = '{% url 'account_hub' %}'">Back</button>
       <div class = title>
         <h1>Accounts</h1>
       </div>

@@ -367,6 +367,16 @@ def edit_profile_picture(request):
 
 # Account Views
 @login_required
+def account_hub(request):
+    user = request.user
+    context = {
+               'is_superuser': request.user.is_superuser, 
+               'groups': request.user.groups.values_list('name', flat=True), 
+               'user': user, 
+               }
+    return render(request, 'QuestAccounting/chartofaccounts/account_hub.html', context)
+
+@login_required
 def view_accounts(request):
     user = request.user
     account_info = AccountModel.objects.all()
@@ -441,12 +451,14 @@ def add_accounts(request):
             print(form.errors)
             context = {'form': form, 
                        'is_superuser': request.user.is_superuser, 
+                       'groups': request.user.groups.values_list('name', flat=True), 
                        'user': user
                        }
             return render(request, 'QuestAccounting/chartofaccounts/add_accounts.html', context)
     else:
         context = {'form': form, 
                    'is_superuser': request.user.is_superuser, 
+                   'groups': request.user.groups.values_list('name', flat=True), 
                    'user': user
                    }
         return render(request, 'QuestAccounting/chartofaccounts/add_accounts.html', context)

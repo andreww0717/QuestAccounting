@@ -66,7 +66,7 @@
 {% comment %} notification if there is a pending journal entry {% endcomment %}
 
 {% if pending %}
-<div class = "form-center" style= "position: fixed; top: 10%; left: 50%; height: 100px; width: 550px;">
+<div class = "form-center" style= "position: fixed; top: 15%; left: 50%; height: 100px; width: 550px;">
     <div style = "display: flex;">
         <h3 style = "margin-right: 15px; margin-left: 25px;">There are pending journal entries.</h3> <a onclick="this.parentNode.parentNode.style.display = 'none';" style="cursor: pointer;" title="Dismiss Notification" class="button">X</a>
     </div>
@@ -74,32 +74,12 @@
 </div>
 {% endif %}
 
-{% comment %} navigation to accounts or journal entries from the admin page {% endcomment %}
+{% comment %} displays the buttons with the financial ratios {% endcomment %}
 
-{% comment %} <div class="container" style= "position: fixed; top: 50%; left: 50%; height: 450px; width: 700px;">
-    <div class="form-center" style="position: fixed; top: 26%; left: 50%;">
-        <button type = "button" onclick = "location.href = '{% url 'view_account_list' %}'">
-            <h1>View Account List</h1>
-        </button>
-    </div>
-
-    <div class="form-center" style="position: fixed; top: 50%; left: 50%;">
-        <button type = "button" onclick = "location.href = '{% url 'view_accounts' %}'">
-            <h1>View Accounts</h1>
-        </button>
-    </div>
-
-    <div class="form-center" style= "position: fixed; top: 74%; left: 50%;">
-        <button type = "button" onclick = "location.href = '{% url 'journal_entries' %}'">
-            <h1>Journal Entries</h1>
-        </button>
-    </div>
-</div> {% endcomment %}
-
-<div class="form-center" style="position: fixed; top: 36%; left: 50%;">
+<div id= "quick" class="form-center" style="position: fixed; top: 42%; left: 50%;">
     <button type = "button" onclick = "location.href = '{% url 'update_ratios' quick %}'">
-        <h2 id = "quick_title">Quick Ratio:</h2>
-        <h3 id = "quick" >{{ quick_ratio }}</h3>
+        <h2>Quick Ratio:</h2>
+        <h3>{{ quick_ratio }}</h3>
         {% comment %} 
         .89 and under - red
         .90 to 1.09 - yellow
@@ -108,10 +88,10 @@
     </button>
 </div>
 
-<div class="form-center" style="position: fixed; top: 64%; left: 50%;">
+<div  id = "current" class="form-center" style="position: fixed; top: 73%; left: 50%;">
     <button type = "button" onclick = "location.href = '{% url 'update_ratios' current %}'">
-        <h2 id = "current_title">Current Ratio:</h2>
-        <h3 id = "current">{{ current_ratio }}</h3>
+        <h2>Current Ratio:</h2>
+        <h3>{{ current_ratio }}</h3>
         {% comment %} 
         1.49 and under - red
         1.5 to 1.99 - yellow
@@ -120,10 +100,10 @@
     </button>
 </div>
 
-<div class="form-center" style="position: fixed; top: 36%; left: 64%;">
+<div  id = "working" class="form-center" style="position: fixed; top: 42%; left: 65%;">
     <button type = "button" onclick = "location.href = '{% url 'update_ratios' working %}'">
-        <h2 id = "working_title">Working Capital Ratio:</h2>
-        <h3 id = "working">{{ working_ratio }}</h3>
+        <h2>Working Capital Ratio:</h2>
+        <h3>{{ working_ratio }}</h3>
         {% comment %} 
         .99 and under - red
         1 to 1.49 - yellow
@@ -132,10 +112,10 @@
     </button>
 </div>
 
-<div class="form-center" style="position: fixed; top: 64%; left: 64%;">
+<div  id = "times" class="form-center" style="position: fixed; top: 73%; left: 65%;">
     <button type = "button" onclick = "location.href = '{% url 'update_ratios' times %}'">
-        <h2 id = "times_title">Times Interest Earned Ratio:</h2>
-        <h3 id = "times">{{ times_ratio }}</h3>
+        <h2>Times Interest Earned Ratio:</h2>
+        <h3>{{ times_ratio }}</h3>
         {% comment %} 
         1.99 and under and 4.01 and up - red
         2 to 2.50 - yellow
@@ -144,10 +124,10 @@
     </button>
 </div>
 
-<div class="form-center" style="position: fixed; top: 36%; left: 36%;">
+<div  id = "debt" class="form-center" style="position: fixed; top: 42%; left: 35%;">
     <button type = "button" onclick = "location.href = '{% url 'update_ratios' debt %}'">
-        <h2 id = "debt_title">Debt to Equity Ratio:</h2>
-        <h3 id = "debt">{{ debt_ratio }}</h3>
+        <h2>Debt to Equity Ratio:</h2>
+        <h3>{{ debt_ratio }}</h3>
         {% comment %} 
         .71 and above - red
         .41 to .7 - yellow
@@ -156,10 +136,10 @@
     </button>
 </div>
 
-<div class="form-center" style="position: fixed; top: 64%; left: 36%;">
+<div  id = "accounts" class="form-center" style="position: fixed; top: 73%; left: 35%;">
     <button type = "button" onclick = "location.href = '{% url 'update_ratios' accounts %}'">
-        <h2 id = "accounts_title">Accounts Receivable Turnover Ratio:</h2>
-        <h3 id = "accounts">{{ accounts_ratio }}</h3>
+        <h2>Accounts Receivable Turnover Ratio:</h2>
+        <h3>{{ accounts_ratio }}</h3>
         {% comment %} 
         2.99 and under - red
         3 to 7.49 - yellow
@@ -167,7 +147,7 @@
         {% endcomment %}
     </button>
 </div>
-
+{% comment %} set all variables from the data passed from view {% endcomment %}
 <script>
     var quick = {{ quick_ratio }};
     var current = {{ current_ratio }};
@@ -176,98 +156,74 @@
     var debt = {{ debt_ratio }};
     var accounts = {{ accounts_ratio }};
 
+    {% comment %} if statements to change the color of the ratio based on value {% endcomment %}
     if (quick < .9) {
-        document.getElementById("quick_title").style.color = "red";
-        document.getElementById("quick").style.color = "red";
+        document.getElementById("quick").style.backgroundImage = "linear-gradient(to bottom, #DF0707, #FF0000)";
     } 
     else if (quick > .89 && quick < 1.1) {
-        document.getElementById("quick_title").style.color = "yellow";
-        document.getElementById("quick").style.color = "yellow";
+        document.getElementById("quick").style.backgroundImage = "linear-gradient(to bottom, #E1E107, #FFFF00)";
         
     } 
     else {
-        document.getElementById("quick_title").style.color = "green";
-        document.getElementById("quick").style.color = "green";
+        document.getElementById("quick").style.backgroundImage = "linear-gradient(to bottom, #0FBC0F, #00FF00)";
+        
         
     }
 
     if (current < 1.5) {
-        document.getElementById("current_title").style.color = "red";
-        document.getElementById("current").style.color = "red";
+        document.getElementById("current").style.backgroundImage = "linear-gradient(to bottom, #DF0707, #FF0000)";
     } 
     else if (current > 1.49 && current < 2.00) {
-        document.getElementById("current_title").style.color = "yellow";
-        document.getElementById("current").style.color = "yellow";
+        document.getElementById("current").style.backgroundImage = "linear-gradient(to bottom, #E1E107, #FFFF00)";
         
     } 
     else {
-        document.getElementById("current_title").style.color = "green";
-        document.getElementById("current").style.color = "green";
+        document.getElementById("current").style.backgroundImage = "linear-gradient(to bottom, #0FBC0F, #00FF00)";
         
     }
-{% comment %} 
-        .99 and under - red
-        1 to 1.49 - yellow
-        1.5 and up - green
-        {% endcomment %}
+
     if (working < 1.00) {
-        document.getElementById("working_title").style.color = "red";
-        document.getElementById("working").style.color = "red";
+        document.getElementById("working").style.backgroundImage = "linear-gradient(to bottom, #DF0707, #FF0000)";
     } 
     else if (working > .99 && working < 1.5) {
-        document.getElementById("working_title").style.color = "yellow";
-        document.getElementById("working").style.color = "yellow";
+        document.getElementById("working").style.backgroundImage = "linear-gradient(to bottom, #E1E107, #FFFF00)";
         
     } 
     else {
-        document.getElementById("working_title").style.color = "green";
-        document.getElementById("working").style.color = "green";
+        document.getElementById("working").style.backgroundImage = "linear-gradient(to bottom, #0FBC0F, #00FF00)";
         
     }
 
     if (times < 2 || times > 3.99) {
-        document.getElementById("times_title").style.color = "red";
-        document.getElementById("times").style.color = "red";
+        document.getElementById("times").style.backgroundImage = "linear-gradient(to bottom, #DF0707, #FF0000)";
     } 
     else if (times > 1.99 && times < 2.51 || times > 3.49 && times < 4.00) {
-        document.getElementById("times_title").style.color = "yellow";
-        document.getElementById("times").style.color = "yellow";
-        
+        document.getElementById("times").style.backgroundImage = "linear-gradient(to bottom, #E1E107, #FFFF00)";
     } 
     else {
-        document.getElementById("times_title").style.color = "green";
-        document.getElementById("times").style.color = "green";
-        
+        document.getElementById("times").style.backgroundImage = "linear-gradient(to bottom, #0FBC0F, #00FF00)";
     }
 
     if (debt > .7) {
-        document.getElementById("debt_title").style.color = "red";
-        document.getElementById("debt").style.color = "red";
+        document.getElementById("debt").style.backgroundImage = "linear-gradient(to bottom, #DF0707, #FF0000)";
     } 
     else if (debt > .4 && debt < .71) {
-        document.getElementById("debt_title").style.color = "yellow";
-        document.getElementById("debt").style.color = "yellow";
+        document.getElementById("debt").style.backgroundImage = "linear-gradient(to bottom, #E1E107, #FFFF00)";
         
     } 
     else {
-        document.getElementById("debt_title").style.color = "green";
-        document.getElementById("debt").style.color = "green";
-        
+        document.getElementById("debt").style.backgroundImage = "linear-gradient(to bottom, #0FBC0F, #00FF00)";
     }
 
     if (accounts < 3) {
-        document.getElementById("accounts_title").style.color = "red";
-        document.getElementById("accounts").style.color = "red";
+        document.getElementById("accounts").style.backgroundImage = "linear-gradient(to bottom, #DF0707, #FF0000)";
     } 
     else if (accounts > 2.99 && accounts < 7.5) {
-        document.getElementById("accounts_title").style.color = "yellow";
-        document.getElementById("accounts").style.color = "yellow";
+        document.getElementById("accounts").style.backgroundImage = "linear-gradient(to bottom, #E1E107, #FFFF00)";
         
     } 
     else {
-        document.getElementById("accounts_title").style.color = "green";
-        document.getElementById("accounts").style.color = "green";
-        
+        document.getElementById("accounts").style.backgroundImage = "linear-gradient(to bottom, #0FBC0F, #00FF00)";
     }
 
 </script>

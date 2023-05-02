@@ -7,9 +7,14 @@
 <head>
     <style>  
     
+        body{
+            height: auto;
+            overflow: auto;
+        }
+
         .form-center {
-            position: fixed;
-            top: 50%;
+            position: absolute;
+            top: 500;
             left: 50%;
             display: flex;
             justify-content: center;
@@ -61,13 +66,7 @@
 <div = class='form-center'>
     <div class = top>
         <div class = back-button>
-          {% if 'Manager' in groups %}
-          <button type = "button" onclick = "location.href = '{% url 'manager' %}'">Back</button>
-          {% elif 'Regular' in groups %}
-          <button type = "button" onclick = "location.href = '{% url 'regular' %}'">Back</button>
-          {% else %}
-          <button type = "button" onclick = "location.href = '{% url 'admin' %}'">Back</button>
-          {% endif %}
+          <button type = "button" onclick = "location.href = '{% url 'account_hub' %}'">Back</button>
         </div>
         <div class = title>
           <h1>Accounts</h1>
