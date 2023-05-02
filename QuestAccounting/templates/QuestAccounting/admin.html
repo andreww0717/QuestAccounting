@@ -3,9 +3,133 @@
 
 {% block content %}
 
+<div class="financial-ratio-modules">
+    <table>
+        <tr class="header-chart">
+        <th>Account Number</th>
+        <th>Initial Balance</th>
+        <th>Debit</th>
+        <th>Credit</th>
+        <th>Balance</th>
+        <th>Days Pending Review</th>
+        <th>Status</th>
+        </tr>
 
+        <tr class="avg-acc">
+            <th>456978</th>
+            <th>5,325.20</th>
+            <th>0.00</th>
+            <th>400.00</th>
+            <th>4,924.20</th>
+            <th>0 days</th>
+            <th>Current</th>
+        </tr>
+
+        <tr class="avg-acc">
+            <th>153275</th>
+            <th>3,125.44</th>
+            <th>725.32</th>
+            <th>0.00</th>
+            <th>2,400.12</th>
+            <th>0 days</th>
+            <th>Current</th>
+        </tr>
+
+        <tr class="negative-acc">
+            <th>126892</th>
+            <th>1,005.84</th>
+            <th>-2,055.96</th>
+            <th>0.00</th>
+            <th>-1,050.12</th>
+            <th>2 days</th>
+            <th>Negative Balance</th>
+        </tr>
+
+        <tr class="positive-acc">
+            <th>459873</th>
+            <th>9,690.32</th>
+            <th>162.68</th>
+            <th>262.68</th>
+            <th>9,790.41</th>
+            <th>0 days</th>
+            <th>Reviewed</th>
+        </tr>
+
+        <tr class="warning-acc">
+            <th>951357</th>
+            <th>205.29</th>
+            <th>62.32</th>
+            <th>10.96</th>
+            <th>153.93</th>
+            <th>5 days</th>
+            <th>Low Balance</th>
+        </tr>
+
+        <tr class="warning-acc">
+            <th>7799325</th>
+            <th>1,596.22</th>
+            <th>659.23</th>
+            <th>400.32</th>
+            <th>1,337.31</th>
+            <th>8 days</th>
+            <th>Needs Review</th>
+        </tr>
+
+        <tr class="warning-acc">
+            <th>369852</th>
+            <th>3,695.89</th>
+            <th>3,695.89</th>
+            <th>0.00</th>
+            <th>0.00</th>
+            <th>1 day</th>
+            <th>Balance at 0</th>
+        </tr>
+
+        <tr class="Positive-acc">
+            <th>489321</th>
+            <th>7,253.12</th>
+            <th>501.99</th>
+            <th>785.23</th>
+            <th>0 days</th>
+            <th>7,536.36</th>
+            <th>Reviewed</th>
+        </tr>
+
+        <tr class="avg-acc">
+            <th>523614</th>
+            <th>520.98</th>
+            <th>345.02</th>
+            <th>65.22</th>
+            <th>241.18</th>
+            <th>0 days</th>
+            <th>Current</th>
+        </tr>
+
+        <tr class="avg-acc">
+            <th>991567</th>
+            <th>5,269.14</th>
+            <th>698.58</th>
+            <th>63.98</th>
+            <th>4,634.54</th>
+            <th>0 days</th>
+            <th>Current</th>
+        </tr>
+
+        <tr class="negative-acc">
+            <th>489321</th>
+            <th>3,069.77</th>
+            <th>495.55</th>
+            <th>960.55</th>
+            <th>3,534.77</th>
+            <th>50 days</th>
+            <th>Review Date Overdue</th>
+        </tr>
+
+    </table>
+
+</div>
     
-<div class="container" style= "position: fixed; top: 50%; left: 50%; height: 900px;">
+<div class="container" style= "position: fixed; top: 80%; left: 50%; height: 900px;">
     
     <div class="form-center" style="position: fixed; top: 38%; left: 50%;">
         <button type = "button" onclick = "location.href = '{% url 'view_account_list' %}'">
@@ -28,6 +152,63 @@
 </div>
 
 <style>
+
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+   .header-chart {
+    background-color: #ddffff;
+   }
+
+    .negative-acc {
+        background-color: #ffdddd;
+    }
+    .negative-acc:hover {
+        background-color: #f44336;
+    }
+
+    .positive-acc {
+        background-color: #ddffdd;
+    }
+
+    .positive-acc:hover {
+        background-color: #4CAf50;
+    }
+
+    .avg-acc {
+        background-color: white;
+    }
+
+    .avg-acc:hover {
+        background-color: #f5f5f5;
+    }
+
+    .warning-acc {
+        background-color: #ffffcc;
+    }
+
+    .warning-acc:hover {
+        background-color: #ffeb3b;
+    }
+
+    .financial-ratio-modules {
+    border: solid white 5px;
+    border-radius: 10px;
+    background-color: white;
+    width: 50%;
+    height: 40%;
+    transform: translate(5%, 5%);
+    overflow: scroll;
+}
 
     .container {
         transform: translate(-50%, -50%);
